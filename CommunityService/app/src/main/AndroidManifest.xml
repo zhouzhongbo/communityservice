@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.bobo.communityservice">
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Application ID 有sand和prod之分，在开发时使用sand，正式上线时切换为prod，另外需要后台的切换操作 -->
+        <meta-data android:name="com.droi.sdk.application_id" android:value="1okvmbzhshtZ9BRxdGO0rj8liqzwIe56lQAAcO8k" />
+        <meta-data android:name="com.droi.sdk.platform_key" android:value="36UexHUCNygDcwyJCeAK9tMbLTQorA8K9tMbLTQo" />
+        <meta-data android:name="com.droi.sdk.secret_key" android:value="3fayzxki" />
+        <meta-data android:name="com.droi.sdk.channel_name" android:value="bobo" />
+    </application>
+
+</manifest>

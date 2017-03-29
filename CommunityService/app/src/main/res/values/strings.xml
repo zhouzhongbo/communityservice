@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">CommunityService</string>
+
+    <string name="public_notice">公告</string>
+    <string name="help">来帮忙</string>
+    <string name="market">超市</string>
+    <string name="mine">我的</string>
+
+    <!--notice-->
+    <string name="more_notice">更多通知</string>
+    <string name="test_notice_content">公告 \n 经过和业委会沟通，确定拨款维修大桥。在此公示，有任何疑问可以致电小区物业中心，联系电话：021-211541445 \n 公告时间：2017-03-22</string>
+
+
 </resources>

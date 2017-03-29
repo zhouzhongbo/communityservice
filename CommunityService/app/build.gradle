@@ -9,6 +9,10 @@ repositories {
     maven {
         url "https://github.com/DroiBaaS/DroiBaaS-SDK-Android/raw/master/"
     }
+    flatDir{
+        dirs 'libs'
+    }
+
 }
 
 android {
@@ -52,4 +56,6 @@ dependencies {
     compile 'com.droi.sdk:feedback:+'
     compile 'com.droi.sdk:push:+'
     compile 'com.droi.sdk:Utility:+'
+    compile(name: 'bottom-navigation-bar-release', ext: 'aar')
+
 }

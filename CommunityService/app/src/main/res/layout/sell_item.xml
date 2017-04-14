@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/item_user_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/default_icon"/>
+
+    <TextView
+        android:id="@+id/item_user_name"
+        android:text="@string/sell_item_default_user_name"
+        android:layout_margin="10dp"
+        android:textSize="20dp"
+        android:layout_toRightOf="@id/item_user_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/sells_title"
+        android:layout_alignParentLeft="true"
+        android:text="@string/sell_item_default_title"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/item_user_icon"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/sells_price"
+        android:textSize="20dp"
+        android:layout_margin="10dp"
+        android:layout_alignParentRight="true"
+        android:text="@string/sell_item_default_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/sells_icon"
+        android:layout_below="@id/sells_icon"
+        android:src="@drawable/sell_shafa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="demo_items" />
+
+
+    <TextView
+        android:id="@+id/sells_description"
+        android:text="@string/sell_item_default_description"
+        android:layout_below="@id/sells_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

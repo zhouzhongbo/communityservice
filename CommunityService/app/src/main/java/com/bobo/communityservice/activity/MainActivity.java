@@ -1,4 +1,4 @@
-package com.bobo.communityservice;
+package com.bobo.communityservice.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -14,6 +14,11 @@ import android.view.ViewGroup;
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.bobo.communityservice.R;
+import com.bobo.communityservice.fragment.HelpFragment;
+import com.bobo.communityservice.fragment.MarketFragment;
+import com.bobo.communityservice.fragment.MineFragment;
+import com.bobo.communityservice.fragment.NoticeFragement;
 
 import java.util.ArrayList;
 import java.util.List;

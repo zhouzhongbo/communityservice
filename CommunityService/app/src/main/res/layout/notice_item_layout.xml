@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <data>
+        <variable
+            name="noticeViewModel"
+            type="com.bobo.communityservice.viewmodel.NoticeViewModel"/>
+    </data>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent" android:layout_height="match_parent">
+
+            <!--android:text="@string/notice_title_default"-->
+            <!--android:text="@{notice_object.getDate()}"-->
+        <TextView
+            android:text="@{noticeViewModel.noticeTitle}"
+            android:textSize="18dp"
+            android:id="@+id/notice_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            />
+
+        <!--android:text="@string/notice_content_default"-->
+
+        <TextView
+            android:text="@{noticeViewModel.noticeContent}"
+            android:textSize="18dp"
+            android:id="@+id/notice_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/notice_title"
+            android:layout_margin="10dp"
+            />
+
+        <!--android:text="@string/notice_write_default"-->
+
+        <TextView
+            android:text="@{noticeViewModel.noticeWriter}"
+            android:textSize="18dp"
+            android:id="@+id/notice_write"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/notice_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"/>
+
+
+            <!--android:text="@string/notice_time_default"-->
+
+            <TextView
+            android:text="@{noticeViewModel.noticeTime}"
+            android:id="@+id/notice_time"
+            android:textSize="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/notice_write"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            />
+
+    </RelativeLayout>
+
+</layout>

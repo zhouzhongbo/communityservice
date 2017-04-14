@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data class="NoticeBinding">
+        <variable
+            name="noticeViewModel"
+            type="com.bobo.communityservice.viewmodel.NoticeViewModel"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/id_swipe_notice"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <include android:id="@+id/notice_item_layout"
+                layout="@layout/notice_item_layout"
+                bind:noticeViewModel="@{noticeViewModel}"
+                />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <Button
+            android:id="@+id/more_notice"
+            android:text="@string/more_notice"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:onClick="@{noticeViewModel::moreClick}"/>
+    </RelativeLayout>
+</layout>

@@ -14,6 +14,6 @@ public class MarketGoodsLike extends DroiObject {
     String marketGoodID;
 
     @DroiReference
-    UserInfo likeUserInfo;
+    CommunityUser likeCommunityUser;
 
 }

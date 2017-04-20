@@ -1,7 +1,8 @@
 package com.bobo.communityservice.fragment;
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -9,23 +10,47 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bobo.communityservice.R;
+import com.bobo.communityservice.databinding.MineBinding;
+import com.bobo.communityservice.model.CommunityUser;
+import com.bobo.communityservice.viewmodel.MineViewModel;
+import com.droi.sdk.core.DroiUser;
+import com.droi.sdk.feedback.DroiFeedback;
 
 /**
  * Created by zhouzhongbo on 2017/3/28.
  */
 
 public class MineFragment extends Fragment {
+    MineViewModel minemodel;
+    MineBinding mineBinding;
+    CommunityUser communitUser;
+    boolean isLogin;
+
+    public static MineFragment newInstance(String param1) {
+        MineFragment fragment = new MineFragment();
+        Bundle args = new Bundle();
+        args.putString("agrs1", param1);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public MineFragment() {
+
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        communitUser = DroiUser.getCurrentUser(CommunityUser.class);
+        minemodel = new MineViewModel(getActivity());
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.mine_layout, container, false);
-        return view;
+        mineBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_mine_layout,container,false);
+        return mineBinding.getRoot();
     }
 
     @Override
@@ -79,5 +104,60 @@ public class MineFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
     }
+
+
+    public void onClick(View v){
+        int id = v.getId();
+        switch (id){
+            case R.id.user_icon:
+                break;
+            case R.id.user_name:
+            case R.id.edit_user_info:
+                break;
+
+            case R.id.user_register:
+            case R.id.login_on:
+                break;
+
+            case R.id.checkin_button:
+                break;
+
+            case R.id.star_icon:
+            case R.id.my_star_text:
+                break;
+
+            case R.id.publish_icon:
+            case R.id.my_public_text:
+                break;
+
+            case R.id.order_icon:
+            case R.id.my_order_text:
+                break;
+
+            case R.id.feed_back_text:
+            case R.id.feedback_icon:
+                //打开反馈页面
+                DroiFeedback.callFeedback(getActivity());
+                break;
+
+            case R.id.settings_icon:
+            case R.id.settings_text:
+                break;
+        }
+    }
+
+    private void initView(){
+        if(isLogin){
+            mineBinding.registerOrLoging.setVisibility(View.GONE);
+            mineBinding.loginStatusView.setVisibility(View.VISIBLE);
+        }else{
+            mineBinding.registerOrLoging.setVisibility(View.VISIBLE);
+            mineBinding.loginStatusView.setVisibility(View.GONE);
+        }
+
+    }
+
+
+
 
 }

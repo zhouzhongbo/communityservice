@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer-array name="banner">
+        <item>@drawable/hource</item>
+        <item>@drawable/second_hand_thing</item>
+        <item>@drawable/help_repair</item>
+    </integer-array>
+
+    <string-array name="tags">
+        <item>@string/renting_and_sellers</item>
+        <item>@string/second_hand_market</item>
+        <item>@string/appliance_repair</item>
+    </string-array>
+
+</resources>

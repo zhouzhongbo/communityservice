@@ -1,6 +1,6 @@
 package com.bobo.communityservice.fragment;
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +16,18 @@ import com.bobo.communityservice.R;
 
 public class MarketFragment extends Fragment {
 
+    public static MarketFragment newInstance(String param1) {
+        MarketFragment fragment = new MarketFragment();
+        Bundle args = new Bundle();
+        args.putString("agrs1", param1);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public MarketFragment() {
+
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +36,7 @@ public class MarketFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.market_layout, container, false);
+        View view = inflater.inflate(R.layout.fragment_market_layout, container, false);
         return view;
     }
 

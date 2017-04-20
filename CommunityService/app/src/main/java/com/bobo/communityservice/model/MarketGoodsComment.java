@@ -14,13 +14,13 @@ public class MarketGoodsComment extends DroiObject {
     String marketGoodID;
 
     @DroiReference
-    UserInfo commentsFrom;
+    CommunityUser commentsFrom;
 
     @DroiExpose
     String commnetsBody;
 
     @DroiExpose
-    UserInfo commentsImg;
+    CommunityUser commentsImg;
 
 
 }

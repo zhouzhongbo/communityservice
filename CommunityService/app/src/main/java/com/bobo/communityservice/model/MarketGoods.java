@@ -15,33 +15,37 @@ import java.util.ArrayList;
 public class MarketGoods extends DroiObject {
 
     @DroiExpose
-    Number productSortType;
+    public Number productSortType;
 
     @DroiExpose
-    String productTitle;
+    public String productTitle;
 
     @DroiExpose
-    String productDescription;
+    public String productDescription;
 
     @DroiExpose
-    DroiFile productIcon;
+    public DroiFile productIcon;
 
     @DroiExpose
-    Number productPrice;
+    public Number productPrice;
 
     @DroiExpose
-    ArrayList<DroiFile> productImgs;
+    public ArrayList<DroiFile> productImgs;
 
-    Number likeCount;
-    Number viewerCount;
+    public Number likeCount;
+    public Number viewerCount;
 
-    ArrayList<PersionGoodsComment> comments;
+    public ArrayList<PersionGoodsComment> comments;
 
-    ArrayList<PersionGoodsLike> likes;
+    public ArrayList<PersionGoodsLike> likes;
 //    @DroiReference
 //    PersionGoodsComment productPersionGoodsComment;
 //
 //    @DroiReference
 //    PersionGoodsLike productPersionGoodsLike;
+
+    public MarketGoods(){
+
+    }
 
 }

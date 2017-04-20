@@ -16,10 +16,10 @@ public class PersionGoodsComment extends DroiObject {
     String persionGoodID;
 
     @DroiReference
-    UserInfo commentsTo;
+    CommunityUser commentsTo;
 
     @DroiReference
-    UserInfo commentsFrom;
+    CommunityUser commentsFrom;
 
     @DroiExpose
     String commnetsBody;

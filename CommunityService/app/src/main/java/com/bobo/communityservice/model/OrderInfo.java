@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class OrderInfo extends DroiObject {
 
     @DroiReference
-    UserInfo UserID;
+    CommunityUser UserID;
 
     @DroiExpose
     String Address;

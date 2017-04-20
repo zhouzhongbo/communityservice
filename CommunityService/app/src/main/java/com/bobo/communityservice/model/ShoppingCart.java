@@ -20,7 +20,7 @@ public class ShoppingCart extends DroiObject {
     ArrayList<MarketGoods> marketGoodsList;
 
     @DroiReference
-    UserInfo userID;
+    CommunityUser userID;
 
     Number totalPrice;
 

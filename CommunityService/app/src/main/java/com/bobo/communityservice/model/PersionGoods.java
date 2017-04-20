@@ -15,38 +15,38 @@ import java.util.ArrayList;
 public class PersionGoods extends DroiObject {
 
     @DroiExpose
-    String goodsTitle;
+    public String goodsTitle;
 
     @DroiExpose
-    String Description;
+    public String Description;
 
     @DroiExpose
-    Number goodsPrice;
+    public Number goodsPrice;
 
     @DroiExpose
-    DroiFile goodsIcon;
+    public DroiFile goodsIcon;
 
     @DroiExpose
-    ArrayList<DroiFile> goodsImg;
+    public ArrayList<DroiFile> goodsImg;
 
     @DroiExpose
-    String goodsSellerName;
+    public String goodsSellerName;
 
     @DroiExpose
-    String goodsSellerPhoneNumber;
+    public String goodsSellerPhoneNumber;
 
     @DroiExpose
-    int goodsType;
+    public int goodsType;
 
-    Number likeCount;
-    Number viewerCount;
+    public Number likeCount;
+    public Number viewerCount;
 
 
     @DroiReference
-    UserInfo writer;
+    public CommunityUser writer;
 
     @DroiReference
-    ArrayList<UserInfo> goodsViewer;
+    ArrayList<CommunityUser> goodsViewer;
 
     //reference object
 
@@ -55,5 +55,6 @@ public class PersionGoods extends DroiObject {
 
     @DroiReference
     PersionGoodsComment goodsComments;
+
 
 }

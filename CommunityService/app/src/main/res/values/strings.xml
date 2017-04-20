@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">CommunityService</string>
+    <string name="app_name_zh">社区服务</string>
 
     <string name="public_notice">公告</string>
     <string name="help">来帮忙</string>
@@ -24,6 +25,13 @@
     <string name="renting_and_sellers">租房／买卖房屋</string>
     <string name="second_hand_market">跳蚤市场</string>
     <string name="appliance_repair">家电维修／其他帮助</string>
+
+    <string name="default_name">bobo </string>
+    <string name="default_price">15$ </string>
+    <string name="default_title">好东西，快来看看 </string>
+    <string name="default_des">这是一个好东西，有便宜。买了之后没有用多久，如果有需要的可以联系我，手头还有好几个。</string>
+    <string name="default_like">赞·112</string>
+
 
 
     <!--mine string-->
@@ -53,8 +61,10 @@
     <string name="user_icon">头像</string>
 
     <string name="default_user_name">我是小蜜蜂</string>
-
-
+    <string name="action_sign_in">登陆</string>
+    <string name="login_no_account_yet">还没有账号？创建一个</string>
+    <string name="action_register">创建新账号</string>
+    <string name="login_already_a_member">已经注册？登陆 </string>
 
 
     <!--sell item default value-->

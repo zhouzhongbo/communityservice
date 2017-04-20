@@ -5,7 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,9 +27,22 @@ public class NoticeFragement extends Fragment implements SwipeRefreshLayout.OnRe
     private static final int REFRESH_COMPLETE = 0X1111;
     private static final int DATA_INIT= 0X1112;
 
-    private SwipeRefreshLayout mSwipeLayout;
+    NoticeBinding  nb;
     NoticeViewModel mNoticeViewModel;
     List<NoticeObject> noticeList;
+
+
+    public static NoticeFragement newInstance(String param1) {
+        NoticeFragement fragment = new NoticeFragement();
+        Bundle args = new Bundle();
+        args.putString("agrs1", param1);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public NoticeFragement() {
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,17 +54,17 @@ public class NoticeFragement extends Fragment implements SwipeRefreshLayout.OnRe
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        NoticeBinding  nb = DataBindingUtil.inflate(inflater,R.layout.notice_layout,container,false);
+        nb = DataBindingUtil.inflate(inflater,R.layout.fragment_notice_layout,container,false);
         nb.setNoticeViewModel(mNoticeViewModel);
-
+        nb.idSwipeNotice.setOnRefreshListener(this);
         return nb.getRoot();
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mSwipeLayout = (SwipeRefreshLayout)view.findViewById(R.id.id_swipe_notice);
-        mSwipeLayout.setOnRefreshListener(this);
+//        mSwipeLayout = (SwipeRefreshLayout)view.findViewById(R.id.id_swipe_notice);
+//        mSwipeLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -114,7 +127,7 @@ public class NoticeFragement extends Fragment implements SwipeRefreshLayout.OnRe
             {
                 case REFRESH_COMPLETE:
                     mNoticeViewModel.refresh();
-                    mSwipeLayout.setRefreshing(false);
+                    nb.idSwipeNotice.setRefreshing(false);
                     break;
 
                 case DATA_INIT:
@@ -125,8 +138,7 @@ public class NoticeFragement extends Fragment implements SwipeRefreshLayout.OnRe
         };
     };
 
-
-    private void bindView(){
+    public void onClick(View view){
 
     }
 }

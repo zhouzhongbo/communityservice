@@ -11,18 +11,21 @@ import java.util.ArrayList;
  * Created by zzb on 2017/4/5.
  */
 
-public class UserInfo extends DroiUser {
+public class CommunityUser extends DroiUser {
 
     @DroiExpose
-    String nickname;
+    public String nickname;
 
     @DroiExpose
-    Boolean Sex;
+    public Boolean Sex;
 
     @DroiExpose
-    DroiFile Icon;
+    public DroiFile Icon;
+
+    @DroiExpose
+    public Number checkin;
 
     @DroiReference
-    ArrayList<String> address;
+    public ArrayList<String> address;
 
 }

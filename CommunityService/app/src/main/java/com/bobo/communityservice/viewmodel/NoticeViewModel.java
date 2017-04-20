@@ -2,12 +2,13 @@ package com.bobo.communityservice.viewmodel;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.ObservableField;
+import android.util.Log;
 import android.view.View;
 
 import com.bobo.communityservice.activity.MoreNoticeActivity;
 import com.bobo.communityservice.model.NoticeObject;
 import com.droi.sdk.DroiError;
-import com.droi.sdk.core.DroiObject;
 import com.droi.sdk.core.DroiQuery;
 import com.droi.sdk.core.DroiQueryCallback;
 
@@ -18,11 +19,12 @@ import java.util.List;
  * Created by zzb on 2017/4/12.
  */
 
-public class NoticeViewModel {
-    public String noticeTitle;
-    public String noticeContent;
-    public String noticeTime;
-    public String noticeWriter;
+public class NoticeViewModel{
+    public final ObservableField<String> noticeTitle = new ObservableField<>();
+    public final ObservableField<String> noticeContent = new ObservableField<>();
+    public final ObservableField<String> noticeTime = new ObservableField<>();
+    public final ObservableField<String> noticeWriter = new ObservableField<>();
+
     public boolean isDataLoaded = false;
     private Context context;
     private NoticeObject noticeObject;
@@ -33,6 +35,10 @@ public class NoticeViewModel {
 
     public void dataInit(){
         queryFromCloud();
+        this.noticeTitle.set("test");
+        this.noticeContent.set("test_content");
+        this.noticeWriter.set("test_write");
+        this.noticeTime.set("2017-2-28");
     }
 
     public void refresh(){
@@ -41,10 +47,10 @@ public class NoticeViewModel {
 
     private void fillData(NoticeObject no){
         if(no != null){
-            noticeTitle = no.getNoticeTitle();
-            noticeContent = no.getNoticeContent();
-            noticeTime = no.getDate();
-            noticeWriter = no.getNoticeWriter();
+            this.noticeTitle.set(no.getNoticeTitle());
+            this.noticeContent.set(no.getNoticeContent());
+            this.noticeWriter.set(no.getNoticeWriter());
+            this.noticeTime.set(no.getDate());
             isDataLoaded = true;
         }else{
             isDataLoaded = false;
@@ -57,12 +63,13 @@ public class NoticeViewModel {
             @Override
             public void result(List<NoticeObject> list, DroiError droiError) {
                 if(droiError.isOk()){
-                    if (list.size()>0){
-                        noticeObject = list.get(0);
-                        fillData(noticeObject);
-                    }
-                }
+                    Log.d("zzb","query success! listsize ="+list.size());
 
+                    if (list.size()>0){
+                    noticeObject = list.get(0);
+                    fillData(noticeObject);
+                }
+            }
             }
         });
 

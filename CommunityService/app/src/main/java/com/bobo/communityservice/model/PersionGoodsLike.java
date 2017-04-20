@@ -14,6 +14,6 @@ public class PersionGoodsLike extends DroiObject {
     String perisonGoodID;
 
     @DroiReference
-    UserInfo likeUserInfo;
+    CommunityUser likeCommunityUser;
 
 }

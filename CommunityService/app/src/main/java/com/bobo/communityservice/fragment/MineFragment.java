@@ -2,17 +2,24 @@ package com.bobo.communityservice.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bobo.communityservice.R;
+import com.bobo.communityservice.activity.SystemSettingActivity;
 import com.bobo.communityservice.databinding.MineBinding;
 import com.bobo.communityservice.model.CommunityUser;
 import com.bobo.communityservice.viewmodel.MineViewModel;
+import com.droi.sdk.DroiCallback;
+import com.droi.sdk.DroiError;
 import com.droi.sdk.core.DroiUser;
 import com.droi.sdk.feedback.DroiFeedback;
 
@@ -44,6 +51,7 @@ public class MineFragment extends Fragment {
         super.onCreate(savedInstanceState);
         communitUser = DroiUser.getCurrentUser(CommunityUser.class);
         minemodel = new MineViewModel(getActivity());
+        initView();
     }
 
     @Nullable
@@ -71,6 +79,7 @@ public class MineFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
     }
 
     @Override
@@ -109,29 +118,21 @@ public class MineFragment extends Fragment {
     public void onClick(View v){
         int id = v.getId();
         switch (id){
-            case R.id.user_icon:
-                break;
-            case R.id.user_name:
-            case R.id.edit_user_info:
-                break;
 
-            case R.id.user_register:
-            case R.id.login_on:
-                break;
-
-            case R.id.checkin_button:
-                break;
-
+        //mine relative msg
             case R.id.star_icon:
             case R.id.my_star_text:
+                minemodel.handlerMyStartClick(v);
                 break;
 
             case R.id.publish_icon:
             case R.id.my_public_text:
+                minemodel.handlerMyPublishClick(v);
                 break;
 
             case R.id.order_icon:
             case R.id.my_order_text:
+                minemodel.handlerMyOrderClick(v);
                 break;
 
             case R.id.feed_back_text:
@@ -142,6 +143,9 @@ public class MineFragment extends Fragment {
 
             case R.id.settings_icon:
             case R.id.settings_text:
+                Intent setting = new Intent(getActivity(), SystemSettingActivity.class);
+                setting.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(setting);
                 break;
         }
     }
@@ -154,10 +158,7 @@ public class MineFragment extends Fragment {
             mineBinding.registerOrLoging.setVisibility(View.VISIBLE);
             mineBinding.loginStatusView.setVisibility(View.GONE);
         }
-
     }
-
-
 
 
 }

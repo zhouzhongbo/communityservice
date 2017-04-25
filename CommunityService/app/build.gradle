@@ -63,4 +63,6 @@ dependencies {
     compile 'com.droi.sdk:Utility:+'
     compile 'com.github.bumptech.glide:glide:+'
     compile(name: 'bottom-navigation-bar-release', ext: 'aar')
+    compile 'com.jph.takephoto:takephoto_library:4.0.3'
+
 }

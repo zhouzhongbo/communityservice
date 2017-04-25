@@ -1,7 +1,6 @@
 package com.bobo.communityservice.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -103,7 +102,7 @@ public class CustomViewHolder extends RecyclerView.ViewHolder{
          */
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            View view = mInflater.inflate(R.layout.imgcontainer_layout,
+            View view = mInflater.inflate(R.layout.publish_gallery_add_layout,
                     viewGroup, false);
             ViewHolder viewHolder = new ViewHolder(view);
 

@@ -154,7 +154,7 @@ public class HelpFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     public void recycleViewInit(){
-        adapter = new SellAdapter(getActivity());
+        adapter = new SellAdapter(getActivity(),mhelpViewModel);
         hb.recyclerList.setAdapter(adapter);
         hb.recyclerList.addOnScrollListener(new OnRecyclerScrollListener());
 

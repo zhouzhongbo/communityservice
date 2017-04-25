@@ -1,14 +1,17 @@
 package com.bobo.communityservice.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.View;
 
 import com.bobo.communityservice.R;
+import com.bobo.communityservice.activity.MineRelativeActivity;
 import com.bobo.communityservice.databinding.MineBinding;
 import com.bobo.communityservice.model.CommunityUser;
+import com.bobo.communityservice.tools.ConstantObject;
 import com.droi.sdk.DroiCallback;
 import com.droi.sdk.DroiError;
 import com.droi.sdk.core.DroiUser;
@@ -86,6 +89,10 @@ public class MineViewModel {
 
     public void handlerMyStartClick(View v){
         if(isLogin){
+            Intent mintent = new Intent(v.getContext(), MineRelativeActivity.class);
+            mintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mintent.putExtra("TAG", ConstantObject.START);
+            context.startActivity(mintent);
 
         }else{
             handlerRegisterOrLogin(v);
@@ -94,7 +101,10 @@ public class MineViewModel {
 
     public void handlerMyPublishClick(View v){
         if(isLogin){
-
+            Intent mintent = new Intent(v.getContext(), MineRelativeActivity.class);
+            mintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mintent.putExtra("TAG", ConstantObject.PUBLISH);
+            context.startActivity(mintent);
         }else{
             handlerRegisterOrLogin(v);
         }
@@ -102,7 +112,10 @@ public class MineViewModel {
 
     public void handlerMyOrderClick(View v){
         if(isLogin){
-
+            Intent mintent = new Intent(v.getContext(), MineRelativeActivity.class);
+            mintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mintent.putExtra("TAG", ConstantObject.ORDER);
+            context.startActivity(mintent);
         }else{
             handlerRegisterOrLogin(v);
         }

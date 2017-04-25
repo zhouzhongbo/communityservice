@@ -1,28 +1,19 @@
 package com.bobo.communityservice.viewmodel;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
-import android.view.View;
 
 import com.bobo.communityservice.R;
-import com.bobo.communityservice.model.NoticeObject;
 import com.bobo.communityservice.model.PersionGoods;
 import com.droi.sdk.DroiError;
 import com.droi.sdk.core.DroiCondition;
 import com.droi.sdk.core.DroiQuery;
 import com.droi.sdk.core.DroiQueryCallback;
-import com.droi.sdk.core.DroiUser;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.locks.Condition;
 
 /**
  * Created by zhouzhongbo on 2017/4/17.

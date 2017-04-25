@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bobo.communityservice.R;
 import com.bobo.communityservice.model.PersionGoods;
 import com.bobo.communityservice.viewmodel.HelpViewModel;
+import com.bobo.communityservice.viewmodel.MyPublishViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +25,20 @@ public class SellAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private static final int TYPE_CONTENT = 0;
     private static final int TYPE_FOOTER = 1;
 
-    HelpViewModel vm;
+
     ArrayList<PersionGoods> sellItem;
     OnItemClick clicklister;
 
-    public SellAdapter(Context mcontext) {
+    public SellAdapter(Context mcontext,HelpViewModel helpViewModel) {
         super();
         context = mcontext;
-        vm = new HelpViewModel(mcontext);
+        HelpViewModel vm = new HelpViewModel(mcontext);
         sellItem = vm.refreshItem();
+    }
+
+    public SellAdapter(Context mcontext,MyPublishViewModel publishViewModel){
+        MyPublishViewModel vm = new MyPublishViewModel(mcontext);
+        sellItem = vm.queryList();
     }
 
     public interface OnItemClick {

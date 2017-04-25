@@ -89,6 +89,18 @@
     <string name="sell_item_default_user_name">默认用户名</string>
 
 
+    <!-- my publish-->
+    <string name="publish_new_item">我要发布</string>
+    <string name="publish_title">发布</string>
+    <string name="publish_item_title_hint">标题 品类 品牌型号</string>
+    <string name="publish_item_description_hint">描述一下你的宝贝</string>
+    <string name="publish_item_add_img">添加图片</string>
+
+    <string name="publish_item_price">价格</string>
+    <string name="publish_item_type">分类</string>
+    <string name="publish_item_type_choice">请选择分类</string>
+    <string name="publish_item_sure">确定发布</string>
+
 
 </resources>
 

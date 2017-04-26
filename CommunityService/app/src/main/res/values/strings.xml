@@ -102,5 +102,16 @@
     <string name="publish_item_sure">确定发布</string>
 
 
+
+    <!--system setting-->
+    <string name="system_setting_edit_userinfo">个人资料设置</string>
+    <string name="system_setting_bind_account">账号绑定</string>
+    <string name="system_setting_clear_cache">清空缓存</string>
+    <string name="system_setting_about_us">关于我们</string>
+    <string name="system_setting_check_vesion">版本检查</string>
+
+    <string name="system_setting_logout">退出登录</string>
+
+
 </resources>
 

@@ -13,10 +13,11 @@ import com.bumptech.glide.Glide;
 public class ImageBindTool {
 
     @BindingAdapter({"app:imageUrl", "app:placeHolder", "app:error"})
-    public static void loadImage(ImageView imageView, String url, Drawable errorDrawable) {
+    public static void loadImage(ImageView imageView, String url, Drawable placeholder, Drawable errorDrawable) {
         Glide.with(imageView.getContext())
                 .load(url)
                 .error(errorDrawable)
+                .placeholder(placeholder)
                 .into(imageView);
     }
 }

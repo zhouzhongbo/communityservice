@@ -31,13 +31,15 @@ public class SellAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     public SellAdapter(Context mcontext,HelpViewModel helpViewModel) {
         super();
-        context = mcontext;
-        HelpViewModel vm = new HelpViewModel(mcontext);
+        this.context = mcontext;
+        HelpViewModel vm = helpViewModel;
         sellItem = vm.refreshItem();
     }
 
     public SellAdapter(Context mcontext,MyPublishViewModel publishViewModel){
-        MyPublishViewModel vm = new MyPublishViewModel(mcontext);
+        super();
+        this.context = mcontext;
+        MyPublishViewModel vm = publishViewModel;
         sellItem = vm.queryList();
     }
 

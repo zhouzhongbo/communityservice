@@ -10,10 +10,26 @@ import com.droi.sdk.core.DroiReference;
 
 public class PersionGoodsLike extends DroiObject {
 
-    @DroiExpose
-    String perisonGoodID;
+    @DroiReference
+    PersionGoods  goods;
 
     @DroiReference
     CommunityUser likeCommunityUser;
 
+
+    public PersionGoods getGoods() {
+        return goods;
+    }
+
+    public void setGoods(PersionGoods goods) {
+        this.goods = goods;
+    }
+
+    public CommunityUser getLikeCommunityUser() {
+        return likeCommunityUser;
+    }
+
+    public void setLikeCommunityUser(CommunityUser likeCommunityUser) {
+        this.likeCommunityUser = likeCommunityUser;
+    }
 }

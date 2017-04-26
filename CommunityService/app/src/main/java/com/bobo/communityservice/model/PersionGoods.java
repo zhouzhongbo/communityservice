@@ -48,13 +48,44 @@ public class PersionGoods extends DroiObject {
     @DroiReference
     ArrayList<CommunityUser> goodsViewer;
 
-    //reference object
 
     @DroiReference
     PersionGoodsLike goodsLike;
+
 
     @DroiReference
     PersionGoodsComment goodsComments;
 
 
+    public void setGoodsTitle(String goodsTitle) {
+        this.goodsTitle = goodsTitle;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    public void setGoodsPrice(Number goodsPrice) {
+        this.goodsPrice = goodsPrice;
+    }
+
+    public void setGoodsIcon(DroiFile goodsIcon) {
+        this.goodsIcon = goodsIcon;
+    }
+
+    public void setGoodsImg(ArrayList<DroiFile> goodsImg) {
+        this.goodsImg = goodsImg;
+    }
+
+    public void setGoodsSellerName(String goodsSellerName) {
+        this.goodsSellerName = goodsSellerName;
+    }
+
+    public void setGoodsSellerPhoneNumber(String goodsSellerPhoneNumber) {
+        this.goodsSellerPhoneNumber = goodsSellerPhoneNumber;
+    }
+
+    public void setGoodsType(int goodsType) {
+        this.goodsType = goodsType;
+    }
 }

@@ -11,14 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bobo.communityservice.R;
-import com.bobo.communityservice.databinding.RegisterBind;
+import com.bobo.communityservice.databinding.RegisterBinding;
 
 /**
  * Created by zhouzhongbo on 2017/4/20.
  */
 
 public class RegisterFragment extends Fragment {
-    RegisterBind registerBind;
+    RegisterBinding registerBind;
     private ProgressDialog mProgressView;
     private Activity activity;
     @Override

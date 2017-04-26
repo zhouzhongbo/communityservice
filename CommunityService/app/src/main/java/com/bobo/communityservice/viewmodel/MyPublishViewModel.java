@@ -42,7 +42,7 @@ public class MyPublishViewModel {
     public ArrayList<PersionGoods> queryList(){
         CommunityUser user = DroiUser.getCurrentUser(CommunityUser.class);
         if (user != null && user.isAuthorized() && !user.isAnonymous()) {
-            DroiCondition cond = DroiCondition.cond("CommunityUser._Id", DroiCondition.Type.EQ, user.getObjectId());
+            DroiCondition cond = DroiCondition.cond("writer._Id", DroiCondition.Type.EQ, user.getObjectId());
             DroiQuery query = DroiQuery.Builder.newBuilder().limit(10).where(cond).query(PersionGoods.class).build();
             query.runQueryInBackground(new DroiQueryCallback<PersionGoods>() {
                 @Override

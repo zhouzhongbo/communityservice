@@ -41,7 +41,6 @@ public class MyPublishFragment extends Fragment {
 //        View v = inflater.inflate(R.layout.fragment_mypublish_layout,container,false);
         plbinding = DataBindingUtil.inflate(inflater,R.layout.fragment_mypublish_layout,container,false);
         return plbinding.getRoot();
-        //super.onCreateView(inflater, container, savedInstanceState);
     }
 
 

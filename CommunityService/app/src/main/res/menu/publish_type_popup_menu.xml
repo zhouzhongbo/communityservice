@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/house"
+        android:title="房屋出租/买卖"/>
+
+    <item
+        android:id="@+id/persion_goods"
+        android:title="个人用品"/>
+
+    <item
+        android:id="@+id/help_repair"
+        android:title="求助/维修"/>
+
+</menu>

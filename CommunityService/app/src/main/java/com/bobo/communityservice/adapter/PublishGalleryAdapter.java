@@ -1,6 +1,8 @@
 package com.bobo.communityservice.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +10,12 @@ import android.view.ViewGroup;
 
 import com.bobo.communityservice.R;
 import com.bumptech.glide.Glide;
+import com.droi.sdk.DroiCallback;
+import com.droi.sdk.DroiError;
+import com.droi.sdk.DroiProgressCallback;
 import com.droi.sdk.core.DroiFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,7 +23,7 @@ import java.util.List;
  */
 
 public class PublishGalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<DroiFile> desImg;
+    private ArrayList<DroiFile> desImg;
     private Context context;
     private LayoutInflater mInflater;
     private static final int TYPE_IMG_CONTENT = 0;
@@ -43,6 +49,14 @@ public class PublishGalleryAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
+    public void addImageItem(DroiFile object){
+        desImg.add(object);
+    }
+
+    public ArrayList<DroiFile> getImgList(){
+        return desImg;
+    }
+
     /**
      * 创建ViewHolder
      */
@@ -56,6 +70,12 @@ public class PublishGalleryAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             return  new PublishGalleryItemViewHolder(view);
         }
         return null;
+    }
+
+
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
     }
 
     @Override
@@ -73,26 +93,66 @@ public class PublishGalleryAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 }
             });
         } else if (type == TYPE_IMG_CONTENT) {
-            PublishGalleryItemViewHolder itemholder = (PublishGalleryItemViewHolder)holder;
-            Glide.with(context)
-                    .load(desImg.get(position).getUri())
-                    .placeholder(R.drawable.img_waiting)
-                    .error(R.drawable.img_waiting)
-                    .into(itemholder.image);
-            itemholder.image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(itemClickListener!=null)
-                        itemClickListener.onPreViewImageClick(desImg,position);
-                }
-            });
-            itemholder.remove.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(itemClickListener!=null)
-                        itemClickListener.onRemoveImageClick(desImg,position);
-                }
-            });
+            final PublishGalleryItemViewHolder itemholder = (PublishGalleryItemViewHolder)holder;
+            DroiFile  img = desImg.get(position);
+
+            if(img.hasUri()){
+                Glide.with(context)
+                        .load(img.getUri())
+                        .placeholder(R.drawable.img_waiting)
+                        .error(R.drawable.img_waiting)
+                        .into(itemholder.image);
+                itemholder.image.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(itemClickListener!=null)
+                            itemClickListener.onPreViewImageClick(desImg,position);
+                    }
+                });
+                itemholder.remove.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(itemClickListener!=null)
+                            itemClickListener.onRemoveImageClick(desImg,position);
+                    }
+                });
+            }else{
+                Glide.with(context)
+                        .load(img.getUri())
+                        .placeholder(R.drawable.img_waiting)
+                        .error(R.drawable.img_waiting)
+                        .into(itemholder.image);
+                itemholder.image.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(itemClickListener!=null)
+                            itemClickListener.onPreViewImageClick(desImg,position);
+                    }
+                });
+                itemholder.remove.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(itemClickListener!=null)
+                            itemClickListener.onRemoveImageClick(desImg,position);
+                    }
+                });
+                itemholder.pb.setMax(100);
+                img.saveInBackground(new DroiCallback<Boolean>() {
+                    @Override
+                    public void result(Boolean aBoolean, DroiError droiError) {
+                        if(droiError.isOk()){
+                            itemholder.pb.setVisibility(View.GONE);
+                        }
+                    }
+                });
+                img.setProgressListener(new DroiProgressCallback(){
+                    @Override
+                    public void progress(Object o, long l, long l1) {
+                        int progress = (int)(l/l1*100);
+                        itemholder.pb.setProgress(progress);
+                    }
+                });
+            }
         }
     }
 

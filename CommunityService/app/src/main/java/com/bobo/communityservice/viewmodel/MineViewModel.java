@@ -2,18 +2,11 @@ package com.bobo.communityservice.viewmodel;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.View;
 
-import com.bobo.communityservice.R;
 import com.bobo.communityservice.activity.MineRelativeActivity;
-import com.bobo.communityservice.databinding.MineBinding;
 import com.bobo.communityservice.model.CommunityUser;
 import com.bobo.communityservice.tools.ConstantObject;
-import com.droi.sdk.DroiCallback;
-import com.droi.sdk.DroiError;
 import com.droi.sdk.core.DroiUser;
 
 /**
@@ -122,36 +115,36 @@ public class MineViewModel {
     }
 
 
-    public void refreshUi(MineBinding minebinding){
-        isLogin = isLogin();
-        if(isLogin){
-
-        }else{
-
-        }
-
-        if (user != null && user.isAuthorized() && !user.isAnonymous()) {
-//            nameTextView.setText(user.getUserId());
-//            if (user.avatar != null) {
-//                user.avatar.getInBackground(new DroiCallback<byte[]>() {
-//                    @Override
-//                    public void result(byte[] bytes, DroiError error) {
-//                        if (error.isOk()) {
-//                            if (bytes == null) {
-//                                Log.i(TAG, "bytes == null");
-//                            } else {
-//                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-//                                titleImg.setImageBitmap(bitmap);
-//                            }
-//                        }
-//                    }
-//                }, null);
-//            }
-//        } else {
-//            titleImg.setImageResource(R.drawable.profile_default_icon);
-//            nameTextView.setText(R.string.fragment_mine_login);
+//    public void refreshUi(MineBinding minebinding){
+//        isLogin = isLogin();
+//        if(isLogin){
+//
+//        }else{
+//
 //        }
-        }
-    }
+//
+//        if (user != null && user.isAuthorized() && !user.isAnonymous()) {
+////            nameTextView.setText(user.getUserId());
+////            if (user.avatar != null) {
+////                user.avatar.getInBackground(new DroiCallback<byte[]>() {
+////                    @Override
+////                    public void result(byte[] bytes, DroiError error) {
+////                        if (error.isOk()) {
+////                            if (bytes == null) {
+////                                Log.i(TAG, "bytes == null");
+////                            } else {
+////                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+////                                titleImg.setImageBitmap(bitmap);
+////                            }
+////                        }
+////                    }
+////                }, null);
+////            }
+////        } else {
+////            titleImg.setImageResource(R.drawable.profile_default_icon);
+////            nameTextView.setText(R.string.fragment_mine_login);
+////        }
+//        }
+//    }
 
 }

@@ -1,37 +1,45 @@
 package com.bobo.communityservice.fragment;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bobo.communityservice.R;
-import com.bobo.communityservice.activity.SystemSettingActivity;
 import com.bobo.communityservice.databinding.MineBinding;
-import com.bobo.communityservice.model.CommunityUser;
 import com.bobo.communityservice.viewmodel.MineViewModel;
 import com.droi.sdk.DroiCallback;
 import com.droi.sdk.DroiError;
-import com.droi.sdk.core.DroiUser;
-import com.droi.sdk.feedback.DroiFeedback;
+import com.droi.sdk.core.DroiFile;
+import com.jph.takephoto.app.TakePhoto;
+import com.jph.takephoto.app.TakePhotoImpl;
+import com.jph.takephoto.model.InvokeParam;
+import com.jph.takephoto.model.TContextWrap;
+import com.jph.takephoto.model.TImage;
+import com.jph.takephoto.model.TResult;
+import com.jph.takephoto.permission.InvokeListener;
+import com.jph.takephoto.permission.PermissionManager;
+import com.jph.takephoto.permission.TakePhotoInvocationHandler;
+
+import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by zhouzhongbo on 2017/3/28.
  */
 
-public class MineFragment extends Fragment {
+public class MineFragment extends Fragment implements TakePhoto.TakeResultListener,InvokeListener {
     MineViewModel minemodel;
     MineBinding mineBinding;
-    CommunityUser communitUser;
     boolean isLogin;
+
+    private TakePhoto takePhoto;
+    private InvokeParam invokeParam;
+
 
     public static MineFragment newInstance(String param1) {
         MineFragment fragment = new MineFragment();
@@ -48,28 +56,60 @@ public class MineFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        getTakePhoto().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
-        communitUser = DroiUser.getCurrentUser(CommunityUser.class);
-        minemodel = new MineViewModel(getActivity());
-        initView();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mineBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_mine_layout,container,false);
+        mineBinding.setMineViewModel(minemodel);
+        minemodel = new MineViewModel(getActivity(),mineBinding);
         return mineBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initView();
+        minemodel.setTakePhoto(getTakePhoto());
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        getTakePhoto().onSaveInstanceState(outState);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        getTakePhoto().onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionManager.TPermissionType type=PermissionManager.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        PermissionManager.handlePermissionsResult(getActivity(),type,invokeParam,this);
+    }
+
+    @Override
+    public PermissionManager.TPermissionType invoke(InvokeParam invokeParam) {
+        PermissionManager.TPermissionType type=PermissionManager.checkPermission(TContextWrap.of(getActivity()),invokeParam.getMethod());
+        if(PermissionManager.TPermissionType.WAIT.equals(type)){
+            this.invokeParam=invokeParam;
+        }
+        return type;
+    }
+
 
     @Override
     public void onStart() {
@@ -79,76 +119,9 @@ public class MineFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        minemodel.refreshUi();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-
-    public void onClick(View v){
-        int id = v.getId();
-        switch (id){
-
-        //mine relative msg
-            case R.id.star_icon:
-            case R.id.my_star_text:
-                minemodel.handlerMyStartClick(v);
-                break;
-
-            case R.id.publish_icon:
-            case R.id.my_public_text:
-                minemodel.handlerMyPublishClick(v);
-                break;
-
-            case R.id.order_icon:
-            case R.id.my_order_text:
-                minemodel.handlerMyOrderClick(v);
-                break;
-
-            case R.id.feed_back_text:
-            case R.id.feedback_icon:
-                //打开反馈页面
-                DroiFeedback.callFeedback(getActivity());
-                break;
-
-            case R.id.settings_icon:
-            case R.id.settings_text:
-                Intent setting = new Intent(getActivity(), SystemSettingActivity.class);
-                setting.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(setting);
-                break;
-        }
-    }
 
     private void initView(){
         if(isLogin){
@@ -158,7 +131,92 @@ public class MineFragment extends Fragment {
             mineBinding.registerOrLoging.setVisibility(View.VISIBLE);
             mineBinding.loginStatusView.setVisibility(View.GONE);
         }
+        mineBinding.usrIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                minemodel.handlerUserIconClick(view);
+            }
+        });
+
+        mineBinding.registerOrLoging.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                minemodel.handlerRegisterOrLogin(view);
+            }
+        });
+
+        mineBinding.userName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                minemodel.handlerEditUsrInfo(view);
+            }
+        });
+
+        mineBinding.checkinButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                minemodel.handlerCheckin(view);
+            }
+        });
+        mineBinding.starContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                minemodel.handlerMyStartClick(view);
+
+            }
+        });
+        mineBinding.publishContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                minemodel.handlerMyPublishClick(view);
+            }
+        });
+        mineBinding.orderContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                minemodel.handlerMyOrderClick(view);
+
+            }
+        });
+        mineBinding.feedbackContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                minemodel.handlerFeedBackClick(view);
+            }
+        });
+        mineBinding.settingContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                minemodel.handlerSystemSetttingClick(view);
+
+            }
+        });
     }
 
+    /**
+     *  获取TakePhoto实例
+     * @return
+     */
+    public TakePhoto getTakePhoto(){
+        if (takePhoto==null){
+            takePhoto= (TakePhoto) TakePhotoInvocationHandler.of(this).bind(new TakePhotoImpl(getActivity(),this));
+        }
+        return takePhoto;
+    }
 
+    @Override
+    public void takeSuccess(TResult result) {
+        ArrayList<TImage> im =  result.getImages();
+        minemodel.setUserIcon(im.get(0));
+    }
+
+    @Override
+    public void takeFail(TResult result, String msg) {
+
+    }
+
+    @Override
+    public void takeCancel() {
+
+    }
 }

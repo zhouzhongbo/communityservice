@@ -1,8 +1,5 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-    <data class="RegisterBinding">
-
-    </data>
-    <FrameLayout
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -100,7 +97,7 @@
                     android:layout_marginBottom="24dp"
                     android:layout_marginTop="24dp"
                     android:clickable="true"
-                    android:onClick="onRegisterClick"
+                    android:background="@color/blue"
                     android:text="@string/action_register"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
@@ -110,7 +107,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
-                    android:onClick="LoginClick"
                     android:gravity="center"
                     android:text="@string/login_already_a_member"
                     android:textSize="16sp" />
@@ -118,8 +114,6 @@
             </LinearLayout>
 
         </ScrollView>
-
-    </FrameLayout>
-</layout>
+</FrameLayout>
 
 

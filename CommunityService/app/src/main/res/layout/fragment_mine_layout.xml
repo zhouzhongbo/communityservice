@@ -12,15 +12,16 @@
         android:layout_height="match_parent">
 
         <com.bobo.communityservice.view.CircleImageView
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
             android:id="@+id/usr_icon"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_margin="10dp"
-            android:onClick="@{mineViewModel.handlerUserIconClick}" />
+            app:imageUrl="@{mineViewModel.user.Icon.getUri}"
+            app:placeHolder="@{@drawable/take_position}"
+            app:error="@{@drawable/default_icon}"/>
 
-        <!--app:imageUrl="@{mineViewModel.user.Icon.getUri}"-->
-        <!--app:placeHolder="@{@drawable/take_position}"-->
-        <!--app:error="@{@drawable/default_icon}"-->
 
         <LinearLayout
             android:layout_toRightOf="@id/usr_icon"
@@ -34,16 +35,15 @@
             <TextView
                 android:layout_margin="10dp"
                 android:text="@{mineViewModel.user.nickname}"
-                android:onClick="@{mineViewModel.handlerUserNameClick}"
                 android:id="@+id/user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
 
             <Button
+                android:text="@string/system_setting_edit_userinfo"
                 android:layout_margin="10dp"
                 android:id="@+id/edit_user_info"
-                android:onClick="@{mineViewModel.handlerEditUsrInfo}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -67,7 +67,6 @@
                 android:text="@string/login_on"
                 android:gravity="center"
                 android:layout_centerVertical="true"
-                android:onClick="@{mineViewModel.handlerRegisterOrLogin}"
                 />
 
             <View
@@ -88,7 +87,6 @@
                 android:layout_centerVertical="true"
                 android:background="@android:color/transparent"
                 android:text="@string/register"
-                android:onClick="@{mineViewModel.handlerRegisterOrLogin}"
                 android:layout_toRightOf="@id/action_divider"
                 />
         </RelativeLayout>
@@ -99,93 +97,108 @@
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:text="@string/check_in"
-            android:onClick="handlerCheckin"
             android:background="@android:color/transparent"
             android:layout_alignParentRight="true"
             android:layout_margin="10dp"
             android:layout_alignBaseline="@id/register_or_loging"
             />
 
-
-        <RelativeLayout
-            android:id="@+id/my_relative"
-            android:layout_below="@id/register_or_loging"
-            android:paddingTop="20dp"
+         <!--mine star view-->
+        <View
+            android:id="@+id/divider_1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-             <!--mine star view-->
-            <View
-                android:id="@+id/divider_1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="5dp"
-                android:background="@android:color/darker_gray"
-                />
+            android:layout_height="1dp"
+            android:layout_marginTop="110dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@android:color/darker_gray"
+            />
 
+        <LinearLayout
+            android:layout_below="@id/divider_1"
+            android:id="@+id/star_container"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+           >
             <ImageView
-                android:layout_below="@id/divider_1"
-                android:onClick="onClick"
                 android:id="@+id/star_icon"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:src="@drawable/my_start"
                 android:paddingLeft="10dp"
                 />
+
             <TextView
                 android:id="@+id/my_star_text"
-                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_below="@id/divider_1"
                 android:text="@string/mine_star"
-                android:layout_toRightOf="@id/star_icon"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
                 android:textSize="25dp"
-                android:onClick="onClick"
                 />
-            <!--mine publish view -->
-            <View
-                android:id="@+id/divider_2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"
-                android:layout_below="@id/my_star_text"
-                />
+        </LinearLayout>
 
+
+        <!--mine publish view -->
+        <View
+            android:id="@+id/divider_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_margin="5dp"
+            android:layout_below="@id/star_container"
+            />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/publish_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider_2"
+            >
             <ImageView
-                android:layout_below="@id/divider_2"
                 android:id="@+id/publish_icon"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:src="@drawable/my_public_content"
                 android:paddingLeft="10dp"
-                android:onClick="onClick"
-                />
+            />
+
             <TextView
                 android:id="@+id/my_public_text"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_below="@id/divider_2"
+                android:layout_weight="1"
                 android:text="@string/mine_publish"
-                android:layout_toRightOf="@id/publish_icon"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
                 android:textSize="25dp"
-                android:onClick="onClick"
                 />
 
-            <!--mine order view -->
-            <View
-                android:id="@+id/divider_3"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"
-                android:layout_below="@id/my_public_text"
-                android:onClick="onClick"
-                />
+        </LinearLayout>
 
+
+
+        <!--mine order view -->
+        <View
+            android:id="@+id/divider_3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_margin="5dp"
+            android:layout_below="@id/publish_container"
+            />
+
+        <LinearLayout
+            android:layout_below="@id/divider_3"
+            android:id="@+id/order_container"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
             <ImageView
                 android:layout_below="@id/divider_3"
                 android:id="@+id/order_icon"
@@ -193,78 +206,79 @@
                 android:layout_height="45dp"
                 android:src="@drawable/my_order"
                 android:paddingLeft="10dp"
-                android:onClick="onClick"
                 />
             <TextView
                 android:id="@+id/my_order_text"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@id/divider_3"
                 android:text="@string/mine_order"
-                android:layout_toRightOf="@id/publish_icon"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
                 android:textSize="25dp"
-                android:onClick="onClick"
                 />
+        </LinearLayout>
 
-            <View
-                android:id="@+id/divider_4"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"
-                android:layout_below="@id/my_order_text"
-                android:onClick="onClick"
-                />
 
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/other_class"
-            android:layout_below="@id/my_relative"
-            android:paddingTop="30dp"
+        <View
+            android:id="@+id/divider_4"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_margin="5dp"
+            android:layout_below="@id/order_container"
+            />
 
-            <View
-                android:id="@+id/divider_2_1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"
-                />
+        <View
+            android:layout_below="@id/divider_4"
+            android:id="@+id/divider_2_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_margin="5dp"
+            />
 
+        <LinearLayout
+            android:layout_below="@id/divider_2_1"
+            android:orientation="horizontal"
+            android:id="@+id/feedback_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
             <ImageView
-                android:layout_below="@id/divider_2_1"
                 android:id="@+id/feedback_icon"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:src="@drawable/feed_back"
                 android:paddingLeft="10dp"
-                android:onClick="onClick"
                 />
             <TextView
                 android:id="@+id/feed_back_text"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@id/divider_2_1"
                 android:text="@string/user_feedback"
-                android:layout_toRightOf="@id/feedback_icon"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
                 android:textSize="25dp"
-                android:onClick="onClick"
                 />
+        </LinearLayout>
 
-            <View
-                android:id="@+id/divider_2_2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"
-                android:layout_below="@id/feed_back_text"
-                />
+
+
+        <View
+            android:id="@+id/divider_2_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_margin="5dp"
+            android:layout_below="@id/feedback_container"
+            />
+
+        <LinearLayout
+            android:layout_below="@id/divider_2_2"
+            android:id="@+id/setting_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
 
             <ImageView
                 android:layout_below="@id/divider_2_2"
@@ -273,30 +287,26 @@
                 android:layout_height="45dp"
                 android:src="@drawable/feed_back"
                 android:paddingLeft="10dp"
-                android:onClick="onClick"
                 />
             <TextView
                 android:id="@+id/settings_text"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@id/divider_2_2"
                 android:text="@string/system_settings"
-                android:layout_toRightOf="@id/settings_icon"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
                 android:textSize="25dp"
-                android:onClick="onClick"
                 />
+        </LinearLayout>
 
-            <View
-                android:id="@+id/divider_2_3"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"
-                android:layout_below="@id/settings_text"
-                />
 
-        </RelativeLayout>
+        <View
+            android:id="@+id/divider_2_3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_margin="5dp"
+            android:layout_below="@id/setting_container"
+            />
     </RelativeLayout>
 </layout>

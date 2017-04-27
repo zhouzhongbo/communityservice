@@ -23,9 +23,18 @@ public class CommunityUser extends DroiUser {
     public DroiFile Icon;
 
     @DroiExpose
-    public Number checkin;
+    public int checkin;
 
     @DroiReference
     public ArrayList<String> address;
 
+
+    public void setIcon(DroiFile icon){
+        this.Icon = icon;
+    }
+
+    public void checkin(){
+        checkin++;
+
+    }
 }

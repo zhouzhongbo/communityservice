@@ -2,6 +2,7 @@ package com.bobo.communityservice.tools;
 
 import android.databinding.BindingAdapter;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -12,12 +13,21 @@ import com.bumptech.glide.Glide;
 
 public class ImageBindTool {
 
-    @BindingAdapter({"app:imageUrl", "app:placeHolder", "app:error"})
-    public static void loadImage(ImageView imageView, String url, Drawable placeholder, Drawable errorDrawable) {
+    @BindingAdapter({"bind:imageUrl", "bind:placeHolder", "bind:error"})
+    public static void loadImage(ImageView imageView, Uri url, Drawable placeholder, Drawable errorDrawable) {
         Glide.with(imageView.getContext())
                 .load(url)
                 .error(errorDrawable)
                 .placeholder(placeholder)
                 .into(imageView);
     }
+
+//    @BindingAdapter({"bind:imageUrl", "bind:error"})
+//    public static void loadImage(ImageView imageView, Uri url, Drawable error) {
+////        Picasso.with(view.getContext()).load(url).error(error).into(view);
+//        Glide.with(imageView.getContext())
+//                .load(url)
+//                .error(error)
+//                .into(imageView);
+//    }
 }

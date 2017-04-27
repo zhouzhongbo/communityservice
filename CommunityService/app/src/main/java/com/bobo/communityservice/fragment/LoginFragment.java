@@ -2,7 +2,6 @@ package com.bobo.communityservice.fragment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,10 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.bobo.communityservice.R;
-import com.bobo.communityservice.databinding.LoginBind;
 import com.bobo.communityservice.model.CommunityUser;
 import com.droi.sdk.DroiError;
 import com.droi.sdk.core.DroiUser;
@@ -26,11 +26,13 @@ import com.droi.sdk.core.DroiUser;
  */
 
 public class LoginFragment extends Fragment {
-    LoginBind loginBind;
     private UserLoginTask mAuthTask = null;
     String TAG ="login";
     private Activity activity;
     ProgressDialog mProgressView;
+    AutoCompleteTextView userName;
+    EditText password;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,65 +42,73 @@ public class LoginFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        loginBind = DataBindingUtil.inflate(inflater,R.layout.fragment_login_layout,container,false);
-        mProgressView = new ProgressDialog(getActivity());
-        mProgressView.setMessage("Login...");
-        return loginBind.getRoot();
+//        loginBind = DataBindingUtil.inflate(inflater,R.layout.fragment_login_layout,container,false);
+        View view = inflater.inflate(R.layout.fragment_login_layout,container,false);
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-    }
+        mProgressView = new ProgressDialog(getActivity());
+        mProgressView.setMessage("Login...");
+        userName = (AutoCompleteTextView) view.findViewById(R.id.user_name);
+        password = (EditText) view.findViewById(R.id.password);
+        view.findViewById(R.id.login_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("zzb","onloginclick!");
+                if (mAuthTask != null) {
+                    return;
+                }
 
+                // Reset errors.
+                userName.setError(null);
+                userName.setError(null);
 
-    public void onLoginClick(View view){
-        //计数事件
-        //DroiAnalytics.onEvent(getActivity(), "login");
-        if (mAuthTask != null) {
-            return;
-        }
+                String uName = userName.getText().toString();
+                String pd = password.getText().toString();
 
-        // Reset errors.
-        loginBind.userName.setError(null);
-        loginBind.userName.setError(null);
+                boolean cancel = false;
+                View focusView = null;
 
-        String userName = loginBind.userName.getText().toString();
-        String password = loginBind.password.getText().toString();
+                if (TextUtils.isEmpty(pd) || !isPasswordValid(pd)) {
+                    password.setError(getString(R.string.error_invalid_password));
+                    focusView = password;
+                    cancel = true;
+                }
 
-        boolean cancel = false;
-        View focusView = null;
+                if (TextUtils.isEmpty(uName)) {
+                    userName.setError(getString(R.string.error_field_required));
+                    focusView = userName;
+                    cancel = true;
+                } else if (!isUserNameValid(uName)) {
+                    userName.setError(getString(R.string.error_invalid_user_name));
+                    focusView = userName;
+                    cancel = true;
+                }
 
-        if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
-            loginBind.password.setError(getString(R.string.error_invalid_password));
-            focusView = loginBind.password;
-            cancel = true;
-        }
+                if (cancel) {
+                    focusView.requestFocus();
+                } else {
+                    showProgress(true);
+                    mAuthTask = new UserLoginTask(uName, pd);
+                    mAuthTask.execute((Void) null);
+                }
+            }
+        });
 
-        if (TextUtils.isEmpty(userName)) {
-            loginBind.userName.setError(getString(R.string.error_field_required));
-            focusView = loginBind.userName;
-            cancel = true;
-        } else if (!isUserNameValid(userName)) {
-            loginBind.userName.setError(getString(R.string.error_invalid_user_name));
-            focusView = loginBind.userName;
-            cancel = true;
-        }
+        view.findViewById(R.id.to_register_fragment).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("zzb","registerAccountClick!");
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                Fragment registerFragment = new RegisterFragment();
+                transaction.replace(R.id.fragment_layout, registerFragment);
+                transaction.commit();
+            }
+        });
 
-        if (cancel) {
-            focusView.requestFocus();
-        } else {
-            showProgress(true);
-            mAuthTask = new UserLoginTask(userName, password);
-            mAuthTask.execute((Void) null);
-        }
-    }
-
-    public void registerAccountClick(View v){
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        Fragment registerFragment = new RegisterFragment();
-        transaction.replace(R.id.fragment_layout, registerFragment);
-        transaction.commit();
     }
 
 
@@ -131,8 +141,7 @@ public class LoginFragment extends Fragment {
         @Override
         protected DroiError doInBackground(Void... params) {
             DroiError droiError = new DroiError();
-            CommunityUser user = DroiUser.login(mEmail,
-                    mPassword, CommunityUser.class, droiError);
+            CommunityUser user = DroiUser.login(mEmail, mPassword, CommunityUser.class, droiError);
             return droiError;
         }
 
@@ -145,11 +154,11 @@ public class LoginFragment extends Fragment {
                 activity.finish();
             } else {
                 if (droiError.getCode() == DroiError.USER_NOT_EXISTS) {
-                    loginBind.userName.setError(getString(R.string.error_user_not_exists));
-                    loginBind.userName.requestFocus();
+                    userName.setError(getString(R.string.error_user_not_exists));
+                    userName.requestFocus();
                 } else if (droiError.getCode() == DroiError.USER_PASSWORD_INCORRECT) {
-                    loginBind.password.setError(getString(R.string.error_incorrect_password));
-                    loginBind.password.requestFocus();
+                    password.setError(getString(R.string.error_incorrect_password));
+                    password.requestFocus();
                 } else {
                     Log.i(TAG, "error:" + droiError.toString());
                     Toast.makeText(getActivity(), getString(R.string.error_network), Toast.LENGTH_SHORT).show();

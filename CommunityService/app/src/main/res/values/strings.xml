@@ -113,5 +113,13 @@
     <string name="system_setting_logout">退出登录</string>
 
 
+
+    <!--user info edit-->
+    <string name="user_header_icon">头像</string>
+    <string name="user_sex">性别</string>
+    <string name="user_nickname">昵称</string>
+    <string name="user_address">地址</string>
+    <string name="user_phoneNumber">地址</string>
+
 </resources>
 

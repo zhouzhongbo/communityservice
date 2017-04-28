@@ -57,7 +57,7 @@ public class MineViewModel {
     }
 
 
-    private boolean isLogin(){
+    public boolean isLogin(){
         boolean islogin;
         user = DroiUser.getCurrentUser(CommunityUser.class);
         if (user != null && user.isAuthorized() && !user.isAnonymous()) {
@@ -70,11 +70,11 @@ public class MineViewModel {
 
     public void handlerUserIconClick(View v){
         Log.d("zzb","is login ="+isLogin);
-        if(isLogin){
-            ShowDialog();
-        }else{
+//        if(isLogin){
+//            ShowDialog();
+//        }else{
             handlerRegisterOrLogin(v);
-        }
+//        }
     }
 
     public void handlerUserNameClick(View v){
@@ -201,50 +201,31 @@ public class MineViewModel {
     }
 
 
-    private void ShowDialog(){
-        new AlertDialog.Builder(context).setItems(
-                new String[] { "拍摄照片", "从相册选择"},
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                takePhoto.onPickFromCapture(createOutUri());
-                                CropOptions op =  new CropOptions.Builder().
-                                    setAspectX(200).setAspectY(200).
-                                    setWithOwnCrop(true).
-                                    create();
-                                takePhoto.onPickFromCaptureWithCrop(createOutUri(),op);
-                                break;
-                            case 1:
-                                takePhoto.onPickFromGallery();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }).show();
-    }
+//    private void ShowDialog(){
+//        new AlertDialog.Builder(context).setItems(
+//                new String[] { "拍摄照片", "从相册选择"},
+//                new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        switch (which) {
+//                            case 0:
+//                                takePhoto.onPickFromCapture(createOutUri());
+//                                CropOptions op =  new CropOptions.Builder().
+//                                    setAspectX(200).setAspectY(200).
+//                                    setWithOwnCrop(true).
+//                                    create();
+//                                takePhoto.onPickFromCaptureWithCrop(createOutUri(),op);
+//                                break;
+//                            case 1:
+//                                takePhoto.onPickFromGallery();
+//                                break;
+//                            default:
+//                                break;
+//                        }
+//                    }
+//                }).show();
+//    }
 
-    private Uri createOutUri(){
-        Uri imageUri;
-        // new一个File用来存放拍摄到的照片
-        // 通过getExternalStorageDirectory方法获得手机系统的外部存储地址
-        File imageFile = new File(Environment
-                .getExternalStorageDirectory(), "tempImage.jpg");
-        // 如果存在就删了重新创建
-        try {
-            if (imageFile.exists()) {
-                imageFile.delete();
-            }
-            imageFile.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // 将存储地址转化成uri对象
-        imageUri = Uri.fromFile(imageFile);
-        return imageUri;
-    }
 
     public void setUserIcon(final TImage imageFile){
         String imagePath = imageFile.getOriginalPath();
@@ -259,20 +240,22 @@ public class MineViewModel {
                         public void result(Boolean aBoolean, DroiError droiError) {
                             if(droiError.isOk()){
                                 Log.d("zzb","update icon success");
+                                mineBinding.executePendingBindings();
                             }
                         }
                     });
                 }
             }
         });
-        if(droifile.hasUri()){
-            Glide.with(context)
-                    .load(droifile.getUri())
-                    .into(mineBinding.usrIcon);
-        }else{
-            Glide.with(context)
-                    .load(new File(imageFile.getCompressPath()))
-                    .into(mineBinding.usrIcon);
-        }
+//        if(droifile.hasUri()){
+//            Glide.with(context)
+//                    .load(droifile.getUri())
+//                    .into(mineBinding.usrIcon);
+//        }else{
+//            Glide.with(context)
+//                    .load(new File(imageFile.getCompressPath()))
+//                    .into(mineBinding.usrIcon);
+//        }
+//        mineBinding.notifyChange();
     }
 }

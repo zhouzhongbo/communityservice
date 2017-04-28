@@ -1,6 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data class="UserEditBinding">
+        <variable
+            name="editUserModel"
+            type="com.bobo.communityservice.viewmodel.EditUserModel"/>
+    </data>
+    <RelativeLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</LinearLayout>
+        <LinearLayout
+            android:onClick="onClick"
+            android:layout_margin="15dp"
+            android:orientation="horizontal"
+            android:id="@+id/icon_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:text="@string/user_icon"
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.bobo.communityservice.view.CircleImageView
+                android:id="@+id/user_icon"
+                android:layout_margin="5dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:imageUrl="@{editUserModel.user.Icon.getUri}"
+                app:placeHolder="@{@drawable/take_position}"
+                app:error="@{@drawable/default_icon}"/>
+
+            <TextView
+                android:layout_margin="5dp"
+                android:amPmBackgroundColor="@android:color/transparent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/right_point"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:onClick="onClick"
+            android:layout_margin="15dp"
+            android:orientation="horizontal"
+            android:layout_below="@id/icon_container"
+            android:id="@+id/name_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:text="@string/user_nick_name"
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_margin="5dp"
+                android:amPmBackgroundColor="@android:color/transparent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/right_point"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:onClick="onClick"
+            android:layout_margin="15dp"
+            android:orientation="horizontal"
+            android:layout_below="@id/name_container"
+            android:id="@+id/sex_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:text="@string/user_sex"
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:id="@+id/user_sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_margin="5dp"
+                android:amPmBackgroundColor="@android:color/transparent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/right_point"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:onClick="onClick"
+            android:layout_margin="15dp"
+            android:orientation="horizontal"
+            android:layout_below="@id/sex_container"
+            android:id="@+id/address_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:text="@string/user_address"
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:id="@+id/user_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_margin="5dp"
+                android:amPmBackgroundColor="@android:color/transparent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/right_point"/>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_below="@id/address_container"
+            android:id="@+id/testid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/right_point"/>
+
+    </RelativeLayout>
+
+</layout>

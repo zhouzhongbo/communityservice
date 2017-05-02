@@ -87,7 +87,7 @@
     <string name="sell_item_default_description">默认描述</string>
     <string name="sell_item_default_price">默认价格</string>
     <string name="sell_item_default_user_name">默认用户名</string>
-
+    <string name="sell_item_default_comments">默认评论</string>
 
     <!-- my publish-->
     <string name="publish_new_item">我要发布</string>
@@ -100,6 +100,8 @@
     <string name="publish_item_type">分类</string>
     <string name="publish_item_type_choice">请选择分类</string>
     <string name="publish_item_sure">确定发布</string>
+    <string name="item_sell_price">￥%1$f</string>
+    <string name="item_like_count">赞%1$d</string>
 
 
 
@@ -111,7 +113,9 @@
     <string name="system_setting_check_vesion">版本检查</string>
 
     <string name="system_setting_logout">退出登录</string>
+    <string name="about_content">社区助手 是基于DroiBaas开发的社区社交的应用</string>
 
+    <string name="clear_cache_toast">缓冲已经清理完毕！</string>
 
 
     <!--user info edit-->
@@ -120,6 +124,21 @@
     <string name="user_nickname">昵称</string>
     <string name="user_address">地址</string>
     <string name="user_phoneNumber">地址</string>
+    <string name="female">女</string>
+    <string name="male">男</string>
+
+    <string name="cancel">取消</string>
+    <string name="ok">确认</string>
+
+    <string name="hint_nickname">请输入昵称</string>
+    <string name="hint_address">请输入地址</string>
+
+
+    <!--user info-->
+    <string name="make_comments">评论</string>
+    <string name="make_likes">点赞</string>
+    <string name="buy_it">买下</string>
+
 
 </resources>
 

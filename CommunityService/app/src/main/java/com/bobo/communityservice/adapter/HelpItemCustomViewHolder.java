@@ -21,7 +21,7 @@ import java.util.List;
  * Created by zhouzhongbo on 2017/4/18.
  */
 
-public class CustomViewHolder extends RecyclerView.ViewHolder{
+public class HelpItemCustomViewHolder extends RecyclerView.ViewHolder{
 
     CircleImageView userIcon;
     TextView  userName;
@@ -31,7 +31,7 @@ public class CustomViewHolder extends RecyclerView.ViewHolder{
     RecyclerView imgContainer;
     GalleryAdapter gadapter;
 
-    public CustomViewHolder(View itemView) {
+    public HelpItemCustomViewHolder(View itemView) {
         super(itemView);
         userIcon = (CircleImageView)itemView.findViewById(R.id.user_icon);
         userName = (TextView)itemView.findViewById(R.id.user_name);
@@ -47,18 +47,24 @@ public class CustomViewHolder extends RecyclerView.ViewHolder{
     }
 
     public void fillData(PersionGoods sellitem, Context mcontext){
-
-//        userIcon.setImageDrawable(sellitem.icon);
-            Glide.with(mcontext)
-                    .load(sellitem.goodsIcon.getUri())
-                    .placeholder(R.drawable.default_icon)
-                    .error(R.drawable.default_icon)
-                    .into(userIcon);
-
+        if(sellitem.writer!=null &sellitem.writer.getIcon()!= null){
+            if(sellitem.writer.getIcon().hasUri()){
+                Glide.with(mcontext)
+                        .load(sellitem.writer.getIcon().getUri())
+                        .placeholder(R.drawable.default_icon)
+                        .error(R.drawable.default_icon)
+                        .into(userIcon);
+            }
+        }
         userName.setText(sellitem.writer.nickname);
-        price.setText(String.valueOf(sellitem.goodsPrice));
+        String price_format = mcontext.getResources().getString(R.string.item_sell_price);
+        String price_value = String.format(price_format, sellitem.goodsPrice.doubleValue());
+        price.setText(price_value);
         desCrpition.setText(sellitem.Description);
-        like.setText(String.valueOf(sellitem.likeCount));
+
+        String like_format = mcontext.getResources().getString(R.string.item_like_count);
+        String like_value = String.format(like_format, sellitem.likeCount.intValue());
+        like.setText(String.valueOf(like_value));
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mcontext);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);

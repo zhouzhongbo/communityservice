@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.bobo.recycledemo.CircleImageView
+    <com.bobo.communityservice.view.CircleImageView
         android:id="@+id/user_icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -26,7 +26,7 @@
         android:layout_below="@id/user_icon"
         android:id="@+id/img_container"
         android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:layout_height="150dp">
 
     </android.support.v7.widget.RecyclerView>
 
@@ -68,4 +68,9 @@
         android:layout_toRightOf="@+id/user_name"
         android:layout_toEndOf="@+id/user_name" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimaryDark"/>
 </RelativeLayout>

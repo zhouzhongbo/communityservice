@@ -10,19 +10,26 @@
     <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/my_publish_list"
+        <TextView
+            android:id="@+id/pubilc_title"
+            android:text="@string/mine_publish"
+            android:textSize="25dp"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            >
+            android:layout_height="wrap_content" />
 
+        <android.support.v7.widget.RecyclerView
+        android:id="@+id/my_publish_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
         </android.support.v7.widget.RecyclerView>
         <Button
             android:id="@+id/to_publish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="publish_new_item"
-            android:onClick="@{publishViewModel.handlerNewPublish}"/>
+            android:text="@string/publish_new_item"/>
     </LinearLayout>
 </layout>

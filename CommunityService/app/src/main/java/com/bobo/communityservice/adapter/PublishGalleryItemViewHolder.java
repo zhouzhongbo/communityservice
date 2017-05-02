@@ -19,6 +19,7 @@ public class PublishGalleryItemViewHolder extends RecyclerView.ViewHolder {
     public PublishGalleryItemViewHolder(View view) {
         super(view);
         image = (ImageView) itemView.findViewById(R.id.img_des);
-        remove = (ImageView) itemView.findViewById(R.id.img_des);
+        remove = (ImageView) itemView.findViewById(R.id.remove_button);
+        pb = (ProgressBar)itemView.findViewById(R.id.update_progress);
     }
 }

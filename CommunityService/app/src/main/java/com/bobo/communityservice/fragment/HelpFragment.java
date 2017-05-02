@@ -25,6 +25,7 @@ import com.bobo.communityservice.activity.SellActivity;
 import com.bobo.communityservice.adapter.BannerAdapter;
 import com.bobo.communityservice.adapter.SellAdapter;
 import com.bobo.communityservice.databinding.HelpBinding;
+import com.bobo.communityservice.model.PersionGoods;
 import com.bobo.communityservice.viewmodel.HelpViewModel;
 
 import java.util.ArrayList;
@@ -33,10 +34,10 @@ import java.util.ArrayList;
  * Created by zhouzhongbo on 2017/3/28.
  */
 
-public class HelpFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class HelpFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,SellAdapter.OnItemClick{
     HelpBinding hb;
     HelpViewModel mhelpViewModel;
-    ArrayList<Drawable> banners;
+    ArrayList<Integer> banners;
     LinearLayoutManager linearLayoutManager;
     SellAdapter adapter;
     BannerAdapter mBannerAdapter;
@@ -127,7 +128,6 @@ public class HelpFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         banners = mhelpViewModel.getBanner();
         hb.bannerLayout.headIndicatorLayout.setCount(banners.size());
         hb.bannerLayout.headIndicatorLayout.select(0);
-        hb.bannerLayout.headViewPager.setAdapter(new BannerAdapter(getActivity(),banners));
         mBannerAdapter = new BannerAdapter(getActivity(), banners);
         hb.bannerLayout.headViewPager.setAdapter(mBannerAdapter);
         hb.bannerLayout.headViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -155,6 +155,7 @@ public class HelpFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     public void recycleViewInit(){
         adapter = new SellAdapter(getActivity(),mhelpViewModel);
+        adapter.setClickListeren(this);
         hb.recyclerList.setAdapter(adapter);
         hb.recyclerList.addOnScrollListener(new OnRecyclerScrollListener());
 
@@ -165,7 +166,7 @@ public class HelpFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onRefresh() {
-
+        handler.sendEmptyMessageDelayed(111, 1000);
     }
 
 
@@ -181,9 +182,10 @@ public class HelpFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             String tag = tags.get(hb.bannerLayout.headViewPager.getCurrentItem());
             Intent intent;
             if (tag != null && tag !="") {
-                    intent = new Intent(getActivity(), SellActivity.class);
-                    intent.putExtra("TAG", tag);
-                startActivity(intent);
+//                intent = new Intent(getActivity(), SellActivity.class);
+//                intent.putExtra("TAG", tag);
+//                startActivity(intent);
+                Log.d("zzb","item clicked!"+tag);
             }
             return true;
         }
@@ -233,6 +235,17 @@ public class HelpFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         }
     }
 
+    @Override
+    public void onItemClick(View v, int position, PersionGoods goods) {
+        Log.d("zzb","item clicked "+position);
+        Intent mintent = new Intent(getActivity(),SellActivity.class);
+        mintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        Log.d("zzb","goods img size ="+goods.goodsImg.size());
+        Log.d("zzb","goods img size ="+goods.toString());
+        mintent.putExtra("Goods",goods);
+        startActivity(mintent);
+    }
+
     Handler handler = new Handler(){
         @Override
         public void dispatchMessage(Message msg) {
@@ -240,7 +253,6 @@ public class HelpFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             int what = msg.what;
             if(what == 111){
                 adapter.pullRefresh();
-                adapter.notifyDataSetChanged();
                 hb.idSwipeSells.setRefreshing(false);
             }
         }

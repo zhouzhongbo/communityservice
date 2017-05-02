@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data class="SellInfoBinding">
+        <variable
+            name="sellModel"
+            type="com.bobo.communityservice.viewmodel.SellInfoViewModel"/>
+    </data>
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.bobo.communityservice.view.CircleImageView
+            android:id="@+id/user_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/profile_default_icon"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="默认用户"
+            android:layout_marginTop="20dp"
+            android:layout_alignTop="@id/user_icon"
+            android:layout_alignBottom="@id/user_icon"
+            android:layout_toRightOf="@+id/user_icon"
+            android:layout_toEndOf="@+id/user_icon" />
+
+        <TextView
+            android:id="@+id/price_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:text="默认价格"
+            android:layout_marginBottom="15dp"
+            android:layout_alignParentRight="true" />
+
+
+        <!--<TextView-->
+            <!--android:layout_below="@id/description"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:id="@+id/like_num"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="5dp"-->
+            <!--android:text="@string/default_like"/>-->
+
+        <TextView
+            android:layout_below="@id/user_icon"
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_margin="20dp"
+            android:text="@string/default_des"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_below="@id/description"
+            android:id="@+id/info_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="60dp">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <LinearLayout
+            android:id="@+id/option_bar"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            >
+            <Button
+                android:id="@+id/do_comments"
+                android:text="@string/make_comments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{sellModel.handlerMakeComments}"/>
+            <Button
+                android:id="@+id/do_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/make_likes"
+                android:onClick="@{sellModel.handlerMakeLike}"
+                />
+            <View
+                android:visibility="invisible"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/buy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{sellModel.handlerBuyIt}"
+                android:text="@string/buy_it"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

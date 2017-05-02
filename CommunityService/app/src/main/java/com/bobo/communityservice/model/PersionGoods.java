@@ -6,6 +6,7 @@ import com.droi.sdk.core.DroiObject;
 import com.droi.sdk.core.DroiReference;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zzb on 2017/4/5.
@@ -27,7 +28,7 @@ public class PersionGoods extends DroiObject {
     public DroiFile goodsIcon;
 
     @DroiExpose
-    public ArrayList<DroiFile> goodsImg;
+    public List<DroiFile> goodsImg;
 
     @DroiExpose
     public String goodsSellerName;
@@ -38,8 +39,8 @@ public class PersionGoods extends DroiObject {
     @DroiExpose
     public int goodsType;
 
-    public Number likeCount;
-    public Number viewerCount;
+    public Number likeCount = 0;
+    public Number viewerCount = 0;
 
 
     @DroiReference
@@ -88,4 +89,14 @@ public class PersionGoods extends DroiObject {
     public void setGoodsType(int goodsType) {
         this.goodsType = goodsType;
     }
+
+
+    public void setWriter(CommunityUser writer) {
+        this.writer = writer;
+    }
+
+
+//    public Number getGoodsPrice() {
+//        return goodsPrice;
+//    }
 }

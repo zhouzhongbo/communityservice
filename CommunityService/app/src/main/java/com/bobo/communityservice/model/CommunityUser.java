@@ -26,7 +26,7 @@ public class CommunityUser extends DroiUser {
     public int checkin;
 
     @DroiReference
-    public ArrayList<String> address;
+    public String address;
 
 
     public void setIcon(DroiFile icon){
@@ -36,5 +36,33 @@ public class CommunityUser extends DroiUser {
     public void checkin(){
         checkin++;
 
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public Boolean getSex() {
+        return Sex;
+    }
+
+    public void setSex(Boolean sex) {
+        Sex = sex;
+    }
+
+    public DroiFile getIcon() {
+        return Icon;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

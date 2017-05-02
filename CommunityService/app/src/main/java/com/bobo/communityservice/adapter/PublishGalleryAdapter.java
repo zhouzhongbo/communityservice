@@ -1,9 +1,8 @@
 package com.bobo.communityservice.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,7 @@ import java.util.List;
  */
 
 public class PublishGalleryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ArrayList<DroiFile> desImg;
+    private ArrayList<DroiFile> desImg = new ArrayList<DroiFile>();
     private Context context;
     private LayoutInflater mInflater;
     private static final int TYPE_IMG_CONTENT = 0;
@@ -49,8 +48,31 @@ public class PublishGalleryAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
-    public void addImageItem(DroiFile object){
-        desImg.add(object);
+    public void addImageData(ArrayList<DroiFile> object){
+        desImg.addAll(object);
+    }
+
+    public void saveImgInBackground(ArrayList<DroiFile> object, int position){
+//        itemholder.pb.setMax(100);
+        object.get(position).setProgressListener(new DroiProgressCallback(){
+            @Override
+            public void progress(Object o, long l, long l1) {
+                int progress = (int)(l/l1*100l);
+//                itemholder.pb.setProgress(progress);
+                Log.d("zzb","progress = "+progress);
+            }
+        });
+        object.get(position).saveInBackground(new DroiCallback<Boolean>() {
+            @Override
+            public void result(Boolean aBoolean, DroiError droiError) {
+                if(droiError.isOk()){
+                    Log.d("zzb","img save successed!");
+//                    itemholder.pb.setVisibility(View.GONE);
+                }else{
+                    Log.d("zzb","img save error :"+droiError.getCode()+":"+droiError.getAppendedMessage());
+                }
+            }
+        });
     }
 
     public ArrayList<DroiFile> getImgList(){
@@ -116,15 +138,18 @@ public class PublishGalleryAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                             itemClickListener.onRemoveImageClick(desImg,position);
                     }
                 });
+                itemholder.pb.setVisibility(View.GONE);
             }else{
+                itemholder.pb.setVisibility(View.GONE);
                 Glide.with(context)
-                        .load(img.getUri())
+                        .load(img.get((DroiError)null))
                         .placeholder(R.drawable.img_waiting)
                         .error(R.drawable.img_waiting)
                         .into(itemholder.image);
                 itemholder.image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Log.d("zzb","image on clicked!");
                         if(itemClickListener!=null)
                             itemClickListener.onPreViewImageClick(desImg,position);
                     }
@@ -132,24 +157,9 @@ public class PublishGalleryAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 itemholder.remove.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Log.d("zzb","remove on clicked!");
                         if(itemClickListener!=null)
                             itemClickListener.onRemoveImageClick(desImg,position);
-                    }
-                });
-                itemholder.pb.setMax(100);
-                img.saveInBackground(new DroiCallback<Boolean>() {
-                    @Override
-                    public void result(Boolean aBoolean, DroiError droiError) {
-                        if(droiError.isOk()){
-                            itemholder.pb.setVisibility(View.GONE);
-                        }
-                    }
-                });
-                img.setProgressListener(new DroiProgressCallback(){
-                    @Override
-                    public void progress(Object o, long l, long l1) {
-                        int progress = (int)(l/l1*100);
-                        itemholder.pb.setProgress(progress);
                     }
                 });
             }

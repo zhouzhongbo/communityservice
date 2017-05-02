@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.bobo.communityservice.R;
+import com.bobo.communityservice.adapter.SellAdapter;
 import com.bobo.communityservice.model.PersionGoods;
 import com.droi.sdk.DroiError;
 import com.droi.sdk.core.DroiCondition;
@@ -20,15 +21,14 @@ import java.util.List;
  */
 
 public class HelpViewModel {
-
     Context context;
-    ArrayList<Drawable> mBanners = new ArrayList<Drawable>();
+    ArrayList<Integer> mBanners = new ArrayList<Integer>();
     ArrayList<PersionGoods> itemData = new ArrayList<PersionGoods>();
     ArrayList<String> tags = new ArrayList<String>();
 
     public HelpViewModel(Context mcontext){
         context = mcontext;
-//        bannerInit();
+        bannerInit();
     }
 
     private void bannerInit() {
@@ -36,22 +36,27 @@ public class HelpViewModel {
         TypedArray pictures = context.getResources().obtainTypedArray(R.array.banner);
         mBanners.clear();
         tags.clear();
-        while (i < pictures.length()) {
-            mBanners.add((pictures.getDrawable(i)));
+       while (i < pictures.length()) {
+           Log.d("zzb","resouceid ="+pictures.getResourceId(i,0));
+            mBanners.add(pictures.getResourceId(i,0));
+           i++;
         }
-
+        pictures.recycle();
         TypedArray  texts = context.getResources().obtainTypedArray(R.array.tags);
         i = 0;
         while (i < pictures.length()) {
-            tags.add((texts.getString(i)));
+            Log.d("zzb","resouce: string ="+texts.getString(i));
+            tags.add(texts.getString(i));
+            i++;
         }
+        texts.recycle();
     }
 
     public int getBannerCount(){
         return mBanners.size();
     }
 
-    public ArrayList<Drawable> getBanner(){
+    public ArrayList<Integer> getBanner(){
         return mBanners;
     }
 
@@ -61,18 +66,18 @@ public class HelpViewModel {
 
 
 
-    public ArrayList<PersionGoods> refreshItem(){
-        refrehquery(itemData);
+    public ArrayList<PersionGoods> refreshItem(SellAdapter adapter,ArrayList<PersionGoods> list){
+        refreshquery(adapter,list);
         return itemData;
     }
 
 
-    public ArrayList<PersionGoods> LoadMoreItem(){
-        loadquery(itemData);
+    public ArrayList<PersionGoods> LoadMoreItem(SellAdapter adapter,ArrayList<PersionGoods> list){
+        loadquery(adapter,list);
         return itemData;
     }
 
-    private void refrehquery(final ArrayList<PersionGoods> itemdata){
+    private void refreshquery(final SellAdapter adapter,final ArrayList<PersionGoods> itemdata){
         DroiQuery query = DroiQuery.Builder.newBuilder().limit(10).query(PersionGoods.class).build();
         query.runQueryInBackground(new DroiQueryCallback<PersionGoods>() {
             @Override
@@ -83,32 +88,29 @@ public class HelpViewModel {
                     if (list.size()>0){
                         itemdata.clear();
                         itemdata.addAll(list);
+                        adapter.notifyDataSetChanged();
                     }
                 }
             }
         });
     }
 
-    private void loadquery(final ArrayList<PersionGoods> itemdata){
+    private void loadquery(final SellAdapter adapter,final ArrayList<PersionGoods> itemdata){
         PersionGoods pg = itemdata.get(itemdata.size()-1);
-                DroiCondition cond = DroiCondition.cond("modifiedTime", DroiCondition.Type.LT, pg.getModifiedTime());
-                DroiQuery query = DroiQuery.Builder.newBuilder().limit(10).where(cond).query(PersionGoods.class).build();
-                query.runQueryInBackground(new DroiQueryCallback<PersionGoods>() {
-                    @Override
-                    public void result(List<PersionGoods> list, DroiError droiError) {
-                        if(droiError.isOk()){
-                            Log.d("zzb","query success! listsize ="+list.size());
+        DroiCondition cond = DroiCondition.cond("modifiedTime", DroiCondition.Type.LT, pg.getModifiedTime());
+        DroiQuery query = DroiQuery.Builder.newBuilder().limit(10).where(cond).query(PersionGoods.class).build();
+        query.runQueryInBackground(new DroiQueryCallback<PersionGoods>() {
+            @Override
+            public void result(List<PersionGoods> list, DroiError droiError) {
+                if(droiError.isOk()){
+                    Log.d("zzb","query success! listsize ="+list.size());
 
-                            if (list.size()>0){
-                                itemdata.addAll(list);
-                            }
-                        }
+                    if (list.size()>0){
+                        itemdata.addAll(list);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
             }
         });
     }
-
-
-
-
-
 }

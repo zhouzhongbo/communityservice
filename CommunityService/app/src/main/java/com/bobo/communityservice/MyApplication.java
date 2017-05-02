@@ -14,6 +14,7 @@ import com.bobo.communityservice.model.ThingInOrder;
 import com.droi.sdk.analytics.DroiAnalytics;
 import com.droi.sdk.core.Core;
 import com.droi.sdk.core.DroiObject;
+import com.droi.sdk.core.DroiPermission;
 import com.droi.sdk.feedback.DroiFeedback;
 import com.droi.sdk.push.DroiPush;
 import com.droi.sdk.selfupdate.DroiUpdate;
@@ -42,5 +43,12 @@ public class MyApplication extends Application {
         DroiObject.registerCustomClass( ThingInCart.class );
         DroiObject.registerCustomClass( ThingInOrder.class );
 
+        DroiPermission permission = DroiPermission.getDefaultPermission();
+        if(permission == null){
+            permission = new DroiPermission();
+        }
+        permission.setPublicReadPermission(true);
+        permission.setPublicWritePermission(true);
+        DroiPermission.setDefaultPermission(permission);
     }
 }

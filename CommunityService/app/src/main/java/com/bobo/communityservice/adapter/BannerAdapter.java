@@ -18,9 +18,9 @@ import java.util.ArrayList;
  */
 public class BannerAdapter extends PagerAdapter {
     private Context mContext;
-    private ArrayList<Drawable> mBanners;
+    private ArrayList<Integer> mBanners;
 
-    public BannerAdapter(Context mContext, ArrayList<Drawable> mBanners) {
+    public BannerAdapter(Context mContext, ArrayList<Integer> mBanners) {
         this.mContext = mContext;
         this.mBanners = mBanners;
     }
@@ -39,7 +39,7 @@ public class BannerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
         final ImageView imageView = new ImageView(mContext);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setImageDrawable(mBanners.get(position));
+        imageView.setImageResource(mBanners.get(position));
         container.addView(imageView);
         return imageView;
     }

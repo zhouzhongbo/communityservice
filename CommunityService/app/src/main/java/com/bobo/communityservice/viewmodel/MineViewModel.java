@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.bobo.communityservice.R;
+import com.bobo.communityservice.activity.EditUserInfoActivity;
 import com.bobo.communityservice.activity.LoginActivity;
 import com.bobo.communityservice.activity.MineRelativeActivity;
 import com.bobo.communityservice.activity.SystemSettingActivity;
@@ -42,20 +43,13 @@ public class MineViewModel {
     private boolean isLogin;
     Context context;
     MineBinding mineBinding;
-    private TakePhoto takePhoto;
 
 
     public MineViewModel(Context context,MineBinding minebinding){
-//        user.Icon.getUri();
         this.context = context;
         isLogin = isLogin();
         mineBinding = minebinding;
     }
-
-    public void setTakePhoto(TakePhoto takePhoto){
-        this.takePhoto = takePhoto;
-    }
-
 
     public boolean isLogin(){
         boolean islogin;
@@ -70,17 +64,17 @@ public class MineViewModel {
 
     public void handlerUserIconClick(View v){
         Log.d("zzb","is login ="+isLogin);
-//        if(isLogin){
-//            ShowDialog();
-//        }else{
+        if(isLogin){
+            handlerEditUsrInfo(v);
+        }else{
             handlerRegisterOrLogin(v);
-//        }
+        }
     }
 
     public void handlerUserNameClick(View v){
         Log.d("zzb","handlerUserNameClick");
         if(isLogin){
-
+            handlerEditUsrInfo(v);
         }else{
             handlerRegisterOrLogin(v);
         }
@@ -90,7 +84,9 @@ public class MineViewModel {
     public void handlerEditUsrInfo(View v){
         Log.d("zzb","handlerEditUsrInfo");
         if(isLogin){
-
+            Intent mintent = new Intent(context, EditUserInfoActivity.class);
+            mintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(mintent);
         }else{
             handlerRegisterOrLogin(v);
         }
@@ -110,7 +106,6 @@ public class MineViewModel {
             handlerRegisterOrLogin(v);
         }
     }
-
 
     public void handlerMyStartClick(View v){
         Log.d("zzb","handlerMyStartClick");
@@ -151,18 +146,20 @@ public class MineViewModel {
     public void handlerFeedBackClick(View v){
         Log.d("zzb","handlerFeedBackClick");
         if(isLogin){
-        }else{
             //打开反馈页面
             DroiFeedback.callFeedback((Activity)context);
+        }else{
+            handlerRegisterOrLogin(v);
         }
     }
     public void handlerSystemSetttingClick(View v){
         Log.d("zzb","handlerSystemSetttingClick");
         if(isLogin){
-        }else{
             Intent setting = new Intent(context, SystemSettingActivity.class);
             setting.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(setting);
+        }else{
+            handlerRegisterOrLogin(v);
         }
     }
 
@@ -172,11 +169,23 @@ public class MineViewModel {
         if(isLogin){
             mineBinding.loginStatusView.setVisibility(View.VISIBLE);
             mineBinding.registerOrLoging.setVisibility(View.GONE);
+            String name = user.getNickname();
+            if(name != null&&!name.equals("")){
+                mineBinding.userName.setText(name);
+            }else{
+                mineBinding.userName.setText(user.getUserId());
+            }
+            DroiFile icon = user.getIcon();
+            if(icon.hasUri()){
+                Glide.with(context).load(icon.getUri()).into(mineBinding.usrIcon);
+            }else{
+                Glide.with(context).load(R.drawable.default_icon).into(mineBinding.usrIcon);
+            }
         }else{
             mineBinding.loginStatusView.setVisibility(View.GONE);
             mineBinding.registerOrLoging.setVisibility(View.VISIBLE);
         }
-        mineBinding.notifyChange();
+
 //        if (user != null && user.isAuthorized() && !user.isAnonymous()) {
 //            nameTextView.setText(user.getUserId());
 //            if (user.avatar != null) {

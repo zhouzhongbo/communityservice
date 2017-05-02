@@ -48,13 +48,15 @@
 
 
         <LinearLayout
-            android:onClick="onClick"
-            android:layout_margin="15dp"
-            android:orientation="horizontal"
             android:layout_below="@id/icon_container"
+            android:onClick="onClick"
+            android:orientation="horizontal"
             android:id="@+id/name_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp">
             <TextView
                 android:layout_gravity="center_vertical"
                 android:text="@string/user_nick_name"
@@ -67,6 +69,7 @@
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
             <TextView
                 android:layout_margin="5dp"
                 android:amPmBackgroundColor="@android:color/transparent"
@@ -152,7 +155,8 @@
             android:id="@+id/testid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/right_point"/>
+            android:src="@drawable/right_point"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 

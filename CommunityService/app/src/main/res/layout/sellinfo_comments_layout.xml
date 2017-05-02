@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.bobo.communityservice.view.CircleImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:id="@+id/user_icon"
+        android:src="@drawable/default_icon"
+        />
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:text="@string/default_name"
+        android:gravity="center_vertical"
+        android:textSize="22dp"
+        android:textColor="@color/black"
+        android:layout_toRightOf="@id/user_icon"/>
+
+    <TextView
+        android:id="@+id/comment_time"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        android:paddingRight="10dp"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
+        android:textSize="18dp"
+        android:text="3天前"/>
+
+    <TextView
+        android:id="@+id/comments_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/user_icon"
+        android:textSize="18dp"
+        android:textColor="@color/black"
+        android:text="@string/sell_item_default_comments"
+        android:layout_margin="10dp"
+        android:paddingLeft="50dp"
+        android:paddingRight="10dp"/>
+</RelativeLayout>

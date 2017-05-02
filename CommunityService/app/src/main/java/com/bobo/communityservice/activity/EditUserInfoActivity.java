@@ -9,8 +9,16 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 
 import com.bobo.communityservice.R;
 import com.bobo.communityservice.databinding.UserEditBinding;
@@ -45,27 +53,30 @@ public class EditUserInfoActivity extends Activity implements TakePhoto.TakeResu
     UserEditBinding userEditBinding;
     String TAG = "zzb";
     Uri imageUri;
-    CommunityUser user;
+//    CommunityUser user;
     EditUserModel  userModel;
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getTakePhoto().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
         userEditBinding = DataBindingUtil.setContentView(this, R.layout.activity_edituser_layout);
-        user = DroiUser.getCurrentUser(CommunityUser.class);
-        userModel = new EditUserModel(this);
+        userModel = new EditUserModel(this,userEditBinding);
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(user != null){
-            if(user.Icon.hasUri()){
-                Log.d("zzb",user.Icon.getUri().toString());
+        if(userModel.user != null){
+            if(userModel.user.Icon.hasUri()){
+                Log.d("zzb",userModel.user.Icon.getUri().toString());
                 Glide.with(this)
-                    .load(user.Icon.getUri())
+                    .load(userModel.user.Icon.getUri())
                     .into(userEditBinding.userIcon);
             }
         }
@@ -105,8 +116,6 @@ public class EditUserInfoActivity extends Activity implements TakePhoto.TakeResu
     @Override
     public void takeSuccess(TResult result) {
         Log.i(TAG,"takeSuccess：" + result.getImage().getCompressPath());
-        Log.i(TAG,"takeSuccess：" + result.getImage().getCompressPath());
-
 
         String imagePath = result.getImage().getOriginalPath();
         final DroiFile droifile = new DroiFile(new File(imagePath));
@@ -115,15 +124,13 @@ public class EditUserInfoActivity extends Activity implements TakePhoto.TakeResu
             public void result(Boolean aBoolean, DroiError droiError) {
                 if(droiError.isOk()){
                     Log.d("zzb","droifile save is finished");
-                    user.setIcon(droifile);
-                    user.saveInBackground(new DroiCallback<Boolean>() {
+                    userModel.user.setIcon(droifile);
+                    userModel.user.saveInBackground(new DroiCallback<Boolean>() {
                         @Override
                         public void result(Boolean aBoolean, DroiError droiError) {
                             if(droiError.isOk()){
                                 Log.d("zzb","update icon success");
-                                userModel.setUser(user);
-                                userEditBinding.executePendingBindings();
-                                userEditBinding.notifyChange();
+//                                userModel.setUser(user);
                             }
                         }
                     });
@@ -164,12 +171,48 @@ public class EditUserInfoActivity extends Activity implements TakePhoto.TakeResu
                 break;
 
             case R.id.name_container:
+                userModel.handlerUserNameEdit();
                 break;
+
             case R.id.sex_container:
+                PopupMenu popup = new PopupMenu(EditUserInfoActivity.this, view);
+                //Inflating the Popup using xml file
+                popup.getMenuInflater()
+                        .inflate(R.menu.sex_select_popup_menu, popup.getMenu());
+
+                //registering popup with OnMenuItemClickListener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        userEditBinding.userSex.setText(item.getTitle().toString());
+                        switch(item.getItemId()){
+                            case R.id.male:
+                                userModel.user.setSex(true);
+                                break;
+
+                            case R.id.female:
+                                userModel.user.setSex(false);
+                                break;
+                        }
+                        userModel.user.saveInBackground(new DroiCallback<Boolean>() {
+                            @Override
+                            public void result(Boolean aBoolean, DroiError droiError) {
+                                if(droiError.isOk()){
+                                    Log.d("zzb","user save sex successed !");
+                                }else{
+                                    Log.d("zzb","user save sex failed!");
+                                }
+                            }
+                        });
+                        return true;
+                    }
+                });
+                popup.show(); //showing popup menu
+
                 break;
             case R.id.address_container:
+                userModel.handlerUserAddressEdit();
                 break;
-        }
+    }
     }
 
     CropOptions op =  new CropOptions.Builder().
@@ -216,5 +259,4 @@ public class EditUserInfoActivity extends Activity implements TakePhoto.TakeResu
         imageUri = Uri.fromFile(imageFile);
         return imageUri;
     }
-
 }

@@ -10,11 +10,11 @@ import com.bobo.communityservice.R;
 /**
  * Created by zhouzhongbo on 2017/4/20.
  */
-public class FooterViewHolder extends RecyclerView.ViewHolder {
+public class HelpItemFooterViewHolder extends RecyclerView.ViewHolder {
     private TextView tvLoadMore;
     private ProgressBar pbLoading;
 
-    public FooterViewHolder(View itemView) {
+    public HelpItemFooterViewHolder(View itemView) {
         super(itemView);
         tvLoadMore = (TextView) itemView.findViewById(R.id.tv_item_footer_load_more);
         pbLoading = (ProgressBar) itemView.findViewById(R.id.pb_item_footer_loading);

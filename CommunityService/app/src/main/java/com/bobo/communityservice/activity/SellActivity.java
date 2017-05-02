@@ -1,8 +1,18 @@
 package com.bobo.communityservice.activity;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+
+import com.bobo.communityservice.R;
+import com.bobo.communityservice.adapter.GoodsInfoAdapter;
+import com.bobo.communityservice.databinding.SellInfoBinding;
+import com.bobo.communityservice.model.PersionGoods;
+import com.bobo.communityservice.viewmodel.SellInfoViewModel;
 
 /**
  * Created by zhouzhongbo on 2017/4/17.
@@ -10,9 +20,21 @@ import android.support.v7.app.AppCompatActivity;
 
 public class SellActivity extends AppCompatActivity {
 
+    SellInfoBinding binding;
+    SellInfoViewModel model;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PersionGoods goods =  (PersionGoods) getIntent().getParcelableExtra("Goods");
+        if(goods.goodsImg != null){
+            Log.d("zzb","goodsimg = "+goods.toString());
+        }
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_sell_layout);
+        model = new SellInfoViewModel(this,binding);
+        model.setGoods(goods);
+        binding.setSellModel(model);
+        model.viewInit();
     }
 
     @Override
@@ -31,4 +53,7 @@ public class SellActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
+
+
+
 }

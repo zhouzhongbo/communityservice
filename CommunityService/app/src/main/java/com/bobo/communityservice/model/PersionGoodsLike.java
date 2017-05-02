@@ -10,12 +10,12 @@ import com.droi.sdk.core.DroiReference;
 
 public class PersionGoodsLike extends DroiObject {
 
+
     @DroiReference
     PersionGoods  goods;
 
     @DroiReference
     CommunityUser likeCommunityUser;
-
 
     public PersionGoods getGoods() {
         return goods;

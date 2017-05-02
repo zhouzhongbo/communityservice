@@ -2,6 +2,7 @@ package com.bobo.communityservice.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,26 +26,30 @@ public class SellAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private static final int TYPE_CONTENT = 0;
     private static final int TYPE_FOOTER = 1;
 
+    HelpViewModel helpModel =null;
+    MyPublishViewModel publishModel =null;
 
-    ArrayList<PersionGoods> sellItem;
+    ArrayList<PersionGoods> sellItem = new ArrayList<PersionGoods>();
     OnItemClick clicklister;
 
     public SellAdapter(Context mcontext,HelpViewModel helpViewModel) {
         super();
         this.context = mcontext;
-        HelpViewModel vm = helpViewModel;
-        sellItem = vm.refreshItem();
+        helpModel = helpViewModel;
+        helpModel.refreshItem(this,sellItem);
+        Log.d("zzb","adadpter1 count = "+sellItem.size());
     }
 
     public SellAdapter(Context mcontext,MyPublishViewModel publishViewModel){
         super();
         this.context = mcontext;
-        MyPublishViewModel vm = publishViewModel;
-        sellItem = vm.queryList();
+        publishModel = publishViewModel;
+        publishModel.queryList(this,sellItem);
+        Log.d("zzb","adadpter2 count = "+sellItem.size());
     }
 
     public interface OnItemClick {
-        public void onItemClick(View v, int position);
+        public void onItemClick(View v, int position,PersionGoods goods);
     }
 
 
@@ -57,7 +62,7 @@ public class SellAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             @Override
             public void onClick(View view) {
                 if(clicklister != null){
-                    clicklister.onItemClick(v,positon);
+                    clicklister.onItemClick(v,positon,sellItem.get(positon));
                 }
             }
         };
@@ -133,7 +138,8 @@ public class SellAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         if (viewType == TYPE_CONTENT) {
             View view = LayoutInflater.from(context).inflate(R.layout.sell_item_layout, parent, false);
-            return new CustomViewHolder(view);
+//            view.setOnClickListener();
+            return new HelpItemCustomViewHolder(view);
         } else if (viewType == TYPE_FOOTER) {//加载进度条的布局
             View view = LayoutInflater.from(context).inflate(R.layout.sell_item_footer_layout, parent, false);
             return new FooterViewHolder(view);
@@ -147,8 +153,8 @@ public class SellAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         int type = getItemViewType(position);
         if (type == TYPE_CONTENT) {
             PersionGoods sellitem = sellItem.get(position);
-        ((CustomViewHolder)holder).fillData(sellitem,context);
-            ((CustomViewHolder)holder).itemView.setOnClickListener(getClickListener(holder.itemView,position));
+        ((HelpItemCustomViewHolder)holder).fillData(sellitem,context);
+            ((HelpItemCustomViewHolder)holder).itemView.setOnClickListener(getClickListener(holder.itemView,position));
         } else if (type == TYPE_FOOTER) {
 
         }
@@ -175,13 +181,24 @@ public class SellAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     }
 
     public void loadMoreRefresh(){
-//        si = vm.refreshData();
+        if(helpModel != null){
+            helpModel.LoadMoreItem(this,sellItem);
+        }
+        if(publishModel != null){
+            publishModel.LoadMoreItem(this,sellItem);
+        }
 //        sellItem.addAll(vm.refreshData());
     }
 
     public void pullRefresh(){
+        if(helpModel != null){
+            helpModel.refreshItem(this,sellItem);
+        }
+        if(publishModel != null){
+            publishModel.refreshItem(this,sellItem);
+        }
 //        si.remove(si.size());
-        sellItem.clear();
+//        sellItem.clear();
 //        sellItem.addAll(vm.refreshData());
     }
 }

@@ -2,6 +2,8 @@ package com.bobo.communityservice.fragment;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -48,6 +50,12 @@ public class MyPublishFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recycleViewInit();
+        plbinding.toPublish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myPublishViewModel.handlerNewPublish(v);
+            }
+        });
     }
 
 
@@ -80,15 +88,15 @@ public class MyPublishFragment extends Fragment {
 
                 if (!isLoading) {
                     isLoading = true;
-//                    handler.postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            adapter.loadMoreRefresh();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                        public void run() {
+                            adapter.loadMoreRefresh();
 //                            adapter.notifyDataSetChanged();
-//                            Log.d("test", "load more completed");
-//                            isLoading = false;
-//                        }
-//                    }, 1000);
+                            Log.d("test", "load more completed");
+                            isLoading = false;
+                        }
+                    }, 1000);
                 }
 
             }
@@ -102,4 +110,7 @@ public class MyPublishFragment extends Fragment {
         }
     }
 
+
+    Handler handler = new Handler(){
+    };
 }

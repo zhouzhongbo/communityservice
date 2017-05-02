@@ -2,25 +2,20 @@ package com.bobo.communityservice.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
@@ -28,17 +23,20 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bobo.communityservice.R;
-import com.bobo.communityservice.adapter.CustomViewHolder;
 import com.bobo.communityservice.adapter.PublishGalleryAdapter;
 import com.bobo.communityservice.databinding.NewPublishBinding;
+import com.bobo.communityservice.model.CommunityUser;
 import com.bobo.communityservice.model.PersionGoods;
 import com.bumptech.glide.Glide;
 import com.droi.sdk.DroiCallback;
 import com.droi.sdk.DroiError;
+import com.droi.sdk.DroiProgressCallback;
 import com.droi.sdk.core.DroiFile;
 import com.droi.sdk.core.DroiObject;
+import com.droi.sdk.core.DroiUser;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
+import com.jph.takephoto.model.CropOptions;
 import com.jph.takephoto.model.InvokeParam;
 import com.jph.takephoto.model.TContextWrap;
 import com.jph.takephoto.model.TImage;
@@ -117,11 +115,25 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
     @Override
     public void takeSuccess(TResult result) {
         ArrayList<TImage> im =  result.getImages();
+        ArrayList<DroiFile> cache = new ArrayList<DroiFile>();
         for(int i=0;i<im.size();i++){
-            String imagePath = im.get(0).getOriginalPath();
+            String imagePath = im.get(i).getOriginalPath();
+            Log.d("zzb","imagePath="+imagePath);
             DroiFile img = new DroiFile(new File(imagePath));
-            adapter.addImageItem(img);
+            img.saveInBackground(new DroiCallback<Boolean>() {
+                @Override
+                public void result(Boolean aBoolean, DroiError droiError) {
+                    if(droiError.isOk()){
+                        Log.d("zzb","save img successed!");
+                    }else{
+                        Log.d("zzb","save img failed !");
+                    }
+                }
+            });
+            cache.add(img);
         }
+        Log.d("zzb","takeSuccess finished !!");
+        adapter.addImageData(cache);
         adapter.notifyDataSetChanged();
         Log.d("zzb","takeSuccess:"+im.size());
     }
@@ -140,7 +152,7 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
 
 
     private void initView(){
-        newPublishBinding.publishTitle.addTextChangedListener(new TextWatcher() {
+        newPublishBinding.publishItemTitle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -148,7 +160,8 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                goodsTitle = charSequence.toString();
+                goodsTitle = newPublishBinding.publishItemTitle.getText().toString();
+                Log.d("zzb","goodstitle ="+goodsTitle);
             }
 
             @Override
@@ -166,7 +179,8 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Description = charSequence.toString();
+                Description = newPublishBinding.publishItemDescripton.getText().toString();
+                Log.d("zzb","Description ="+Description);
             }
 
             @Override
@@ -183,7 +197,8 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                goodsPrice = Long.valueOf(charSequence.toString());
+                goodsPrice = Long.valueOf(newPublishBinding.priceInput.getText().toString());
+                Log.d("zzb","goodsPrice ="+goodsPrice);
             }
 
             @Override
@@ -205,12 +220,12 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
                     persionGoods.setGoodsImg(adapter.getImgList());
                     persionGoods.setGoodsPrice(goodsPrice);
                     persionGoods.setGoodsType(goodsType);
-
+                    persionGoods.setWriter(DroiUser.getCurrentUser(CommunityUser.class));
                     persionGoods.saveInBackground(new DroiCallback<Boolean>() {
                         @Override
                         public void result(Boolean aBoolean, DroiError droiError) {
                             if(droiError.isOk()){
-                                Log.d("zzb","persionGoods save failed!");
+                                Log.d("zzb","persionGoods save successed!");
                             }else{
                                 Log.d("zzb","persionGoods save failed!");
                             }
@@ -257,7 +272,7 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
         newPublishBinding.imglist.setAdapter(adapter);
         adapter.setItemClickListener(this);
         linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         newPublishBinding.imglist.setLayoutManager(linearLayoutManager);
     }
 
@@ -278,6 +293,7 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
             Toast.makeText(this,"商品价格必须大于0",Toast.LENGTH_SHORT).show();
             return result;
         }
+        goodsImg = adapter.getImgList();
         if(goodsImg != null&&goodsImg.size()>0){
             for(int i=0;i<goodsImg.size();i++){
                 if(!goodsImg.get(i).hasUri()){
@@ -294,7 +310,7 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
             Toast.makeText(this,"请选择类型",Toast.LENGTH_SHORT).show();
             return result;
         }
-        return result;
+        return true;
     }
 
 
@@ -341,10 +357,19 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
         Glide.with(this)
                 .load(file.getUri())
                 .into(preview);
+        View rootview = LayoutInflater.from(this).inflate(R.layout.activity_newpublish_layout, null);
+        mPopupWindow.showAtLocation(rootview, Gravity.CENTER,0,0);
+
     }
 
+    CropOptions op =  new CropOptions.Builder().
+            setAspectX(200).setAspectY(200).
+            setWithOwnCrop(true).
+            create();
 
     private void ShowDialog(){
+
+
         new AlertDialog.Builder(this).setItems(
                 new String[] { "拍摄照片", "从相册选择"},
                 new DialogInterface.OnClickListener() {
@@ -353,9 +378,12 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
                         switch (which) {
                             case 0:
                                 takePhoto.onPickFromCapture(createOutUri());
+//                                takePhoto.onPickFromCaptureWithCrop(createOutUri(),op);
+
                                 break;
                             case 1:
                                 takePhoto.onPickMultiple(10);
+//                                takePhoto.onPickMultipleWithCrop(10,op);
                                 break;
                             default:
                                 break;

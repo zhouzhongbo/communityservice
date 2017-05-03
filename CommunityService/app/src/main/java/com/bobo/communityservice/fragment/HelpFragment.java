@@ -3,7 +3,6 @@ package com.bobo.communityservice.fragment;
 import android.app.Fragment;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -23,7 +22,7 @@ import android.view.ViewGroup;
 import com.bobo.communityservice.R;
 import com.bobo.communityservice.activity.SellActivity;
 import com.bobo.communityservice.adapter.BannerAdapter;
-import com.bobo.communityservice.adapter.SellAdapter;
+import com.bobo.communityservice.adapter.GoodsListAdapter;
 import com.bobo.communityservice.databinding.HelpBinding;
 import com.bobo.communityservice.model.PersionGoods;
 import com.bobo.communityservice.viewmodel.HelpViewModel;
@@ -34,12 +33,12 @@ import java.util.ArrayList;
  * Created by zhouzhongbo on 2017/3/28.
  */
 
-public class HelpFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,SellAdapter.OnItemClick{
+public class HelpFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,GoodsListAdapter.OnItemClick{
     HelpBinding hb;
     HelpViewModel mhelpViewModel;
     ArrayList<Integer> banners;
     LinearLayoutManager linearLayoutManager;
-    SellAdapter adapter;
+    GoodsListAdapter adapter;
     BannerAdapter mBannerAdapter;
 
     public static HelpFragment newInstance(String param1) {
@@ -154,7 +153,7 @@ public class HelpFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     public void recycleViewInit(){
-        adapter = new SellAdapter(getActivity(),mhelpViewModel);
+        adapter = new GoodsListAdapter(getActivity(),mhelpViewModel);
         adapter.setClickListeren(this);
         hb.recyclerList.setAdapter(adapter);
         hb.recyclerList.addOnScrollListener(new OnRecyclerScrollListener());

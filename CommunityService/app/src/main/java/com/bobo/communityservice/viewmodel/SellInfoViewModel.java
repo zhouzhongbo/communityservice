@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.bobo.communityservice.R;
 import com.bobo.communityservice.adapter.GoodsInfoAdapter;
-import com.bobo.communityservice.adapter.SellAdapter;
 import com.bobo.communityservice.databinding.SellInfoBinding;
 import com.bobo.communityservice.model.CommunityUser;
 import com.bobo.communityservice.model.PersionGoods;
@@ -31,7 +30,6 @@ import com.droi.sdk.core.DroiCondition;
 import com.droi.sdk.core.DroiFile;
 import com.droi.sdk.core.DroiQuery;
 import com.droi.sdk.core.DroiQueryCallback;
-import com.droi.sdk.core.DroiReference;
 import com.droi.sdk.core.DroiUser;
 
 import java.text.SimpleDateFormat;
@@ -178,9 +176,9 @@ public class SellInfoViewModel {
         if(isLoadMore){
             if(commentList!= null&&commentList.size()>0){
                 PersionGoodsComment comments = commentList.get(commentList.size()-1);
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
-                String time=format.format(comments.getCreationTime());
-                Log.d("zzb","query by loadmore:"+time);
+//                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+//                String time=format.format(comments.getCreationTime());
+//                Log.d("zzb","query by loadmore:"+time);
                 DroiCondition cond2 =  DroiCondition.cond("_CreationTime", DroiCondition.Type.GT, comments.getCreationTime());
                 cond = cond.and(cond2);
             }

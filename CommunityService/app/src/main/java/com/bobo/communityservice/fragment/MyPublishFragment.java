@@ -3,7 +3,6 @@ package com.bobo.communityservice.fragment;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bobo.communityservice.R;
-import com.bobo.communityservice.adapter.SellAdapter;
+import com.bobo.communityservice.adapter.GoodsListAdapter;
 import com.bobo.communityservice.databinding.PublishListBinding;
 import com.bobo.communityservice.viewmodel.MyPublishViewModel;
 
@@ -28,7 +27,7 @@ public class MyPublishFragment extends Fragment {
     PublishListBinding  plbinding;
     MyPublishViewModel myPublishViewModel;
     LinearLayoutManager linearLayoutManager;
-    SellAdapter adapter;//sell item  与个人发布相同，只不过内容不同（内容经过过滤后只剩下个人发布的了）
+    GoodsListAdapter adapter;//sell item  与个人发布相同，只不过内容不同（内容经过过滤后只剩下个人发布的了）
     boolean isLoading;
 
     @Override
@@ -67,7 +66,7 @@ public class MyPublishFragment extends Fragment {
 
 
     public void recycleViewInit(){
-        adapter = new SellAdapter(getActivity(),myPublishViewModel);
+        adapter = new GoodsListAdapter(getActivity(),myPublishViewModel);
         plbinding.myPublishList.setAdapter(adapter);
         plbinding.myPublishList.addOnScrollListener(new MyPublishFragment.OnRecyclerScrollListener());
 

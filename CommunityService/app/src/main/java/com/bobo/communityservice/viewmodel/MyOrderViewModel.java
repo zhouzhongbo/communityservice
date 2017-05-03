@@ -3,8 +3,8 @@ package com.bobo.communityservice.viewmodel;
 import android.content.Context;
 import android.util.Log;
 
+import com.bobo.communityservice.adapter.GoodsListAdapter;
 import com.bobo.communityservice.model.CommunityUser;
-import com.bobo.communityservice.model.OrderInfo;
 import com.bobo.communityservice.model.PersionGoods;
 import com.droi.sdk.DroiError;
 import com.droi.sdk.core.DroiCondition;
@@ -22,31 +22,56 @@ import java.util.List;
 public class MyOrderViewModel {
 
     Context context;
-    ArrayList<OrderInfo> myorder = new ArrayList<OrderInfo>();
-
+    List<PersionGoods> myOrder = new ArrayList<PersionGoods>();
     public MyOrderViewModel(Context context){
         this.context = context;
     }
 
 
-    public ArrayList<OrderInfo> queryList(){
-        CommunityUser user = DroiUser.getCurrentUser(CommunityUser.class);
-        if (user != null && user.isAuthorized() && !user.isAnonymous()) {
-            DroiCondition cond = DroiCondition.cond("UserID._Id", DroiCondition.Type.EQ, user.getObjectId());
-            DroiQuery query = DroiQuery.Builder.newBuilder().limit(10).where(cond).query(OrderInfo.class).build();
-            query.runQueryInBackground(new DroiQueryCallback<OrderInfo>() {
+
+    public void refreshItem(GoodsListAdapter adapter, ArrayList<PersionGoods> list){
+        loadquery(adapter,false);
+    }
+
+
+    public void LoadMoreItem(GoodsListAdapter adapter, ArrayList<PersionGoods> list){
+        loadquery(adapter,true);
+    }
+
+    private void loadquery(final GoodsListAdapter adapter, final boolean isLoad){
+        CommunityUser user= DroiUser.getCurrentUser(CommunityUser.class);
+        DroiCondition cond;
+        if(user != null && !user.isAnonymous()){
+            cond = DroiCondition.cond("writer._Id", DroiCondition.Type.EQ, user.getObjectId());
+            if(isLoad){
+                if(myOrder.size()>0){
+                    PersionGoods pg = myOrder.get(myOrder.size()-1);
+                    DroiCondition cond2 = DroiCondition.cond("_CreationTime", DroiCondition.Type.LT, pg.getCreationTime());
+                    cond = cond.and(cond2);
+                }
+
+            }
+            DroiQuery query = DroiQuery.Builder.newBuilder().orderBy("_CreationTime", true).limit(10).where(cond).query(PersionGoods.class).build();
+            query.runQueryInBackground(new DroiQueryCallback<PersionGoods>() {
                 @Override
-                public void result(List<OrderInfo> list, DroiError droiError) {
+                public void result(List<PersionGoods> list, DroiError droiError) {
                     if(droiError.isOk()){
                         Log.d("zzb","query success! listsize ="+list.size());
+
                         if (list.size()>0){
-                            myorder.addAll(list);
+                            if(!isLoad){
+                                myOrder.clear();
+                                adapter.clearData();
+                            }
+                            myOrder.addAll(list);
+                            adapter.addData(list);
+                            adapter.notifyDataSetChanged();
                         }
                     }
                 }
             });
+
         }
-        return myorder;
     }
 
 }

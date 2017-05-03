@@ -12,7 +12,9 @@ import android.widget.TextView;
 import com.bobo.communityservice.R;
 import com.bobo.communityservice.model.PersionGoods;
 import com.bobo.communityservice.viewmodel.HelpViewModel;
+import com.bobo.communityservice.viewmodel.MyOrderViewModel;
 import com.bobo.communityservice.viewmodel.MyPublishViewModel;
+import com.bobo.communityservice.viewmodel.MyStarViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,31 +23,55 @@ import java.util.List;
  * Created by zhouzhongbo on 2017/4/18.
  */
 
-public class SellAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class GoodsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private Context context;
     private static final int TYPE_CONTENT = 0;
     private static final int TYPE_FOOTER = 1;
 
-    HelpViewModel helpModel =null;
-    MyPublishViewModel publishModel =null;
+    HelpViewModel helpModel = null;
+    MyPublishViewModel publishModel = null;
+    MyOrderViewModel  orderViewModel = null;
+    MyStarViewModel starViewModel = null;
+
 
     ArrayList<PersionGoods> sellItem = new ArrayList<PersionGoods>();
     OnItemClick clicklister;
 
-    public SellAdapter(Context mcontext,HelpViewModel helpViewModel) {
+    public GoodsListAdapter(Context mcontext, HelpViewModel helpViewModel) {
         super();
         this.context = mcontext;
         helpModel = helpViewModel;
-        helpModel.refreshItem(this,sellItem);
-        Log.d("zzb","adadpter1 count = "+sellItem.size());
+        helpModel.refreshItem(this);
     }
 
-    public SellAdapter(Context mcontext,MyPublishViewModel publishViewModel){
+    public GoodsListAdapter(Context mcontext, MyPublishViewModel publishViewModel){
         super();
         this.context = mcontext;
         publishModel = publishViewModel;
-        publishModel.queryList(this,sellItem);
-        Log.d("zzb","adadpter2 count = "+sellItem.size());
+        publishModel.refreshItem(this);
+    }
+
+//    public GoodsListAdapter(Context mcontext,MyOrderViewModel orderviewModel){
+//        super();
+//        this.context = mcontext;
+//        orderViewModel = orderviewModel;
+//        orderViewModel.refreshItem(this);
+//        Log.d("zzb","adadpter2 count = "+sellItem.size());
+//    }
+
+    public GoodsListAdapter(Context mcontext, MyStarViewModel starviewModel){
+        super();
+        this.context = mcontext;
+        starViewModel = starviewModel;
+        starViewModel.refreshItem(this);
+    }
+
+    public void addData(List<PersionGoods> list){
+        sellItem.addAll(list);
+    }
+
+    public void clearData(){
+        sellItem.clear();
     }
 
     public interface OnItemClick {
@@ -182,23 +208,19 @@ public class SellAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     public void loadMoreRefresh(){
         if(helpModel != null){
-            helpModel.LoadMoreItem(this,sellItem);
+            helpModel.LoadMoreItem(this);
         }
         if(publishModel != null){
-            publishModel.LoadMoreItem(this,sellItem);
+            publishModel.LoadMoreItem(this);
         }
-//        sellItem.addAll(vm.refreshData());
     }
 
     public void pullRefresh(){
         if(helpModel != null){
-            helpModel.refreshItem(this,sellItem);
+            helpModel.refreshItem(this);
         }
         if(publishModel != null){
-            publishModel.refreshItem(this,sellItem);
+            publishModel.refreshItem(this);
         }
-//        si.remove(si.size());
-//        sellItem.clear();
-//        sellItem.addAll(vm.refreshData());
     }
 }

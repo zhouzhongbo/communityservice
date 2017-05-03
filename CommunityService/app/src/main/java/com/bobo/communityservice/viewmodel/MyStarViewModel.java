@@ -3,8 +3,8 @@ package com.bobo.communityservice.viewmodel;
 import android.content.Context;
 import android.util.Log;
 
+import com.bobo.communityservice.adapter.GoodsListAdapter;
 import com.bobo.communityservice.model.CommunityUser;
-import com.bobo.communityservice.model.OrderInfo;
 import com.bobo.communityservice.model.PersionGoods;
 import com.bobo.communityservice.model.PersionGoodsLike;
 import com.droi.sdk.DroiError;
@@ -21,33 +21,55 @@ import java.util.List;
  */
 
 public class MyStarViewModel {
-
+    List<PersionGoods> mystarList = new ArrayList<PersionGoods>();
     Context context;
-    ArrayList<PersionGoods> mystar;
+
     public MyStarViewModel(Context context){
         this.context = context;
+        mystarList.clear();
+
+    }
+
+    public void refreshItem(GoodsListAdapter adapter){
+        loadquery(adapter,false);
     }
 
 
-    public ArrayList<PersionGoods> queryList(){
+    public void LoadMoreItem(GoodsListAdapter adapter){
+        loadquery(adapter,true);
+    }
+
+    private void loadquery(final GoodsListAdapter adapter, final boolean isLoadMore){
         CommunityUser user = DroiUser.getCurrentUser(CommunityUser.class);
         if (user != null && user.isAuthorized() && !user.isAnonymous()) {
             DroiCondition cond = DroiCondition.cond("likeCommunityUser._Id", DroiCondition.Type.EQ, user.getObjectId());
-            DroiQuery query = DroiQuery.Builder.newBuilder().limit(10).where(cond).query(PersionGoodsLike.class).build();
+            if(isLoadMore){
+                DroiCondition cond2 = DroiCondition.cond("likeCommunityUser._Id", DroiCondition.Type.EQ, user.getObjectId());
+                cond = cond.and(cond2);
+            }
+            DroiQuery query = DroiQuery.Builder.newBuilder().orderBy("_CreationTime",true).limit(10).where(cond).query(PersionGoodsLike.class).build();
             query.runQueryInBackground(new DroiQueryCallback<PersionGoodsLike>() {
                 @Override
                 public void result(List<PersionGoodsLike> list, DroiError droiError) {
                     if(droiError.isOk()){
+                        Log.d("zzb","query success! listisize ="+list.size());
+
                         if (list.size()>0){
-                            for(int i=0;i<list.size();i++){
-                                mystar.add(list.get(i).getGoods());
+                            int i = 0;
+                            if(!isLoadMore){
+                                mystarList.clear();
+                                adapter.clearData();
                             }
+                            while(i<list.size()){
+                                mystarList.add(list.get(i).getGoods());
+                                i++;
+                            }
+                            adapter.addData(mystarList);
+                            adapter.notifyDataSetChanged();
                         }
                     }
                 }
             });
         }
-        return mystar;
     }
-
 }

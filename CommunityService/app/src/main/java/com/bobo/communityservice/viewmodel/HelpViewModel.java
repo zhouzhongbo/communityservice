@@ -6,13 +6,11 @@ import android.util.Log;
 
 import com.bobo.communityservice.R;
 import com.bobo.communityservice.adapter.GoodsListAdapter;
-import com.bobo.communityservice.model.CommunityUser;
 import com.bobo.communityservice.model.PersionGoods;
 import com.droi.sdk.DroiError;
 import com.droi.sdk.core.DroiCondition;
 import com.droi.sdk.core.DroiQuery;
 import com.droi.sdk.core.DroiQueryCallback;
-import com.droi.sdk.core.DroiUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +36,6 @@ public class HelpViewModel {
         mBanners.clear();
         tags.clear();
        while (i < pictures.length()) {
-           Log.d("zzb","resouceid ="+pictures.getResourceId(i,0));
             mBanners.add(pictures.getResourceId(i,0));
            i++;
         }
@@ -46,7 +43,6 @@ public class HelpViewModel {
         TypedArray  texts = context.getResources().obtainTypedArray(R.array.tags);
         i = 0;
         while (i < pictures.length()) {
-            Log.d("zzb","resouce: string ="+texts.getString(i));
             tags.add(texts.getString(i));
             i++;
         }
@@ -76,51 +72,35 @@ public class HelpViewModel {
         loadquery(adapter,true);
     }
 
-//    private void refreshquery(final GoodsListAdapter adapter){
-//        DroiQuery query = DroiQuery.Builder.newBuilder().orderBy("_CreationTime", true).limit(10).query(PersionGoods.class).build();
-//        query.runQueryInBackground(new DroiQueryCallback<PersionGoods>() {
-//            @Override
-//            public void result(List<PersionGoods> list, DroiError droiError) {
-//                if(droiError.isOk()){
-//                    Log.d("zzb","query success! listsize ="+list.size());
-//                    if (list.size()>0){
-//                        itemData.clear();
-//                        itemData.addAll(list);
-//                        adapter.notifyDataSetChanged();
-//                    }
-//                }
-//            }
-//        });
-//    }
-
-
+    //注意这里是公共的查询，和UserID无关；
     private void loadquery(final GoodsListAdapter adapter, final boolean isLoad){
-        CommunityUser user = DroiUser.getCurrentUser(CommunityUser.class);
-        DroiCondition cond;
-        if(user != null && !user.isAnonymous()){
-            cond = DroiCondition.cond("writer._Id", DroiCondition.Type.EQ, user.getObjectId());
-            if(isLoad){
-                PersionGoods pg = itemData.get(itemData.size()-1);
-                DroiCondition cond2 = DroiCondition.cond("_CreationTime", DroiCondition.Type.LT, pg.getCreationTime());
-                cond = cond.and(cond2);
-            }
-            DroiQuery query = DroiQuery.Builder.newBuilder().orderBy("_CreationTime", true).limit(10).where(cond).query(PersionGoods.class).build();
-            query.runQueryInBackground(new DroiQueryCallback<PersionGoods>() {
-                @Override
-                public void result(List<PersionGoods> list, DroiError droiError) {
-                    if(droiError.isOk()){
-                        Log.d("zzb","query success! listsize ="+list.size());
-                        if (list.size()>0){
-                            if(!isLoad){
-                                itemData.clear();
-                                adapter.clearData();
-                            }
-                            itemData.addAll(list);
-                            adapter.notifyDataSetChanged();
+        DroiCondition cond = null;
+        Log.d("zzb","helpViewModel star query:isload ="+isLoad);
+        if(isLoad && itemData.size()>0){
+            PersionGoods pg = itemData.get(itemData.size()-1);
+            cond = DroiCondition.cond("_CreationTime", DroiCondition.Type.LT, pg.getCreationTime());
+        }
+        DroiQuery.Builder builder = DroiQuery.Builder.newBuilder().limit(10).orderBy("_CreationTime", false);
+        if(cond!= null){
+            builder = builder.where(cond);
+        }
+        DroiQuery query = builder.query(PersionGoods.class).build();
+        query.runQueryInBackground(new DroiQueryCallback<PersionGoods>() {
+            @Override
+            public void result(List<PersionGoods> list, DroiError droiError) {
+                if(droiError.isOk()){
+                    Log.d("zzb","helpViewModel query success! listsize ="+list.size());
+                    if (list.size()>0){
+                        if(!isLoad){
+                            itemData.clear();
+                            adapter.clearData();
                         }
+                        itemData.addAll(list);
+                        adapter.addData(list);
+                        adapter.notifyDataSetChanged();
                     }
                 }
-            });
-        }
+            }
+        });
     }
 }

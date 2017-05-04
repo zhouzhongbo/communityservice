@@ -8,27 +8,19 @@ import android.databinding.DataBindingUtil;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 
 import com.bobo.communityservice.R;
 import com.bobo.communityservice.databinding.UserEditBinding;
-import com.bobo.communityservice.model.CommunityUser;
+import com.bobo.communityservice.tools.UnitUtil;
 import com.bobo.communityservice.viewmodel.EditUserModel;
 import com.bumptech.glide.Glide;
 import com.droi.sdk.DroiCallback;
 import com.droi.sdk.DroiError;
 import com.droi.sdk.core.DroiFile;
-import com.droi.sdk.core.DroiUser;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
 import com.jph.takephoto.model.CropOptions;
@@ -40,7 +32,6 @@ import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.permission.TakePhotoInvocationHandler;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * Created by zhouzhongbo on 2017/4/21.
@@ -48,17 +39,12 @@ import java.io.IOException;
 
 public class EditUserInfoActivity extends Activity implements TakePhoto.TakeResultListener,InvokeListener {
 
-    private TakePhoto takePhoto;
-    private InvokeParam invokeParam;
-    UserEditBinding userEditBinding;
     String TAG = "zzb";
+    TakePhoto takePhoto;
+    InvokeParam invokeParam;
+    UserEditBinding userEditBinding;
     Uri imageUri;
-//    CommunityUser user;
     EditUserModel  userModel;
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +53,6 @@ public class EditUserInfoActivity extends Activity implements TakePhoto.TakeResu
         userEditBinding = DataBindingUtil.setContentView(this, R.layout.activity_edituser_layout);
         userModel = new EditUserModel(this,userEditBinding);
     }
-
 
     @Override
     protected void onResume() {
@@ -80,7 +65,6 @@ public class EditUserInfoActivity extends Activity implements TakePhoto.TakeResu
                     .into(userEditBinding.userIcon);
             }
         }
-
     }
 
     @Override
@@ -115,31 +99,25 @@ public class EditUserInfoActivity extends Activity implements TakePhoto.TakeResu
 
     @Override
     public void takeSuccess(TResult result) {
-        Log.i(TAG,"takeSuccess：" + result.getImage().getCompressPath());
-
         String imagePath = result.getImage().getOriginalPath();
         final DroiFile droifile = new DroiFile(new File(imagePath));
         droifile.saveInBackground(new DroiCallback<Boolean>() {
             @Override
             public void result(Boolean aBoolean, DroiError droiError) {
                 if(droiError.isOk()){
-                    Log.d("zzb","droifile save is finished");
                     userModel.user.setIcon(droifile);
                     userModel.user.saveInBackground(new DroiCallback<Boolean>() {
                         @Override
                         public void result(Boolean aBoolean, DroiError droiError) {
                             if(droiError.isOk()){
                                 Log.d("zzb","update icon success");
-//                                userModel.setUser(user);
                             }
                         }
                     });
                 }
             }
         });
-
         userEditBinding.userIcon.setImageBitmap(BitmapFactory.decodeFile(result.getImage().getOriginalPath()));
-//        Glide.with(this).load(new File(result.getImage().getCompressPath()).into(userEditBinding.userIcon);
     }
 
     @Override
@@ -160,8 +138,6 @@ public class EditUserInfoActivity extends Activity implements TakePhoto.TakeResu
         }
         return type;
     }
-
-
 
     public void onClick(View view){
         int id = view.getId();
@@ -228,35 +204,15 @@ public class EditUserInfoActivity extends Activity implements TakePhoto.TakeResu
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-                                takePhoto.onPickFromCaptureWithCrop(createOutUri(),op);
+                                takePhoto.onPickFromCaptureWithCrop(UnitUtil.createOutUri(),op);
                                 break;
                             case 1:
-                                takePhoto.onPickFromGalleryWithCrop(createOutUri(),op);
-                                //onPickFromGallery();
+                                takePhoto.onPickFromGalleryWithCrop(UnitUtil.createOutUri(),op);
                                 break;
                             default:
                                 break;
                         }
                     }
                 }).show();
-    }
-
-    private Uri createOutUri(){
-        // new一个File用来存放拍摄到的照片
-        // 通过getExternalStorageDirectory方法获得手机系统的外部存储地址
-        File imageFile = new File(Environment
-                .getExternalStorageDirectory(), "tempImage.jpg");
-        // 如果存在就删了重新创建
-        try {
-            if (imageFile.exists()) {
-                imageFile.delete();
-            }
-            imageFile.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // 将存储地址转化成uri对象
-        imageUri = Uri.fromFile(imageFile);
-        return imageUri;
     }
 }

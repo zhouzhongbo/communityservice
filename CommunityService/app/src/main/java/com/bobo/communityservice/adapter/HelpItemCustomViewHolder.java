@@ -31,6 +31,7 @@ public class HelpItemCustomViewHolder extends RecyclerView.ViewHolder{
     RecyclerView imgContainer;
     GalleryAdapter gadapter;
 
+    int count = 0;
     public HelpItemCustomViewHolder(View itemView) {
         super(itemView);
         userIcon = (CircleImageView)itemView.findViewById(R.id.user_icon);
@@ -111,7 +112,6 @@ public class HelpItemCustomViewHolder extends RecyclerView.ViewHolder{
             View view = mInflater.inflate(R.layout.publish_gallery_add_layout,
                     viewGroup, false);
             ViewHolder viewHolder = new ViewHolder(view);
-
             return viewHolder;
         }
 
@@ -120,15 +120,11 @@ public class HelpItemCustomViewHolder extends RecyclerView.ViewHolder{
          */
         @Override
         public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
-//            viewHolder.mImg.setImageDrawable(desImg.get(i));
             Glide.with(context)
                     .load(desImg.get(i).getUri())
                     .placeholder(R.drawable.default_icon)
                     .error(R.drawable.default_icon)
                     .into(viewHolder.mImg);
         }
-
     }
-
-
 }

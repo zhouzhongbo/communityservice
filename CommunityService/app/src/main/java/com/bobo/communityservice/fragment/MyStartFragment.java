@@ -1,5 +1,6 @@
 package com.bobo.communityservice.fragment;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,20 +8,23 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bobo.communityservice.R;
+import com.bobo.communityservice.activity.SellActivity;
 import com.bobo.communityservice.adapter.GoodsListAdapter;
 import com.bobo.communityservice.databinding.MyStartBinding;
+import com.bobo.communityservice.model.PersionGoods;
 import com.bobo.communityservice.viewmodel.MyStarViewModel;
 
 /**
  * Created by zhouzhongbo on 2017/4/24.
  */
 
-public class MyStartFragment extends Fragment {
+public class MyStartFragment extends Fragment implements GoodsListAdapter.OnItemClick{
 
     MyStarViewModel myStarViewModel;
     MyStartBinding startbinding;
@@ -55,6 +59,7 @@ public class MyStartFragment extends Fragment {
     public void recycleViewInit(){
         adapter = new GoodsListAdapter(getActivity(),myStarViewModel);
         startbinding.myStartList.setAdapter(adapter);
+        adapter.setClickListeren(this);
         startbinding.myStartList.addOnScrollListener(new MyStartFragment.OnRecyclerScrollListener());
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -94,4 +99,14 @@ public class MyStartFragment extends Fragment {
 
     Handler handler = new Handler(){
     };
+
+    @Override
+    public void onItemClick(View v, int position, PersionGoods goods) {
+        Log.d("zzb","item clicked "+position);
+        Intent mintent = new Intent(getActivity(),SellActivity.class);
+        mintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Log.d("zzb","goods img size ="+goods.toString());
+        mintent.putExtra("Goods",goods);
+        startActivity(mintent);
+    }
 }

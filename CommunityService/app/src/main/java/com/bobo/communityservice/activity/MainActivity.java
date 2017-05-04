@@ -2,17 +2,8 @@ package com.bobo.communityservice.activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
+import android.support.v7.app.AppCompatActivity;
 
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -24,26 +15,15 @@ import com.bobo.communityservice.fragment.MineFragment;
 import com.bobo.communityservice.fragment.NoticeFragement;
 import com.bobo.communityservice.tools.GeneralData;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener{
 
     private BottomNavigationBar bottomNavigationBar;
     private BadgeItem numberBadgeItem;
     private int lastSelectedPosition = 0;
-//    //声明ViewPager
-//    private ViewPager mViewPager;
-//    //适配器
-//    private FragmentPagerAdapter mAdapter;
-//    //装载Fragment的集合
-//    private List<Fragment> mFragments;
     NoticeFragement noticeFragment;
     MarketFragment  marketFragment;
     MineFragment  mineFragment;
     HelpFragment  helpFragment;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,15 +34,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
     }
 
-
     private void testInit(){
         GeneralData gd = new GeneralData(this);
-//        gd.generateNotice();
     }
 
 
     private void initView(){
-//        mViewPager = (ViewPager)findViewById(R.id.id_viewpager);
         bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
         bottomNavigationBar.setTabSelectedListener(this);
 

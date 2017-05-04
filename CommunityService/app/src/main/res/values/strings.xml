@@ -140,5 +140,17 @@
     <string name="buy_it">买下</string>
 
 
+    <!--public error-->
+    <string name="goods_title_error">商品标题不能为空</string>
+    <string name="goods_des_error">商品描述不能为空</string>
+    <string name="goods_price_error">商品价格必须大于0</string>
+    <string name="img_in_upload">图片未上传完成，请稍后再试！</string>
+    <string name="no_img_error">必须要有图片描述</string>
+    <string name="goods_type_error">请选择类型</string>
+    <string name="goods_wait_for_saving">正在保存数据，请稍等</string>
+    <string name="file_wait_for_saving">文件暂未上传，请稍等。。。</string>
+
+
+
 </resources>
 

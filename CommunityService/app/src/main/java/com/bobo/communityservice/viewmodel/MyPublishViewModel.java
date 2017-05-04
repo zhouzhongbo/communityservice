@@ -38,28 +38,6 @@ public class MyPublishViewModel {
         context.startActivity(newPublish);
     }
 
-//    public ArrayList<PersionGoods> queryList(final GoodsListAdapter adapter){
-//        CommunityUser user = DroiUser.getCurrentUser(CommunityUser.class);
-//        if (user != null && user.isAuthorized() && !user.isAnonymous()) {
-//            DroiCondition cond = DroiCondition.cond("writer._Id", DroiCondition.Type.EQ, user.getObjectId());
-//            DroiQuery query = DroiQuery.Builder.newBuilder().limit(10).where(cond).query(PersionGoods.class).build();
-//            query.runQueryInBackground(new DroiQueryCallback<PersionGoods>() {
-//                @Override
-//                public void result(List<PersionGoods> list, DroiError droiError) {
-//                    if(droiError.isOk()){
-//                        Log.d("zzb","query success! listsize ="+list.size());
-//                        if (list.size()>0){
-//                            mypublish.addAll(list);
-//                            adapter.addData(list);
-//                            adapter.notifyDataSetChanged();
-//                        }
-//                    }
-//                }
-//            });
-//        }
-//        return mypublish;
-//    }
-
     public void refreshItem(GoodsListAdapter adapter){
         loadquery(adapter,false);
     }
@@ -70,6 +48,7 @@ public class MyPublishViewModel {
     }
 
     private void loadquery(final GoodsListAdapter adapter, final boolean isLoad){
+        Log.d("zzb","publishViewModel star query:isload ="+isLoad);
         CommunityUser user= DroiUser.getCurrentUser(CommunityUser.class);
         DroiCondition cond;
         if(user != null && !user.isAnonymous()){
@@ -80,14 +59,13 @@ public class MyPublishViewModel {
                     DroiCondition cond2 = DroiCondition.cond("_CreationTime", DroiCondition.Type.LT, pg.getCreationTime());
                     cond = cond.and(cond2);
                 }
-
             }
             DroiQuery query = DroiQuery.Builder.newBuilder().orderBy("_CreationTime", true).limit(10).where(cond).query(PersionGoods.class).build();
             query.runQueryInBackground(new DroiQueryCallback<PersionGoods>() {
                 @Override
                 public void result(List<PersionGoods> list, DroiError droiError) {
                     if(droiError.isOk()){
-                        Log.d("zzb","query success! listsize ="+list.size());
+                        Log.d("zzb","publishViewModel query success! listsize ="+list.size());
 
                         if (list.size()>0){
                             if(!isLoad){

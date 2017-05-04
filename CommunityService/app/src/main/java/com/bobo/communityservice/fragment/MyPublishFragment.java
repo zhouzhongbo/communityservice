@@ -1,5 +1,6 @@
 package com.bobo.communityservice.fragment;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,16 +14,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bobo.communityservice.R;
+import com.bobo.communityservice.activity.SellActivity;
 import com.bobo.communityservice.adapter.GoodsListAdapter;
 import com.bobo.communityservice.databinding.PublishListBinding;
+import com.bobo.communityservice.model.PersionGoods;
 import com.bobo.communityservice.viewmodel.MyPublishViewModel;
 
 /**
  * Created by zhouzhongbo on 2017/4/24.
  */
 
-public class MyPublishFragment extends Fragment {
-
+public class MyPublishFragment extends Fragment implements GoodsListAdapter.OnItemClick{
 
     PublishListBinding  plbinding;
     MyPublishViewModel myPublishViewModel;
@@ -39,7 +41,6 @@ public class MyPublishFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        View v = inflater.inflate(R.layout.fragment_mypublish_layout,container,false);
         plbinding = DataBindingUtil.inflate(inflater,R.layout.fragment_mypublish_layout,container,false);
         return plbinding.getRoot();
     }
@@ -64,12 +65,11 @@ public class MyPublishFragment extends Fragment {
         super.onResume();
     }
 
-
     public void recycleViewInit(){
         adapter = new GoodsListAdapter(getActivity(),myPublishViewModel);
         plbinding.myPublishList.setAdapter(adapter);
         plbinding.myPublishList.addOnScrollListener(new MyPublishFragment.OnRecyclerScrollListener());
-
+        adapter.setClickListeren(this);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         plbinding.myPublishList.setLayoutManager(linearLayoutManager);
@@ -91,8 +91,7 @@ public class MyPublishFragment extends Fragment {
                             @Override
                         public void run() {
                             adapter.loadMoreRefresh();
-//                            adapter.notifyDataSetChanged();
-                            Log.d("test", "load more completed");
+                            Log.d("zzb", "load more completed");
                             isLoading = false;
                         }
                     }, 1000);
@@ -109,7 +108,16 @@ public class MyPublishFragment extends Fragment {
         }
     }
 
-
     Handler handler = new Handler(){
     };
+
+
+    @Override
+    public void onItemClick(View v, int position, PersionGoods goods) {
+        Intent mintent = new Intent(getActivity(),SellActivity.class);
+        mintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Log.d("zzb","goods img size ="+goods.toString());
+        mintent.putExtra("Goods",goods);
+        startActivity(mintent);
+    }
 }

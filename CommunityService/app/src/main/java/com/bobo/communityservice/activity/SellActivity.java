@@ -4,12 +4,9 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.bobo.communityservice.R;
-import com.bobo.communityservice.adapter.GoodsInfoAdapter;
 import com.bobo.communityservice.databinding.SellInfoBinding;
 import com.bobo.communityservice.model.PersionGoods;
 import com.bobo.communityservice.viewmodel.SellInfoViewModel;
@@ -26,7 +23,7 @@ public class SellActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PersionGoods goods =  (PersionGoods) getIntent().getParcelableExtra("Goods");
+        PersionGoods goods = getIntent().getParcelableExtra("Goods");
         if(goods.goodsImg != null){
             Log.d("zzb","goodsimg = "+goods.toString());
         }

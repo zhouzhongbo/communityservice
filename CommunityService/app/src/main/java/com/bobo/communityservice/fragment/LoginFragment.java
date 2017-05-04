@@ -26,9 +26,9 @@ import com.droi.sdk.core.DroiUser;
  */
 
 public class LoginFragment extends Fragment {
-    private UserLoginTask mAuthTask = null;
     String TAG ="login";
-    private Activity activity;
+    UserLoginTask mAuthTask = null;
+    Activity activity;
     ProgressDialog mProgressView;
     AutoCompleteTextView userName;
     EditText password;
@@ -57,7 +57,7 @@ public class LoginFragment extends Fragment {
         view.findViewById(R.id.login_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("zzb","onloginclick!");
+                Log.d(TAG,"onloginclick!");
                 if (mAuthTask != null) {
                     return;
                 }
@@ -101,7 +101,7 @@ public class LoginFragment extends Fragment {
         view.findViewById(R.id.to_register_fragment).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("zzb","registerAccountClick!");
+                Log.d(TAG,"registerAccountClick!");
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 Fragment registerFragment = new RegisterFragment();
                 transaction.replace(R.id.fragment_layout, registerFragment);

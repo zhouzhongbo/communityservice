@@ -4,7 +4,6 @@ import com.droi.sdk.core.DroiExpose;
 import com.droi.sdk.core.DroiObject;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by zzb on 2017/4/5.

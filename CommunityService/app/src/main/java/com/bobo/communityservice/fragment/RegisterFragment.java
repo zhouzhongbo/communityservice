@@ -40,13 +40,11 @@ public class RegisterFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
-
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        registerBind = DataBindingUtil.inflate(inflater,R.layout.fragment_register_layout,container,false);
         View view = inflater.inflate(R.layout.fragment_register_layout,container,false);
         mProgressView = new ProgressDialog(getActivity());
         return view;
@@ -201,7 +199,6 @@ public class RegisterFragment extends Fragment {
         protected void onPostExecute(final DroiError droiError) {
             mAuthTask = null;
             showProgress(false);
-            Log.i("test", "error" + droiError.toString());
             if (droiError.isOk()) {
                 activity.finish();
             } else {

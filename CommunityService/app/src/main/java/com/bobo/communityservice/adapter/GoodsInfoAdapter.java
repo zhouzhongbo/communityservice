@@ -12,6 +12,8 @@ import com.bobo.communityservice.model.PersionGoods;
 import com.bobo.communityservice.model.PersionGoodsComment;
 import com.bobo.communityservice.model.PersionGoodsLike;
 import com.bobo.communityservice.viewmodel.SellInfoViewModel;
+import com.droi.sdk.DroiCallback;
+import com.droi.sdk.DroiError;
 import com.droi.sdk.core.DroiFile;
 
 import java.text.SimpleDateFormat;
@@ -26,6 +28,7 @@ public class GoodsInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     static final int GOODS_ITEM_IMG = 100;
     static final int GOODS_ITEM_DIVIDER = 101;
     static final int GOODS_ITEM_COMMENTS = 102;
+    String TAG = "Like";
     SellInfoViewModel model;
     List<DroiFile> imgList = new ArrayList<DroiFile>();
     ArrayList<PersionGoodsLike> likeList = new ArrayList<PersionGoodsLike>();
@@ -59,11 +62,36 @@ public class GoodsInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public void doLike(PersionGoodsLike like){
         likeList.add(like);
+        PersionGoods goods = like.getGoods();
+        goods.likeCount = likeList.size();
+        goods.saveInBackground(new DroiCallback<Boolean>() {
+            @Override
+            public void result(Boolean aBoolean, DroiError droiError) {
+                if(droiError.isOk()){
+                    Log.d(TAG,"add like success");
+                }else {
+                    Log.d(TAG,"add like failed");
+                }
+            }
+        });
         this.notifyDataSetChanged();
     }
 
     public void doUnLike(PersionGoodsLike like){
         likeList.remove(like);
+        PersionGoods goods = like.getGoods();
+        goods.likeCount = likeList.size();
+        goods.saveInBackground(new DroiCallback<Boolean>() {
+            @Override
+            public void result(Boolean aBoolean, DroiError droiError) {
+                if(droiError.isOk()){
+                    Log.d(TAG,"add like success");
+                }else {
+                    Log.d(TAG,"add like failed");
+                }
+            }
+        });
+
         this.notifyDataSetChanged();
     }
 

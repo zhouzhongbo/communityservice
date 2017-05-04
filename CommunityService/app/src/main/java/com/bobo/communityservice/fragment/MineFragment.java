@@ -1,42 +1,16 @@
 package com.bobo.communityservice.fragment;
 
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bobo.communityservice.R;
-import com.bobo.communityservice.activity.EditUserInfoActivity;
 import com.bobo.communityservice.databinding.MineBinding;
-import com.bobo.communityservice.model.CommunityUser;
 import com.bobo.communityservice.viewmodel.MineViewModel;
-import com.droi.sdk.DroiCallback;
-import com.droi.sdk.DroiError;
-import com.droi.sdk.core.DroiFile;
-import com.droi.sdk.core.DroiUser;
-import com.jph.takephoto.app.TakePhoto;
-import com.jph.takephoto.app.TakePhotoImpl;
-import com.jph.takephoto.model.CropOptions;
-import com.jph.takephoto.model.InvokeParam;
-import com.jph.takephoto.model.TContextWrap;
-import com.jph.takephoto.model.TImage;
-import com.jph.takephoto.model.TResult;
-import com.jph.takephoto.permission.InvokeListener;
-import com.jph.takephoto.permission.PermissionManager;
-import com.jph.takephoto.permission.TakePhotoInvocationHandler;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Created by zhouzhongbo on 2017/3/28.
@@ -45,10 +19,6 @@ import java.util.ArrayList;
 public class MineFragment extends Fragment{
     MineViewModel minemodel;
     MineBinding mineBinding;
-    boolean isLogin;
-    Uri imageUri;
-    String TAG = "zzb";
-    CommunityUser user;
 
     public static MineFragment newInstance(String param1) {
         MineFragment fragment = new MineFragment();

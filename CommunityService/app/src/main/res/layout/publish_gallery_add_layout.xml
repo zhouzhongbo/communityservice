@@ -3,6 +3,7 @@
     android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <ImageView
+        android:layout_margin="10dp"
         android:id="@+id/img_des"
         android:layout_width="160dp"
         android:layout_height="wrap_content" />

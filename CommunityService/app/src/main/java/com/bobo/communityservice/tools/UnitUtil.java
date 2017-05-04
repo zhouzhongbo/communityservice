@@ -1,7 +1,12 @@
 package com.bobo.communityservice.tools;
 
 import android.content.Context;
+import android.net.Uri;
+import android.os.Environment;
 import android.util.DisplayMetrics;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Util class for converting between dp, px and other magical pixel units
@@ -26,4 +31,19 @@ public class UnitUtil {
         return (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 
+    public static Uri createOutUri(){
+        Uri imageUri =null;
+        File imageFile = new File(Environment
+                .getExternalStorageDirectory(), "tempImage.jpg");
+        try {
+            if (imageFile.exists()) {
+                imageFile.delete();
+            }
+            imageFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        imageUri = Uri.fromFile(imageFile);
+        return imageUri;
+    }
 }

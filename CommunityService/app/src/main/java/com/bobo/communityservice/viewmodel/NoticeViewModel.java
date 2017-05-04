@@ -63,7 +63,7 @@ public class NoticeViewModel{
             @Override
             public void result(List<NoticeObject> list, DroiError droiError) {
                 if(droiError.isOk()){
-                    Log.d("zzb","query success! listsize ="+list.size());
+                    Log.d("zzb","noticeViewModel query success! listsize ="+list.size());
 
                     if (list.size()>0){
                     noticeObject = list.get(0);

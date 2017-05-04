@@ -9,7 +9,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="15dp"
-        android:text="comments edit"
         android:id="@+id/comments_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

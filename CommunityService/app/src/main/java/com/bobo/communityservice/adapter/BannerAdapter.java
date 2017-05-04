@@ -1,15 +1,10 @@
 package com.bobo.communityservice.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
-import com.droi.sdk.DroiCallback;
-import com.droi.sdk.DroiError;
 
 import java.util.ArrayList;
 

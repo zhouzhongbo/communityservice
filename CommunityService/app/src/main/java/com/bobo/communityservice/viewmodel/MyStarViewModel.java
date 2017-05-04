@@ -40,6 +40,7 @@ public class MyStarViewModel {
     }
 
     private void loadquery(final GoodsListAdapter adapter, final boolean isLoadMore){
+        Log.d("zzb","helpViewModel star query:isload ="+isLoadMore);
         CommunityUser user = DroiUser.getCurrentUser(CommunityUser.class);
         if (user != null && user.isAuthorized() && !user.isAnonymous()) {
             DroiCondition cond = DroiCondition.cond("likeCommunityUser._Id", DroiCondition.Type.EQ, user.getObjectId());
@@ -52,8 +53,7 @@ public class MyStarViewModel {
                 @Override
                 public void result(List<PersionGoodsLike> list, DroiError droiError) {
                     if(droiError.isOk()){
-                        Log.d("zzb","query success! listisize ="+list.size());
-
+                        Log.d("zzb","starViewModel query success! listisize ="+list.size());
                         if (list.size()>0){
                             int i = 0;
                             if(!isLoadMore){

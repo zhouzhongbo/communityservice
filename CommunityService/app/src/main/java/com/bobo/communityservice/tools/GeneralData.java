@@ -1,8 +1,6 @@
 package com.bobo.communityservice.tools;
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
 import android.widget.Toast;
 
 import com.bobo.communityservice.model.NoticeObject;

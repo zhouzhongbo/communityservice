@@ -236,7 +236,6 @@ public class HelpFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onItemClick(View v, int position, PersionGoods goods) {
-        Log.d("zzb","item clicked "+position);
         Intent mintent = new Intent(getActivity(),SellActivity.class);
         mintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        Log.d("zzb","goods img size ="+goods.goodsImg.size());

@@ -51,14 +51,6 @@ public class GoodsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         publishModel.refreshItem(this);
     }
 
-//    public GoodsListAdapter(Context mcontext,MyOrderViewModel orderviewModel){
-//        super();
-//        this.context = mcontext;
-//        orderViewModel = orderviewModel;
-//        orderViewModel.refreshItem(this);
-//        Log.d("zzb","adadpter2 count = "+sellItem.size());
-//    }
-
     public GoodsListAdapter(Context mcontext, MyStarViewModel starviewModel){
         super();
         this.context = mcontext;
@@ -164,7 +156,6 @@ public class GoodsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         if (viewType == TYPE_CONTENT) {
             View view = LayoutInflater.from(context).inflate(R.layout.sell_item_layout, parent, false);
-//            view.setOnClickListener();
             return new HelpItemCustomViewHolder(view);
         } else if (viewType == TYPE_FOOTER) {//加载进度条的布局
             View view = LayoutInflater.from(context).inflate(R.layout.sell_item_footer_layout, parent, false);
@@ -188,6 +179,7 @@ public class GoodsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
+        Log.d("zzb","sellitem ="+sellItem.size());
         return  (sellItem == null||sellItem.size() == 0) ?0:sellItem.size()+1;
     }
 

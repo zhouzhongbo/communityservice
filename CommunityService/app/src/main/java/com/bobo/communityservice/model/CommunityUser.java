@@ -5,8 +5,6 @@ import com.droi.sdk.core.DroiFile;
 import com.droi.sdk.core.DroiReference;
 import com.droi.sdk.core.DroiUser;
 
-import java.util.ArrayList;
-
 /**
  * Created by zzb on 2017/4/5.
  */

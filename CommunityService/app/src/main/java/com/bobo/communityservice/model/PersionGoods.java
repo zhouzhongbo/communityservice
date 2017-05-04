@@ -39,23 +39,25 @@ public class PersionGoods extends DroiObject {
     @DroiExpose
     public int goodsType;
 
-    public Number likeCount = 0;
-    public Number viewerCount = 0;
-
-
     @DroiReference
     public CommunityUser writer;
 
     @DroiReference
     ArrayList<CommunityUser> goodsViewer;
 
+    @DroiExpose
+    public Number viewerCount = 0;
+
 
     @DroiReference
-    PersionGoodsLike goodsLike;
+    public PersionGoodsLike goodsLike;
+
+    @DroiExpose
+    public Number likeCount = 0;
 
 
     @DroiReference
-    PersionGoodsComment goodsComments;
+    public PersionGoodsComment goodsComments;
 
 
     public void setGoodsTitle(String goodsTitle) {

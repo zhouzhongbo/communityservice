@@ -13,7 +13,6 @@ import com.bobo.communityservice.view.CircleImageView;
 import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by zzb on 2017/5/1.

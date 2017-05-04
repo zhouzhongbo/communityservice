@@ -20,7 +20,6 @@ public class SystemSettingActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_system_setting_layout);
         ssbinding = DataBindingUtil.setContentView(this,R.layout.activity_system_setting_layout);
         ssmodel = new SystemSettingModel(this);
         ssbinding.setSettingmodel(ssmodel);

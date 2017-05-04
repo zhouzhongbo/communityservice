@@ -45,8 +45,12 @@ public class SellInfoViewModel {
     Context context;
     PersionGoods goods;
     SellInfoBinding binding;
-    private PopupWindow mPopupWindow;
+    PopupWindow mPopupWindow;
     CommunityUser user;
+    EditText comments_box;
+    String comments_text;
+    PersionGoodsLike localLike;
+    boolean hasLike = false;
     ArrayList<PersionGoodsLike> likesList = new ArrayList<PersionGoodsLike>();
     ArrayList<PersionGoodsComment> commentList = new ArrayList<PersionGoodsComment>();
 
@@ -89,7 +93,6 @@ public class SellInfoViewModel {
         }
     }
 
-
     public void doLike(){
 
     }
@@ -98,13 +101,10 @@ public class SellInfoViewModel {
 
     }
 
-
     public void handlerMakeComments(View view){
         showPopupWin();
     }
 
-    boolean hasLike = false;
-    PersionGoodsLike localLike;
     public void handlerMakeLike(View view){
         int i = 0;
         while( (likesList.size()>0) && (i<likesList.size()) ){
@@ -117,7 +117,17 @@ public class SellInfoViewModel {
         }
         if (hasLike){
             adapter.doUnLike(localLike);
-            localLike.delete();
+            localLike.deleteInBackground(new DroiCallback<Boolean>() {
+                @Override
+                public void result(Boolean aBoolean, DroiError droiError) {
+                    if(droiError.isOk()){
+                        Log.d("zzb","delete like success");
+                    }else{
+                        Log.d("zzb","delete like failed");
+                    }
+                }
+            });
+            localLike = null;
         }else{
             localLike = new PersionGoodsLike();
             localLike.setGoods(goods);
@@ -143,8 +153,6 @@ public class SellInfoViewModel {
         Log.d("zzb","handlerBuyIt");
     }
 
-
-
     public List<DroiFile> getImageList(){
         return goods.goodsImg;
     }
@@ -157,7 +165,6 @@ public class SellInfoViewModel {
             public void result(List<PersionGoodsLike> list, DroiError droiError) {
                 if(droiError.isOk()){
                     Log.d("zzb","queryLikeList success! listsize ="+list.size());
-
                     if (list.size()>0){
                         likesList.addAll(list);
                         adapter.addlike(list);
@@ -172,13 +179,9 @@ public class SellInfoViewModel {
 
     public void querycommentsList(final GoodsInfoAdapter adapter, boolean isLoadMore){
         DroiCondition cond = DroiCondition.cond("goods._Id", DroiCondition.Type.EQ, goods.getObjectId());
-        Log.d("zzb","goodsid ="+goods.getObjectId());
         if(isLoadMore){
             if(commentList!= null&&commentList.size()>0){
                 PersionGoodsComment comments = commentList.get(commentList.size()-1);
-//                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
-//                String time=format.format(comments.getCreationTime());
-//                Log.d("zzb","query by loadmore:"+time);
                 DroiCondition cond2 =  DroiCondition.cond("_CreationTime", DroiCondition.Type.GT, comments.getCreationTime());
                 cond = cond.and(cond2);
             }
@@ -201,9 +204,6 @@ public class SellInfoViewModel {
         });
     }
 
-    EditText comments_box;
-    String comments_text;
-
     public void showPopupWin(){
         View popupView = ((Activity)context).getLayoutInflater().inflate(R.layout.popupwin_add_comments, null);
         popupView.findViewById(R.id.cancle_edit).setOnClickListener(new View.OnClickListener() {
@@ -224,10 +224,8 @@ public class SellInfoViewModel {
                         @Override
                         public void result(Boolean aBoolean, DroiError droiError) {
                             if(droiError.isOk()){
-                                Log.d("zzb","comments is save ok !");
                                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
                                 String time=format.format(comments.getCreationTime());
-                                Log.d("zzb","create comments time ="+time);
                                 adapter.addComment(comments);
                                 adapter.notifyDataSetChanged();
                             }else{
@@ -266,7 +264,6 @@ public class SellInfoViewModel {
         mPopupWindow.setTouchable(true);
         mPopupWindow.setOutsideTouchable(true);
         View rootview = LayoutInflater.from(context).inflate(R.layout.activity_edituser_layout, null);
-
         mPopupWindow.showAtLocation(rootview, Gravity.CENTER,0,0);
     }
 

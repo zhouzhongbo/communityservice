@@ -5,9 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -27,12 +25,11 @@ import com.bobo.communityservice.adapter.PublishGalleryAdapter;
 import com.bobo.communityservice.databinding.NewPublishBinding;
 import com.bobo.communityservice.model.CommunityUser;
 import com.bobo.communityservice.model.PersionGoods;
+import com.bobo.communityservice.tools.UnitUtil;
 import com.bumptech.glide.Glide;
 import com.droi.sdk.DroiCallback;
 import com.droi.sdk.DroiError;
-import com.droi.sdk.DroiProgressCallback;
 import com.droi.sdk.core.DroiFile;
-import com.droi.sdk.core.DroiObject;
 import com.droi.sdk.core.DroiUser;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
@@ -46,7 +43,6 @@ import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.permission.TakePhotoInvocationHandler;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,17 +56,15 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
     private PopupWindow mPopupWindow;
-    Uri imageUri;
     PublishGalleryAdapter adapter;
     PersionGoods  persionGoods;
 
     public String goodsTitle;
     public String Description;
     public Number goodsPrice;
-    public DroiFile goodsIcon;
     public ArrayList<DroiFile> goodsImg;
-    public String goodsSellerName;
-    public String goodsSellerPhoneNumber;
+//    public String goodsSellerName;
+//    public String goodsSellerPhoneNumber;
     public int goodsType;
 
 
@@ -118,7 +112,6 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
         ArrayList<DroiFile> cache = new ArrayList<DroiFile>();
         for(int i=0;i<im.size();i++){
             String imagePath = im.get(i).getOriginalPath();
-            Log.d("zzb","imagePath="+imagePath);
             DroiFile img = new DroiFile(new File(imagePath));
             img.saveInBackground(new DroiCallback<Boolean>() {
                 @Override
@@ -132,21 +125,17 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
             });
             cache.add(img);
         }
-        Log.d("zzb","takeSuccess finished !!");
         adapter.addImageData(cache);
         adapter.notifyDataSetChanged();
-        Log.d("zzb","takeSuccess:"+im.size());
     }
 
     @Override
     public void takeFail(TResult result, String msg) {
-        Log.d("zzb","takeFail"+msg);
         Toast.makeText(this,"take photo failed",Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void takeCancel() {
-        Log.d("zzb","takeCancel");
         Toast.makeText(this,"take photo cancel",Toast.LENGTH_SHORT).show();
     }
 
@@ -161,7 +150,6 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 goodsTitle = newPublishBinding.publishItemTitle.getText().toString();
-                Log.d("zzb","goodstitle ="+goodsTitle);
             }
 
             @Override
@@ -180,7 +168,6 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Description = newPublishBinding.publishItemDescripton.getText().toString();
-                Log.d("zzb","Description ="+Description);
             }
 
             @Override
@@ -198,7 +185,6 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 goodsPrice = Long.valueOf(newPublishBinding.priceInput.getText().toString());
-                Log.d("zzb","goodsPrice ="+goodsPrice);
             }
 
             @Override
@@ -212,8 +198,6 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
             @Override
             public void onClick(View view) {
                 if(publishCheck()){
-                    // 1. 注册UserData至SDK
-                    DroiObject.registerCustomClass( PersionGoods.class );
                     persionGoods = new PersionGoods();
                     persionGoods.setGoodsTitle(goodsTitle);
                     persionGoods.setDescription(Description);
@@ -225,8 +209,10 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
                         @Override
                         public void result(Boolean aBoolean, DroiError droiError) {
                             if(droiError.isOk()){
+                                finish();
                                 Log.d("zzb","persionGoods save successed!");
                             }else{
+                                Toast.makeText(PublishNewActivity.this,R.string.goods_wait_for_saving,Toast.LENGTH_SHORT).show();
                                 Log.d("zzb","persionGoods save failed!");
                             }
                         }
@@ -280,34 +266,34 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
     private boolean publishCheck(){
         boolean result = false;
         if(goodsTitle == null ||goodsTitle.equals("")){
-            Toast.makeText(this,"商品标题不能为空",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,R.string.goods_title_error,Toast.LENGTH_SHORT).show();
             return result;
         }
 
         if(Description == null ||Description.equals("")){
-            Toast.makeText(this,"商品描述不能为空",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,R.string.goods_des_error,Toast.LENGTH_SHORT).show();
             return result;
         }
 
         if(goodsPrice.floatValue() <= 0 ){
-            Toast.makeText(this,"商品价格必须大于0",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,R.string.goods_price_error,Toast.LENGTH_SHORT).show();
             return result;
         }
         goodsImg = adapter.getImgList();
         if(goodsImg != null&&goodsImg.size()>0){
             for(int i=0;i<goodsImg.size();i++){
                 if(!goodsImg.get(i).hasUri()){
-                    Toast.makeText(this,"图片未上传完成，请稍后再试",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,R.string.img_in_upload,Toast.LENGTH_SHORT).show();
                     return result;
                 }
             }
         }else {
-            Toast.makeText(this,"必须要有图片描述",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,R.string.no_img_error,Toast.LENGTH_SHORT).show();
             return result;
         }
 
         if(goodsType <=0){
-            Toast.makeText(this,"请选择类型",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,R.string.goods_type_error,Toast.LENGTH_SHORT).show();
             return result;
         }
         return true;
@@ -340,7 +326,7 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
     public void onPreViewImageClick(List<DroiFile> desImg, int position) {
         DroiFile  file = desImg.get(position);
         if(!file.hasUri()) {
-            Toast.makeText(this,"文件暂未上传，请稍等。。。",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,R.string.file_wait_for_saving,Toast.LENGTH_SHORT).show();
             return;
         }
         View popupView = getLayoutInflater().inflate(R.layout.popopwin_preview_img_layout, null);
@@ -377,13 +363,13 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-                                takePhoto.onPickFromCapture(createOutUri());
-//                                takePhoto.onPickFromCaptureWithCrop(createOutUri(),op);
+//                                takePhoto.onPickFromCapture(createOutUri());
+                                takePhoto.onPickFromCaptureWithCrop(UnitUtil.createOutUri(),op);
 
                                 break;
                             case 1:
-                                takePhoto.onPickMultiple(10);
-//                                takePhoto.onPickMultipleWithCrop(10,op);
+//                                takePhoto.onPickMultiple(10);
+                                takePhoto.onPickMultipleWithCrop(10,op);
                                 break;
                             default:
                                 break;
@@ -401,24 +387,5 @@ public class PublishNewActivity extends Activity implements PublishGalleryAdapte
             takePhoto= (TakePhoto) TakePhotoInvocationHandler.of(this).bind(new TakePhotoImpl(this,this));
         }
         return takePhoto;
-    }
-
-    private Uri createOutUri(){
-        // new一个File用来存放拍摄到的照片
-        // 通过getExternalStorageDirectory方法获得手机系统的外部存储地址
-        File imageFile = new File(Environment
-                .getExternalStorageDirectory(), "tempImage.jpg");
-        // 如果存在就删了重新创建
-        try {
-            if (imageFile.exists()) {
-                imageFile.delete();
-            }
-            imageFile.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // 将存储地址转化成uri对象
-        imageUri = Uri.fromFile(imageFile);
-        return imageUri;
     }
 }

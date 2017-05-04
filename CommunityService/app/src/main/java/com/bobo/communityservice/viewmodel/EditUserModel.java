@@ -15,26 +15,26 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bobo.communityservice.R;
-import com.bobo.communityservice.databinding.MineBinding;
 import com.bobo.communityservice.databinding.UserEditBinding;
 import com.bobo.communityservice.model.CommunityUser;
 import com.bumptech.glide.Glide;
 import com.droi.sdk.DroiCallback;
 import com.droi.sdk.DroiError;
 import com.droi.sdk.core.DroiUser;
-import com.jph.takephoto.app.TakePhoto;
 
 /**
  * Created by zhouzhongbo on 2017/4/28.
  */
 
 public class EditUserModel {
-    public static CommunityUser user;
-    private boolean isLogin;
+
     UserEditBinding binding;
-    private TakePhoto takePhoto;
     Context context;
-    private PopupWindow mPopupWindow;
+    PopupWindow mPopupWindow;
+    EditText editbox;
+    String editbox_context;
+
+    public static CommunityUser user;
 
     public static final int USER_NAME_EDIT = 1;
     public static final int USER_ADDRESS_EDIT = 2;
@@ -66,10 +66,6 @@ public class EditUserModel {
             binding.userAddress.setText(user.getAddress());
         }
     }
-
-
-    EditText editbox;
-    String editbox_context;
 
     public void showPopwin(final int editContextType){
         View popupView = ((Activity)context).getLayoutInflater().inflate(R.layout.popupwin_edit_userinfo, null);
@@ -153,16 +149,6 @@ public class EditUserModel {
 
         mPopupWindow.showAtLocation(rootview, Gravity.CENTER,0,0);
     }
-
-//    case R.id.name_container:
-//    userModel.
-//    break;
-//
-//    case R.id.sex_container:
-//
-//            break;
-//    case R.id.address_container:
-
 
     public void handlerUserNameEdit(){
         showPopwin(USER_NAME_EDIT);

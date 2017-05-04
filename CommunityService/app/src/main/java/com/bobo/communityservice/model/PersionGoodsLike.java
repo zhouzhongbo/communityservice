@@ -1,6 +1,5 @@
 package com.bobo.communityservice.model;
 
-import com.droi.sdk.core.DroiExpose;
 import com.droi.sdk.core.DroiObject;
 import com.droi.sdk.core.DroiReference;
 

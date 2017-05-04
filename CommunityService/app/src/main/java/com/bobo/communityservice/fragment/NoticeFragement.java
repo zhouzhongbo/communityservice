@@ -63,8 +63,6 @@ public class NoticeFragement extends Fragment implements SwipeRefreshLayout.OnRe
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        mSwipeLayout = (SwipeRefreshLayout)view.findViewById(R.id.id_swipe_notice);
-//        mSwipeLayout.setOnRefreshListener(this);
     }
 
     @Override

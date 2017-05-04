@@ -17,17 +17,8 @@ public class ImageBindTool {
     public static void loadImage(ImageView imageView, Uri url, Drawable placeholder, Drawable errorDrawable) {
         Glide.with(imageView.getContext())
                 .load(url)
-
-    .error(errorDrawable)
-    .placeholder(placeholder)
-    .into(imageView);
-}
-//    @BindingAdapter({"bind:imageUrl", "bind:error"})
-//    public static void loadImage(ImageView imageView, Uri url, Drawable error) {
-////        Picasso.with(view.getContext()).load(url).error(error).into(view);
-//        Glide.with(imageView.getContext())              .error(error)
-//                .into(imageView);
-//    }
-//                .load(url)
-//
+                .error(errorDrawable)
+                .placeholder(placeholder)
+                .into(imageView);
+    }
 }

@@ -126,6 +126,17 @@ public class MineViewModel {
         }
     }
 
+    public void handlerMySelledClick(View v){
+        if(isLogin){
+            Intent mintent = new Intent(v.getContext(), MineRelativeActivity.class);
+            mintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mintent.putExtra("TAG", ConstantObject.SELLED);
+            context.startActivity(mintent);
+        }else{
+            handlerRegisterOrLogin(v);
+        }
+    }
+
     public void handlerFeedBackClick(View v){
         if(isLogin){
             //打开反馈页面
@@ -165,6 +176,7 @@ public class MineViewModel {
         }else{
             mineBinding.loginStatusView.setVisibility(View.GONE);
             mineBinding.registerOrLoging.setVisibility(View.VISIBLE);
+            Glide.with(context).load(R.drawable.default_icon).into(mineBinding.usrIcon);
         }
     }
 

@@ -10,7 +10,17 @@
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/title"
+            android:text="@string/user_info_title"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:layout_margin="@dimen/user_info_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <LinearLayout
+            android:layout_below="@id/title"
             android:onClick="onClick"
             android:layout_margin="15dp"
             android:orientation="horizontal"
@@ -34,15 +44,16 @@
                 app:error="@{@drawable/default_icon}"/>
 
             <TextView
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/user_info_margin"
                 android:amPmBackgroundColor="@android:color/transparent"
                 android:layout_width="0dp"
+                android:textSize="@dimen/user_info_text_size"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
 
             <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/user_leftpoint_size"
+            android:layout_height="@dimen/user_leftpoint_size"
             android:src="@drawable/right_point"/>
         </LinearLayout>
 
@@ -67,6 +78,8 @@
             <TextView
                 android:layout_gravity="center_vertical"
                 android:id="@+id/user_name"
+                android:layout_margin="@dimen/user_info_margin"
+                android:textSize="@dimen/user_info_text_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -78,8 +91,8 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/user_leftpoint_size"
+                android:layout_height="@dimen/user_leftpoint_size"
                 android:src="@drawable/right_point"/>
         </LinearLayout>
 
@@ -101,6 +114,8 @@
             <TextView
                 android:layout_gravity="center_vertical"
                 android:id="@+id/user_sex"
+                android:layout_margin="@dimen/user_info_margin"
+                android:textSize="@dimen/user_info_text_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
@@ -111,8 +126,8 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/user_leftpoint_size"
+                android:layout_height="@dimen/user_leftpoint_size"
                 android:src="@drawable/right_point"/>
         </LinearLayout>
 
@@ -135,6 +150,8 @@
             <TextView
                 android:layout_gravity="center_vertical"
                 android:id="@+id/user_address"
+                android:layout_margin="@dimen/user_info_margin"
+                android:textSize="@dimen/user_info_text_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
@@ -145,8 +162,8 @@
                 android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/user_leftpoint_size"
+                android:layout_height="@dimen/user_leftpoint_size"
                 android:src="@drawable/right_point"/>
         </LinearLayout>
 

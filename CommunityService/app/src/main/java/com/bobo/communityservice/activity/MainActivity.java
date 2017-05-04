@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         bottomNavigationBar.setTabSelectedListener(this);
 
         numberBadgeItem = new BadgeItem()
-                .setBorderWidth(4)
+                .setBorderWidth(3)
                 .setBackgroundColorResource(R.color.blue)
                 .setText("" + lastSelectedPosition)
                 .setHideOnSelect(false);
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         bottomNavigationBar
                 .addItem(new BottomNavigationItem(R.drawable.notice, R.string.public_notice).setActiveColorResource(R.color.orange).setBadgeItem(numberBadgeItem))
                 .addItem(new BottomNavigationItem(R.drawable.help, R.string.help).setActiveColorResource(R.color.teal))
-                .addItem(new BottomNavigationItem(R.drawable.market, R.string.market).setActiveColorResource(R.color.blue))
+//                .addItem(new BottomNavigationItem(R.drawable.market, R.string.market).setActiveColorResource(R.color.blue))
                 .addItem(new BottomNavigationItem(R.drawable.mine, R.string.mine).setActiveColorResource(R.color.brown))
                 .setFirstSelectedPosition(lastSelectedPosition > 3 ? 3 : lastSelectedPosition)
                 .initialise();
@@ -96,13 +96,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                 }
                 transaction.replace(R.id.tabs, helpFragment);
                 break;
+//            case 2:
+//                if (marketFragment == null) {
+//                    marketFragment = MarketFragment.newInstance(getString(R.string.market));
+//                }
+//                transaction.replace(R.id.tabs, marketFragment);
+//                break;
             case 2:
-                if (marketFragment == null) {
-                    marketFragment = MarketFragment.newInstance(getString(R.string.market));
-                }
-                transaction.replace(R.id.tabs, marketFragment);
-                break;
-            case 3:
                 if (mineFragment == null) {
                     mineFragment = MineFragment.newInstance(getString(R.string.mine));
                 }

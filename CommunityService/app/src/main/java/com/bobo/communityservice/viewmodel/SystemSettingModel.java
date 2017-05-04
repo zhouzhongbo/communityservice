@@ -1,5 +1,6 @@
 package com.bobo.communityservice.viewmodel;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -10,6 +11,8 @@ import com.bobo.communityservice.R;
 import com.bobo.communityservice.activity.EditUserInfoActivity;
 import com.bobo.communityservice.activity.LoginActivity;
 import com.bobo.communityservice.model.CommunityUser;
+import com.droi.sdk.DroiCallback;
+import com.droi.sdk.DroiError;
 import com.droi.sdk.core.DroiUser;
 import com.droi.sdk.selfupdate.DroiUpdate;
 
@@ -54,6 +57,14 @@ public class SystemSettingModel {
     public void handlerLoginOut(View view){
         if (user != null && user.isAuthorized()) {
             user.logout();
+            user.logoutInBackground(new DroiCallback<Boolean>() {
+                @Override
+                public void result(Boolean aBoolean, DroiError droiError) {
+                    if(droiError.isOk()){
+                        ((Activity)context).finish();
+                    }
+                }
+            });
         }
     }
 }

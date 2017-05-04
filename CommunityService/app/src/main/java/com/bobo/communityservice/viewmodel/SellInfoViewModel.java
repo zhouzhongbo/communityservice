@@ -23,6 +23,7 @@ import com.bobo.communityservice.model.CommunityUser;
 import com.bobo.communityservice.model.PersionGoods;
 import com.bobo.communityservice.model.PersionGoodsComment;
 import com.bobo.communityservice.model.PersionGoodsLike;
+import com.bobo.communityservice.model.PersionOrder;
 import com.bumptech.glide.Glide;
 import com.droi.sdk.DroiCallback;
 import com.droi.sdk.DroiError;
@@ -51,6 +52,7 @@ public class SellInfoViewModel {
     String comments_text;
     PersionGoodsLike localLike;
     boolean hasLike = false;
+    boolean isLoading = false;
     ArrayList<PersionGoodsLike> likesList = new ArrayList<PersionGoodsLike>();
     ArrayList<PersionGoodsComment> commentList = new ArrayList<PersionGoodsComment>();
 
@@ -67,7 +69,6 @@ public class SellInfoViewModel {
     public void setGoods(PersionGoods goods){
         this.goods = goods;
     }
-
 
     public void fillData(){
         if(goods!= null&&goods.writer!= null){
@@ -86,11 +87,22 @@ public class SellInfoViewModel {
             String price_value = String.format(price_format, goods.goodsPrice.doubleValue());
             binding.priceText.setText(price_value);
             binding.description.setText(goods.Description);
-
-//            String like_format = context.getResources().getString(R.string.item_like_count);
-//            String like_value = String.format(like_format, goods.likeCount.intValue());
-//            binding.likeNum.setText(String.valueOf(like_value));
+            updateSellState(goods.isSelled);
         }
+    }
+
+
+    public void updateSellState(boolean sell){
+        if(goods.isSelled){
+            binding.buy.setText(R.string.have_selled);
+            binding.buy.setClickable(false);
+            binding.buy.setEnabled(false);
+        }else{
+            binding.buy.setText(R.string.buy_it);
+            binding.buy.setClickable(true);
+            binding.buy.setEnabled(true);
+        }
+
     }
 
     public void doLike(){
@@ -144,18 +156,58 @@ public class SellInfoViewModel {
                     }
                 }
             });
-
         }
-
     }
 
-    public void handlerBuyIt(View view){
-        Log.d("zzb","handlerBuyIt");
+    public void handlerBuyIt(View view) {
+        Log.d("zzb", "handlerBuyIt");
+        goods.isSelled = true;
+        goods.saveInBackground(new DroiCallback<Boolean>() {
+            @Override
+            public void result(Boolean aBoolean, DroiError droiError) {
+                if (droiError.isOk()) {
+                    updateSellState(true);
+                    PersionOrder order = new PersionOrder();
+                    order.setBuyer(user);
+                    order.setGoods(goods);
+                    order.saveInBackground(new DroiCallback<Boolean>() {
+                        @Override
+                        public void result(Boolean aBoolean, DroiError droiError) {
+                            if (droiError.isOk()) {
+                                Log.d("zzb", "save order successed!");
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 
     public List<DroiFile> getImageList(){
         return goods.goodsImg;
     }
+
+    public void queryIsSell(){
+        DroiCondition cond = DroiCondition.cond("goods._Id", DroiCondition.Type.EQ, goods.getObjectId());
+        DroiQuery query = DroiQuery.Builder.newBuilder().where(cond).query(PersionOrder.class).build();
+        query.runQueryInBackground(new DroiQueryCallback<PersionOrder>() {
+            @Override
+            public void result(List<PersionOrder> list, DroiError droiError) {
+                if(droiError.isOk()){
+                    Log.d("zzb","queryIsSellList success! listsize ="+list.size());
+                    if (list.size()>0){
+                        Toast.makeText(context,R.string.goods_is_selled,Toast.LENGTH_SHORT).show();
+                    }else{
+
+                    }
+                }else{
+
+                }
+            }
+        });
+
+    }
+
 
     public void queryLikeList(final GoodsInfoAdapter adapter){
         DroiCondition cond = DroiCondition.cond("goods._Id", DroiCondition.Type.EQ, goods.getObjectId());
@@ -277,7 +329,6 @@ public class SellInfoViewModel {
         binding.infoList.setLayoutManager(linearLayoutManager);
     }
 
-    private boolean isLoading = false;
     public class OnRecyclerScrollListener extends RecyclerView.OnScrollListener {
         int lastVisibleItem = 0;
 

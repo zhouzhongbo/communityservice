@@ -42,6 +42,7 @@
     <string name="mine_star">我的关注</string>
     <string name="mine_publish">我的发布</string>
     <string name="mine_order">我的订单</string>
+    <string name="mine_selled">我的订单</string>
     <string name="user_feedback">意见反馈</string>
     <string name="system_settings">系统设置</string>
     <string name="user_info_setting">编辑资料</string>
@@ -88,6 +89,7 @@
     <string name="sell_item_default_price">默认价格</string>
     <string name="sell_item_default_user_name">默认用户名</string>
     <string name="sell_item_default_comments">默认评论</string>
+    <string name="goods_is_selled">商品已卖出</string>
 
     <!-- my publish-->
     <string name="publish_new_item">我要发布</string>
@@ -100,8 +102,8 @@
     <string name="publish_item_type">分类</string>
     <string name="publish_item_type_choice">请选择分类</string>
     <string name="publish_item_sure">确定发布</string>
-    <string name="item_sell_price">￥%1$f</string>
-    <string name="item_like_count">赞%1$d</string>
+    <string name="item_sell_price">￥%1$.2f</string>
+    <string name="item_like_count">赞 %1$d</string>
 
 
 
@@ -138,6 +140,7 @@
     <string name="make_comments">评论</string>
     <string name="make_likes">点赞</string>
     <string name="buy_it">买下</string>
+    <string name="have_selled">已卖出</string>
 
 
     <!--public error-->
@@ -151,6 +154,8 @@
     <string name="file_wait_for_saving">文件暂未上传，请稍等。。。</string>
 
 
+    <!--user info-->
+    <string name="user_info_title">我的信息</string>
 
 </resources>
 

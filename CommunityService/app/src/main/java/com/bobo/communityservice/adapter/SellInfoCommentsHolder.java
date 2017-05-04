@@ -49,7 +49,7 @@ public class SellInfoCommentsHolder extends RecyclerView.ViewHolder{
             userName.setText(from.getUserId());
         }
         if(mComments.getCreationTime()!= null){
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
             String time=format.format(mComments.getCreationTime());
             commentTime.setText(time);
         }else{

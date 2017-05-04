@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,7 @@ public class MineFragment extends Fragment{
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("zzb","onresume");
         minemodel.refreshUi();
     }
 
@@ -84,6 +86,7 @@ public class MineFragment extends Fragment{
         mineBinding.registerOrLoging.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+            Log.d("zzb","register or loging clicked!");
                 minemodel.handlerRegisterOrLogin(view);
             }
         });
@@ -124,6 +127,13 @@ public class MineFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 minemodel.handlerMyOrderClick(view);
+
+            }
+        });
+        mineBinding.selledContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                minemodel.handlerMySelledClick(view);
 
             }
         });

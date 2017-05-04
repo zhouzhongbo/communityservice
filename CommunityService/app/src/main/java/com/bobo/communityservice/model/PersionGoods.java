@@ -42,6 +42,9 @@ public class PersionGoods extends DroiObject {
     @DroiReference
     public CommunityUser writer;
 
+    @DroiExpose
+    public boolean isSelled = false;
+
     @DroiReference
     ArrayList<CommunityUser> goodsViewer;
 

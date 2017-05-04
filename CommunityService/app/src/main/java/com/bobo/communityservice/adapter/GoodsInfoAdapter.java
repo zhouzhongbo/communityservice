@@ -201,9 +201,6 @@ public class GoodsInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 int inner_position = position - imgList.size() - 1;
                 if(inner_position>=0&&inner_position<commentList.size()){
                     PersionGoodsComment cm = commentList.get(inner_position);
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
-                    String time=format.format(cm.getCreationTime());
-                    Log.d("zzb","position ="+inner_position+";time ="+time);
                     ((SellInfoCommentsHolder)holder).fillData(context,cm);
                 }else{
                     Log.d("zzb","inner position calc error!");

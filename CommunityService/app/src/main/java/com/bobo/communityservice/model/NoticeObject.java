@@ -17,8 +17,6 @@ public class NoticeObject extends DroiObject {
     @DroiExpose
     String noticeContent;
 
-//    @DroiExpose
-//    Date noticeTime;
 
     @DroiExpose
     String noticeWriter;
@@ -42,9 +40,6 @@ public class NoticeObject extends DroiObject {
         this.noticeContent = noticeContent;
     }
 
-//    public void setNoticeTime(Date noticeTime) {
-//        this.noticeTime = noticeTime;
-//    }
 
     public void setNoticeWriter(String noticeWriter) {
         this.noticeWriter = noticeWriter;

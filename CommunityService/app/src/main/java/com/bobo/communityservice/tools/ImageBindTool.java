@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide;
  */
 
 public class ImageBindTool {
-
     @BindingAdapter({"bind:imageUrl", "bind:placeHolder", "bind:error"})
     public static void loadImage(ImageView imageView, Uri url, Drawable placeholder, Drawable errorDrawable) {
         Glide.with(imageView.getContext())

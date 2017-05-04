@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.bobo.communityservice.R;
 import com.bobo.communityservice.fragment.MyOrderFragment;
 import com.bobo.communityservice.fragment.MyPublishFragment;
+import com.bobo.communityservice.fragment.MySelledFragment;
 import com.bobo.communityservice.fragment.MyStartFragment;
 import com.bobo.communityservice.tools.ConstantObject;
 
@@ -47,6 +48,9 @@ public class MineRelativeActivity extends FragmentActivity {
             transaction.replace(R.id.fragment_layout, publishFragment);
         }else if(flag.equals(ConstantObject.ORDER)){
             Fragment orderFragment = new MyOrderFragment();
+            transaction.replace(R.id.fragment_layout, orderFragment);
+        }else if(flag.equals(ConstantObject.SELLED)){
+            Fragment orderFragment = new MySelledFragment();
             transaction.replace(R.id.fragment_layout, orderFragment);
         }
         transaction.commit();

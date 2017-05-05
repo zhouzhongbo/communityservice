@@ -1,58 +1,21 @@
 package com.bobo.communityservice.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.view.ViewGroup;
 
-import com.bobo.communityservice.model.PersionGoods;
 import com.bobo.communityservice.viewmodel.MyOrderViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by zhouzhongbo on 2017/4/26.
  */
 
-public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-    private static final int TYPE_CONTENT = 0;
-    private static final int TYPE_FOOTER = 1;
+public class SelledAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    OnItemClick clicklister;
-    List<PersionGoods> sellItem = new ArrayList<PersionGoods>();
-
-    public OrderAdapter(MyOrderViewModel ordermodel) {
+    public SelledAdapter(MyOrderViewModel ordermodel) {
         super();
     }
-
-    public void addData(List<PersionGoods> goods){
-        sellItem.addAll(goods);
-    }
-
-    public void clearData(){
-        sellItem.clear();
-    }
-
-
-    public interface OnItemClick {
-        public void onItemClick(View v, int position, PersionGoods goods);
-    }
-
-    public void setClickListeren(OrderAdapter.OnItemClick l){
-        this.clicklister = l;
-    }
-
-    public View.OnClickListener getClickListener(final View v, final int positon){
-        return new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                if(clicklister != null){
-                    clicklister.onItemClick(v,positon,sellItem.get(positon));
-                }
-            }
-        };
-    }
-
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position, List<Object> payloads) {
@@ -126,6 +89,6 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public int getItemCount() {
-        return sellItem.size() == 0?0:sellItem.size()+1;
+        return 0;
     }
 }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data class="MyOrderBinding">
+    <data class="MySelledBinding">
         <variable
-            name="orderViewModel"
-            type="com.bobo.communityservice.viewmodel.MyOrderViewModel"/>
+            name="selledViewModel"
+            type="com.bobo.communityservice.viewmodel.MySelledViewModel"/>
     </data>
     <LinearLayout
         android:orientation="vertical"
@@ -12,14 +12,14 @@
         android:layout_height="match_parent">
         <TextView
             android:id="@+id/order_title"
-            android:text="@string/mine_order"
+            android:text="@string/mine_selled"
             android:textSize="25dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/my_order_list"
+            android:id="@+id/my_selled_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

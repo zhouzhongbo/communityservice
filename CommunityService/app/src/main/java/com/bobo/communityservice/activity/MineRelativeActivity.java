@@ -33,8 +33,6 @@ public class MineRelativeActivity extends FragmentActivity {
         super.onResume();
     }
 
-
-
     private void initView(){
         FragmentTransaction transaction = fm.beginTransaction();
         String flag = getIntent().getStringExtra("TAG");
@@ -55,5 +53,4 @@ public class MineRelativeActivity extends FragmentActivity {
         }
         transaction.commit();
     }
-
 }

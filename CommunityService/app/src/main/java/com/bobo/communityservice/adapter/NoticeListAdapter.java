@@ -6,72 +6,41 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.bobo.communityservice.R;
-import com.bobo.communityservice.model.PersionGoods;
-import com.bobo.communityservice.viewmodel.HelpViewModel;
-import com.bobo.communityservice.viewmodel.MyOrderViewModel;
-import com.bobo.communityservice.viewmodel.MyPublishViewModel;
-import com.bobo.communityservice.viewmodel.MyStarViewModel;
+import com.bobo.communityservice.model.NoticeObject;
+import com.droi.sdk.DroiError;
+import com.droi.sdk.core.DroiCondition;
+import com.droi.sdk.core.DroiQuery;
+import com.droi.sdk.core.DroiQueryCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by zhouzhongbo on 2017/4/18.
+ * Created by zhouzhongbo on 2017/4/26.
  */
 
-public class GoodsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-    private Context context;
+public class NoticeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private static final int TYPE_CONTENT = 0;
     private static final int TYPE_FOOTER = 1;
 
-    HelpViewModel helpModel = null;
-    MyPublishViewModel publishModel = null;
-    MyOrderViewModel  orderViewModel = null;
-    MyStarViewModel starViewModel = null;
-
-
-    ArrayList<PersionGoods> sellItem = new ArrayList<PersionGoods>();
+    private Context context;
     OnItemClick clicklister;
+    List<NoticeObject> noticeItem = new ArrayList<NoticeObject>();
 
-    public GoodsListAdapter(Context mcontext, HelpViewModel helpViewModel) {
+
+    public NoticeListAdapter(Context mcontext) {
         super();
         this.context = mcontext;
-        helpModel = helpViewModel;
-        helpModel.refreshItem(this);
-    }
-
-    public GoodsListAdapter(Context mcontext, MyPublishViewModel publishViewModel){
-        super();
-        this.context = mcontext;
-        publishModel = publishViewModel;
-        publishModel.refreshItem(this);
-    }
-
-    public GoodsListAdapter(Context mcontext, MyStarViewModel starviewModel){
-        super();
-        this.context = mcontext;
-        starViewModel = starviewModel;
-        starViewModel.refreshItem(this);
-    }
-
-    public void addData(List<PersionGoods> list){
-        sellItem.addAll(list);
-    }
-
-    public void clearData(){
-        sellItem.clear();
+        loadquery(false);
     }
 
     public interface OnItemClick {
-        public void onItemClick(View v, int position,PersionGoods goods);
+        public void onItemClick(View v, int position, NoticeObject notice);
     }
 
-
-    public void setClickListeren(OnItemClick l){
+    public void setClickListeren(NoticeListAdapter.OnItemClick l){
         this.clicklister = l;
     }
 
@@ -80,7 +49,7 @@ public class GoodsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             @Override
             public void onClick(View view) {
                 if(clicklister != null){
-                    clicklister.onItemClick(v,positon,sellItem.get(positon));
+                    clicklister.onItemClick(v,positon,noticeItem.get(positon));
                 }
             }
         };
@@ -153,25 +122,21 @@ public class GoodsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         if (viewType == TYPE_CONTENT) {
-            View view = LayoutInflater.from(context).inflate(R.layout.sell_item_layout, parent, false);
-            return new HelpItemCustomViewHolder(view);
+            View view = LayoutInflater.from(context).inflate(R.layout.notice_item_layout, parent, false);
+            return new NoticeViewHolder(view);
         } else if (viewType == TYPE_FOOTER) {//加载进度条的布局
             View view = LayoutInflater.from(context).inflate(R.layout.item_footer_layout, parent, false);
-            return new FooterViewHolder(view);
+            return new GoodsListAdapter.FooterViewHolder(view);
         }
-        return null;
-
-    }
+        return null;    }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int type = getItemViewType(position);
         if (type == TYPE_CONTENT) {
-            PersionGoods sellitem = sellItem.get(position);
-        ((HelpItemCustomViewHolder)holder).fillData(sellitem,context);
-            ((HelpItemCustomViewHolder)holder).itemView.setOnClickListener(getClickListener(holder.itemView,position));
+            NoticeObject notice = noticeItem.get(position);
+            ((NoticeViewHolder)holder).fillData(notice);
         } else if (type == TYPE_FOOTER) {
 
         }
@@ -179,40 +144,36 @@ public class GoodsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-        Log.d("zzb","sellitem ="+sellItem.size());
-        return  (sellItem == null||sellItem.size() == 0) ?0:sellItem.size()+1;
+        return noticeItem.size() == 0?0:noticeItem.size()+1;
     }
 
 
-    /**
-     * footer的ViewHolder
-     */
-    public static class FooterViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvLoadMore;
-        private ProgressBar pbLoading;
-
-        public FooterViewHolder(View itemView) {
-            super(itemView);
-            tvLoadMore = (TextView) itemView.findViewById(R.id.tv_item_footer_load_more);
-            pbLoading = (ProgressBar) itemView.findViewById(R.id.pb_item_footer_loading);
+    public void loadquery(final boolean isLoad){
+        DroiQuery.Builder builder = DroiQuery.Builder.newBuilder().orderBy("_CreationTime", false).limit(10);
+        if(isLoad){
+            if(noticeItem.size()>0){
+                NoticeObject pg = noticeItem.get(noticeItem.size()-1);
+                DroiCondition cond = DroiCondition.cond("_CreationTime", DroiCondition.Type.LT, pg.getCreationTime());
+                builder = builder.where(cond);
+            }
         }
+
+        DroiQuery query = builder.query(NoticeObject.class).build();
+        query.runQueryInBackground(new DroiQueryCallback<NoticeObject>() {
+            @Override
+            public void result(List<NoticeObject> list, DroiError droiError) {
+                if(droiError.isOk()){
+                    Log.d("zzb","query order success! listsize ="+list.size());
+                    if (list.size()>0){
+                        if(!isLoad){
+                            noticeItem.clear();
+                        }
+                        noticeItem.addAll(list);
+                        notifyDataSetChanged();
+                    }
+                }
+            }
+        });
     }
 
-    public void loadMoreRefresh(){
-        if(helpModel != null){
-            helpModel.LoadMoreItem(this);
-        }
-        if(publishModel != null){
-            publishModel.LoadMoreItem(this);
-        }
-    }
-
-    public void pullRefresh(){
-        if(helpModel != null){
-            helpModel.refreshItem(this);
-        }
-        if(publishModel != null){
-            publishModel.refreshItem(this);
-        }
-    }
 }

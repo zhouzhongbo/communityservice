@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.bobo.communityservice.adapter.GoodsListAdapter;
+import com.bobo.communityservice.adapter.SelledAdapter;
 import com.bobo.communityservice.model.CommunityUser;
 import com.bobo.communityservice.model.PersionGoods;
 import com.droi.sdk.DroiError;
@@ -29,34 +30,34 @@ public class MySelledViewModel {
 
 
 
-    public void refreshItem(GoodsListAdapter adapter, ArrayList<PersionGoods> list){
+    public void refreshItem(SelledAdapter adapter){
         loadquery(adapter,false);
     }
 
 
-    public void LoadMoreItem(GoodsListAdapter adapter, ArrayList<PersionGoods> list){
+    public void LoadMoreItem(SelledAdapter adapter){
         loadquery(adapter,true);
     }
 
-    private void loadquery(final GoodsListAdapter adapter, final boolean isLoad){
+    private void loadquery(final SelledAdapter adapter, final boolean isLoad){
         CommunityUser user= DroiUser.getCurrentUser(CommunityUser.class);
         DroiCondition cond;
         if(user != null && !user.isAnonymous()){
-            cond = DroiCondition.cond("writer._Id", DroiCondition.Type.EQ, user.getObjectId());
+            cond = DroiCondition.cond("writer._Id", DroiCondition.Type.EQ, user.getObjectId())
+                    .and(DroiCondition.cond("isSelled",DroiCondition.Type.EQ,true));
             if(isLoad){
                 if(myOrder.size()>0){
                     PersionGoods pg = myOrder.get(myOrder.size()-1);
                     DroiCondition cond2 = DroiCondition.cond("_CreationTime", DroiCondition.Type.LT, pg.getCreationTime());
                     cond = cond.and(cond2);
                 }
-
             }
             DroiQuery query = DroiQuery.Builder.newBuilder().orderBy("_CreationTime", true).limit(10).where(cond).query(PersionGoods.class).build();
             query.runQueryInBackground(new DroiQueryCallback<PersionGoods>() {
                 @Override
                 public void result(List<PersionGoods> list, DroiError droiError) {
                     if(droiError.isOk()){
-                        Log.d("zzb","query success! listsize ="+list.size());
+                        Log.d("zzb","query selled success! listsize ="+list.size());
 
                         if (list.size()>0){
                             if(!isLoad){

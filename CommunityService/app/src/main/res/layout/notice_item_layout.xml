@@ -48,9 +48,6 @@
             android:layout_alignParentRight="true"
             android:layout_margin="10dp"/>
 
-
-            <!--android:text="@string/notice_time_default"-->
-
             <TextView
             android:text="@{noticeViewModel.noticeTime}"
             android:id="@+id/notice_time"

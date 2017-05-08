@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.bobo.communityservice.R;
+import com.bobo.communityservice.activity.AboutActivity;
 import com.bobo.communityservice.activity.EditUserInfoActivity;
 import com.bobo.communityservice.activity.LoginActivity;
 import com.bobo.communityservice.model.CommunityUser;
@@ -45,7 +46,7 @@ public class SystemSettingModel {
     }
 
     public void handlerAboutUs(View view){
-        Intent mintent = new Intent(context, LoginActivity.class);
+        Intent mintent = new Intent(context, AboutActivity.class);
         mintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(mintent);
     }

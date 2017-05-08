@@ -58,7 +58,7 @@ public class EditUserInfoActivity extends Activity implements TakePhoto.TakeResu
     protected void onResume() {
         super.onResume();
         if(userModel.user != null){
-            if(userModel.user.Icon.hasUri()){
+            if(userModel.user.getIcon() != null&&userModel.user.Icon.hasUri()){
                 Log.d("zzb",userModel.user.Icon.getUri().toString());
                 Glide.with(this)
                     .load(userModel.user.Icon.getUri())

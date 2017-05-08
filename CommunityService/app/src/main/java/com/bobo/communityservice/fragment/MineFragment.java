@@ -68,14 +68,7 @@ public class MineFragment extends Fragment{
 
 
     private void initView(){
-
-        if(minemodel.isLogin()){
-            mineBinding.registerOrLoging.setVisibility(View.GONE);
-            mineBinding.loginStatusView.setVisibility(View.VISIBLE);
-        }else{
-            mineBinding.registerOrLoging.setVisibility(View.VISIBLE);
-            mineBinding.loginStatusView.setVisibility(View.GONE);
-        }
+        minemodel.refreshUi();
         mineBinding.usrIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

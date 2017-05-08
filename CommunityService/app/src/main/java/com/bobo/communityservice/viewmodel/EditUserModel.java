@@ -48,7 +48,9 @@ public class EditUserModel {
     public void initView(){
         user = DroiUser.getCurrentUser(CommunityUser.class);
         if (user != null && user.isAuthorized() && !user.isAnonymous()) {
-            Glide.with(context).load(user.getIcon().getUri()).into(binding.userIcon);
+            if(user.getIcon()!= null && user.getIcon().hasUri()){
+                Glide.with(context).load(user.getIcon().getUri()).into(binding.userIcon);
+            }
         }
         if(user.getNickname()!= null){
             binding.userName.setText(user.getNickname());

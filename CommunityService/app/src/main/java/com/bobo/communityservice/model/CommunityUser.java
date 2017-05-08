@@ -23,7 +23,7 @@ public class CommunityUser extends DroiUser {
     @DroiExpose
     public int checkin;
 
-    @DroiReference
+    @DroiExpose
     public String address;
 
 

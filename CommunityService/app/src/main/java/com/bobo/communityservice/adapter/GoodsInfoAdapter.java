@@ -122,8 +122,6 @@ public class GoodsInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 itemType = GOODS_ITEM_COMMENTS;
             }
         }
-        Log.d("zzb","position"+position+";type ="+itemType);
-
         return itemType;
     }
 

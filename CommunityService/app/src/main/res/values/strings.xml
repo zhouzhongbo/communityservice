@@ -13,10 +13,7 @@
     <string name="notice_content_default">经过和业委会沟通，确定拨款维修大桥。在此公示，有任何疑问可以致电小区物业中心，联系电话：021-211541445 \n</string>
     <string name="notice_time_default">2017-04-03</string>
     <string name="notice_write_default">小区物业中心</string>
-
     <string name="notice_net_error">获取公告失败，请检查网络链接</string>
-
-
     <string name="test_notice_content">公告 \n 经过和业委会沟通，确定拨款维修大桥。在此公示，有任何疑问可以致电小区物业中心，联系电话：021-211541445 \n 公告时间：2017-03-22</string>
 
 
@@ -42,7 +39,7 @@
     <string name="mine_star">我的关注</string>
     <string name="mine_publish">我的发布</string>
     <string name="mine_order">我的订单</string>
-    <string name="mine_selled">我的订单</string>
+    <string name="mine_selled">我的卖出</string>
     <string name="user_feedback">意见反馈</string>
     <string name="system_settings">系统设置</string>
     <string name="user_info_setting">编辑资料</string>

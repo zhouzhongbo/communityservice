@@ -1,9 +1,12 @@
 package com.bobo.communityservice.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bobo.communityservice.R;
 import com.bobo.communityservice.model.PersionGoods;
 import com.bobo.communityservice.viewmodel.MyOrderViewModel;
 
@@ -18,11 +21,17 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private static final int TYPE_CONTENT = 0;
     private static final int TYPE_FOOTER = 1;
 
+    private Context context;
     OnItemClick clicklister;
     List<PersionGoods> sellItem = new ArrayList<PersionGoods>();
+    MyOrderViewModel model;
 
-    public OrderAdapter(MyOrderViewModel ordermodel) {
+
+    public OrderAdapter(Context mcontext, MyOrderViewModel ordermodel) {
         super();
+        this.context = mcontext;
+        this.model = ordermodel;
+        model.refreshItem(this);
     }
 
     public void addData(List<PersionGoods> goods){
@@ -61,7 +70,11 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public int getItemViewType(int position) {
-        return super.getItemViewType(position);
+        if (position + 1 == getItemCount()) {
+            return TYPE_FOOTER;
+        } else {
+            return TYPE_CONTENT;
+        }
     }
 
     @Override
@@ -116,16 +129,42 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
-    }
+        if (viewType == TYPE_CONTENT) {
+            View view = LayoutInflater.from(context).inflate(R.layout.sell_item_layout, parent, false);
+            return new HelpItemCustomViewHolder(view);
+        } else if (viewType == TYPE_FOOTER) {//加载进度条的布局
+            View view = LayoutInflater.from(context).inflate(R.layout.item_footer_layout, parent, false);
+            return new GoodsListAdapter.FooterViewHolder(view);
+        }
+        return null;    }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        int type = getItemViewType(position);
+        if (type == TYPE_CONTENT) {
+            PersionGoods sellitem = sellItem.get(position);
+            ((HelpItemCustomViewHolder)holder).fillData(sellitem,context);
+//            ((HelpItemCustomViewHolder)holder).itemView.setOnClickListener(getClickListener(holder.itemView,position));
+        } else if (type == TYPE_FOOTER) {
 
+        }
     }
 
     @Override
     public int getItemCount() {
         return sellItem.size() == 0?0:sellItem.size()+1;
     }
+
+    public void loadMoreRefresh(){
+        if(model != null){
+            model.LoadMoreItem(this);
+        }
+    }
+
+    public void pullRefresh(){
+        if(model != null){
+            model.refreshItem(this);
+        }
+    }
+
 }

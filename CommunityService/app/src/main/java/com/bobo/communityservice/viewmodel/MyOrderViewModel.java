@@ -28,9 +28,8 @@ public class MyOrderViewModel {
     List<PersionGoods> goodsList = new ArrayList<PersionGoods>();
     List<PersionOrder> orderList = new ArrayList<PersionOrder>();
 
-    public MyOrderViewModel(Context context,MyOrderViewModel viewModel){
+    public MyOrderViewModel(Context context){
         this.context = context;
-        model = viewModel;
     }
 
 
@@ -48,7 +47,7 @@ public class MyOrderViewModel {
         CommunityUser user= DroiUser.getCurrentUser(CommunityUser.class);
         DroiCondition cond;
         if(user != null && !user.isAnonymous()){
-            cond = DroiCondition.cond("writer._Id", DroiCondition.Type.EQ, user.getObjectId());
+            cond = DroiCondition.cond("buyer._Id", DroiCondition.Type.EQ, user.getObjectId());
             if(isLoad){
                 if(orderList.size()>0){
                     PersionOrder pg = orderList.get(orderList.size()-1);
@@ -61,7 +60,7 @@ public class MyOrderViewModel {
                 @Override
                 public void result(List<PersionOrder> list, DroiError droiError) {
                     if(droiError.isOk()){
-                        Log.d("zzb","query success! listsize ="+list.size());
+                        Log.d("zzb","query order success! listsize ="+list.size());
 
                         if (list.size()>0){
                             if(!isLoad){
@@ -72,16 +71,16 @@ public class MyOrderViewModel {
                             orderList.addAll(list);
                             int i = 0;
                             while(i<list.size()){
-                                i++;
                                 goodsList.add(list.get(i).getGoods());
+                                i++;
                             }
+                            Log.d("zzb","goodslist size ="+goodsList.size());
                             adapter.addData(goodsList);
                             adapter.notifyDataSetChanged();
                         }
                     }
                 }
             });
-
         }
     }
 

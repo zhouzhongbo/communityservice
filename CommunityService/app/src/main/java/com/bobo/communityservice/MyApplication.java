@@ -8,6 +8,7 @@ import com.bobo.communityservice.model.OrderInfo;
 import com.bobo.communityservice.model.PersionGoods;
 import com.bobo.communityservice.model.PersionGoodsComment;
 import com.bobo.communityservice.model.PersionGoodsLike;
+import com.bobo.communityservice.model.PersionOrder;
 import com.bobo.communityservice.model.ShoppingCart;
 import com.bobo.communityservice.model.ThingInCart;
 import com.bobo.communityservice.model.ThingInOrder;
@@ -42,7 +43,7 @@ public class MyApplication extends Application {
         DroiObject.registerCustomClass( ShoppingCart.class );
         DroiObject.registerCustomClass( ThingInCart.class );
         DroiObject.registerCustomClass( ThingInOrder.class );
-
+        DroiObject.registerCustomClass( PersionOrder.class );
         DroiPermission permission = DroiPermission.getDefaultPermission();
         if(permission == null){
             permission = new DroiPermission();

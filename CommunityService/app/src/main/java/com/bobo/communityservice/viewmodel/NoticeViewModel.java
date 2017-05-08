@@ -58,7 +58,7 @@ public class NoticeViewModel{
     }
 
     private void queryFromCloud(){
-        DroiQuery query = DroiQuery.Builder.newBuilder().limit(1).query(NoticeObject.class).build();
+        DroiQuery query = DroiQuery.Builder.newBuilder().orderBy("_CreationTime", false).limit(1).query(NoticeObject.class).build();
         query.runQueryInBackground(new DroiQueryCallback<NoticeObject>() {
             @Override
             public void result(List<NoticeObject> list, DroiError droiError) {

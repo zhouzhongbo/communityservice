@@ -163,8 +163,10 @@ public class MineViewModel {
             mineBinding.registerOrLoging.setVisibility(View.GONE);
             String name = user.getNickname();
             if(name != null&&!name.equals("")){
+                Log.d("zzb","11name ="+name);
                 mineBinding.userName.setText(name);
             }else{
+                Log.d("zzb","22name ="+user.getUserId());
                 mineBinding.userName.setText(user.getUserId());
             }
             DroiFile icon = user.getIcon();

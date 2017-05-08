@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 
 import com.bobo.communityservice.R;
 import com.bobo.communityservice.activity.SellActivity;
-import com.bobo.communityservice.adapter.GoodsListAdapter;
 import com.bobo.communityservice.adapter.OrderAdapter;
 import com.bobo.communityservice.databinding.MyOrderBinding;
 import com.bobo.communityservice.model.PersionGoods;
@@ -25,16 +24,18 @@ import com.bobo.communityservice.viewmodel.MyOrderViewModel;
  * Created by zhouzhongbo on 2017/4/24.
  */
 
-public class MyOrderFragment extends Fragment implements GoodsListAdapter.OnItemClick{
+public class MyOrderFragment extends Fragment implements OrderAdapter.OnItemClick{
 
     MyOrderBinding orderBinding;
     MyOrderViewModel viewModel;
     OrderAdapter  adapter;
+    LinearLayoutManager linearLayoutManager;
+    boolean isLoading;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        viewModel = new MyOrderViewModel(getActivity());
+        viewModel = new MyOrderViewModel(getActivity());
     }
 
     @Nullable
@@ -45,20 +46,26 @@ public class MyOrderFragment extends Fragment implements GoodsListAdapter.OnItem
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        recycleViewInit();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
     }
 
 
     public void recycleViewInit(){
-        adapter = new MyOrderViewModel(getActivity(),viewModel);
-        startbinding.myStartList.setAdapter(adapter);
+        adapter = new OrderAdapter(getActivity(),viewModel);
+        orderBinding.myOrderList.setAdapter(adapter);
         adapter.setClickListeren(this);
-        startbinding.myStartList.addOnScrollListener(new MyStartFragment.OnRecyclerScrollListener());
+        orderBinding.myOrderList.addOnScrollListener(new MyOrderFragment.OnRecyclerScrollListener());
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        startbinding.myStartList.setLayoutManager(linearLayoutManager);
+        orderBinding.myOrderList.setLayoutManager(linearLayoutManager);
     }
 
     public class OnRecyclerScrollListener extends RecyclerView.OnScrollListener {

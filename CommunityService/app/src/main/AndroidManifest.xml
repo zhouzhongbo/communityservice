@@ -25,6 +25,7 @@
         <activity android:name=".activity.PublishNewActivity"/>
         <activity android:name=".activity.EditUserInfoActivity"/>
         <activity android:name=".activity.SystemSettingActivity"/>
+        <activity android:name=".activity.AboutActivity"/>
 
         <!-- Application ID 有sand和prod之分，在开发时使用sand，正式上线时切换为prod，另外需要后台的切换操作 -->
         <meta-data android:name="com.droi.sdk.application_id" android:value="1okvmbzhshtZ9BRxdGO0rj8liqzwIe56lQAAcO8k" />
